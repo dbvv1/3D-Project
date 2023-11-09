@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08aea430c4ef9e8428c1292d1ca2d5ab, type: 3}
+  m_Name: Game Config
+  m_EditorClassIdentifier: 
+  characterHitAudioClips:
+  - {fileID: 8300000, guid: b7b1c12bebbbd1742a2c42e9b43294d6, type: 3}
+  - {fileID: 8300000, guid: a6390245ed7620f4caa63bd18a81db9d, type: 3}
+  - {fileID: 8300000, guid: b2a88682518b6dd4597961a5514c808f, type: 3}
+  - {fileID: 8300000, guid: 108519f3bf0bb5f4f846f8ada0885224, type: 3}
+  - {fileID: 8300000, guid: bed05b554cce7634680c657aeb47801c, type: 3}
+  normalParryAudioClips:
+  - {fileID: 8300000, guid: 61f946932a8371740860edcac1a314a3, type: 3}
+  - {fileID: 8300000, guid: 48a7bb6d47d3d5648b39ef35884d85c6, type: 3}
+  - {fileID: 8300000, guid: 566301ad4d525fd48af8260cd140bc7e, type: 3}
+  - {fileID: 8300000, guid: 4a4e191993f947e4aadca2e816d97aee, type: 3}
+  - {fileID: 8300000, guid: c8f55ef5c567cfb4d83d76bea7b3d88a, type: 3}
+  - {fileID: 8300000, guid: 4f965ff86c895464a93db68dc0e85cef, type: 3}
+  perfectParryAudioClips:
+  - {fileID: 8300000, guid: 0e8f9cbfcc03c034ea9b31dcf1fbd772, type: 3}
+  - {fileID: 8300000, guid: 6e98503dd9399e449b6b62b86d39a4a3, type: 3}
+  - {fileID: 8300000, guid: 652502137ca85854881b4d8c6f07db2a, type: 3}
+  - {fileID: 8300000, guid: adf33b800321b734799220cee74b6458, type: 3}
