@@ -1,18 +1,20 @@
 public interface ISaveable
 {
+    void GetDataID();
+    
     void RegisterSaveData()=>DataManager.Instance.RegisterSaveData(this);
 
     void UnRegisterSaveData()=>DataManager.Instance.UnRegisterSaveData((this));
 
     /// <summary>
-    /// 将要存的数据发送给DataManager
+    /// 将数据保存到data当中
     /// </summary>
-    void GetSaveData();
+    void SaveData(Data data);
 
     /// <summary>
-    /// 从DataManager中读取数据
+    /// 从Data中读取数据
     /// </summary>
-    void LoadData();
+    void LoadData(Data data);
 }
 
 

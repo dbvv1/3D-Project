@@ -49,7 +49,7 @@ public enum DamageType
 //µÐÈËµÄ×´Ì¬ÀàÐÍ
 public enum EnemyState
 {
-    PartolState,        //Ñ²Âß×´Ì¬
+    PatrolState,        //Ñ²Âß×´Ì¬
     ChaseState,         //×·Öð×´Ì¬
     AttackState         //¹¥»÷×´Ì¬
 }
@@ -61,4 +61,10 @@ public enum PlayerWeaponType
     GreatSword,
     Bow,
     Shield
+}
+
+public enum PersistentType
+{
+    ReadWrite,
+    DoNotPersistentt
 }

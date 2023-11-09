@@ -11,7 +11,7 @@ public class EnemyPartolState : StateActionSO
     public override void OnEnter(StateMachineSystem stateMachineSystem)
     {
         EnemyController currentEnemy = stateMachineSystem.currentEnemy;
-        stateMachineSystem.currentStateType = EnemyState.PartolState;
+        stateMachineSystem.currentStateType = EnemyState.PatrolState;
         currentEnemy.partolTargetPos=currentEnemy.GetRandomPartolPoint();
         currentEnemy.StartCoroutine(currentEnemy.WaitPatrolTime(waitTime/2, currentEnemy.partolTargetPos));
     }

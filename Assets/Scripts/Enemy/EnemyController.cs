@@ -211,7 +211,7 @@ public class EnemyController : MonoBehaviour
         }
         curSpeed = stateMachineSystem.currentStateType switch
         {
-            EnemyState.PartolState => walkSpeed,
+            EnemyState.PatrolState => walkSpeed,
             EnemyState.ChaseState => chaseSpeed,
             EnemyState.AttackState => 0,
             _ => 0
