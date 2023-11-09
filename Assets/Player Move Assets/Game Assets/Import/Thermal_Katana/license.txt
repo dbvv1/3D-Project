@@ -1,0 +1,11 @@
+Model Information:
+* title:	Thermal Katana
+* source:	https://sketchfab.com/3d-models/thermal-katana-fb401eace2f447f8a25ea7527e0833bf
+* author:	Valery Kharitonov (https://sketchfab.com/KJLOYH)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Thermal Katana" (https://sketchfab.com/3d-models/thermal-katana-fb401eace2f447f8a25ea7527e0833bf) by Valery Kharitonov (https://sketchfab.com/KJLOYH) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
