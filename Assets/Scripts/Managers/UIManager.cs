@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
-    [Header("Panel引用")]
+    [Header("引用")]
     public GameObject backGroundPanel;
 
     public GameObject characterStatsPanel;
@@ -16,6 +16,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject skillPanel;
 
     public Canvas EnemyHealthBarCanvas;
+
+    public FadeCanvas fadeCanvas;
 
     private UIInputController inputActions;
 

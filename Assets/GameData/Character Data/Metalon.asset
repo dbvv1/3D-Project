@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Metalon
   m_EditorClassIdentifier: 
   maxHealth: 100
-  maxEnergy: 10
+  maxEnergy: 50
   maxMagic: 0
   baseHealthRecover: 0
   baseEnergyRecover: 2

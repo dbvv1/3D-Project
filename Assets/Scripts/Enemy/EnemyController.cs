@@ -132,7 +132,7 @@ public class EnemyController : MonoBehaviour
         anim = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         stateMachineSystem = GetComponent<StateMachineSystem>();
-        enemyData = enemyCharacterStats.characterData as EnemyData_SO;
+        enemyData = enemyCharacterStats.originalCharacterData as EnemyData_SO;
     }
 
     private void Start()

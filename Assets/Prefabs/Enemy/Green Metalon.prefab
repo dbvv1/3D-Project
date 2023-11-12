@@ -1605,7 +1605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9fd150bc4a9c834b90222ba83209916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterData: {fileID: 11400000, guid: 62ffec0691dabd844a7ccc8b243feebb, type: 2}
+  originalCharacterData: {fileID: 11400000, guid: 62ffec0691dabd844a7ccc8b243feebb, type: 2}
   OnTakeDamage:
     m_PersistentCalls:
       m_Calls:
@@ -1654,6 +1654,7 @@ MonoBehaviour:
   walkSpeed: 4.5
   chaseSpeed: 6
   rotateSpeed: 7
+  killExp: 0
   orignalPosition: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
   partolTargetPos: {x: 0, y: 0, z: 0}

@@ -114,7 +114,7 @@ public partial class @PlayerInputController: IInputActionCollection2, IDisposabl
                     ""name"": ""WASD"",
                     ""id"": ""00ca640b-d935-4593-8157-c05846ea39b3"",
                     ""path"": ""Dpad"",
-                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.5),Press"",
+                    ""interactions"": ""Hold(duration=0.1,pressPoint=0.5)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",

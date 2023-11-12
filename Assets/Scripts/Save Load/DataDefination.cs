@@ -14,7 +14,7 @@ public class DataDefination : MonoBehaviour
         if (persistentType == PersistentType.ReadWrite)
         {
             if (id == string.Empty)
-                id = System.Guid.NewGuid().ToString();
+                id = Guid.NewGuid().ToString();
         }
         else
             id = string.Empty;

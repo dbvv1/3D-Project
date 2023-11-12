@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,12 @@ public class HealthBarUI : MonoBehaviour
         UIBar = Instantiate(healthUIBarPrefab, worldCanvas.transform).transform;
         healthSliderImage = UIBar.GetChild(0).GetComponent<Image>();
         UIBar.gameObject.SetActive(alwaysVisible);
+    }
+
+    private void OnDisable()
+    {
+        if(UIBar!=null)
+        Destroy(UIBar.gameObject);
     }
 
     public void UpdateHealthBar(float curHealth,float maxHealth)

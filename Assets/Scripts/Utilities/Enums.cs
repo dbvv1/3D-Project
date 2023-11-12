@@ -66,5 +66,11 @@ public enum PlayerWeaponType
 public enum PersistentType
 {
     ReadWrite,
-    DoNotPersistentt
+    DoNotPersistent
+}
+
+public enum SceneType
+{
+    Location,
+    Menu
 }

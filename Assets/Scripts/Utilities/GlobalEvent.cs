@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.Events;
 
 public static class GlobalEvent 
@@ -8,11 +9,28 @@ public static class GlobalEvent
     {
         SwitchToFirstPersonEvent?.Invoke();
     }
-
-    public static UnityAction<EnemyController> EnemyDeath;
+    
+    //敌人死亡时的事件
+    public static UnityAction<EnemyController> EnemyDeathEvent;
     public static void CallOnEnemyDeath(EnemyController enemy)
     {
-        EnemyDeath?.Invoke(enemy);
+        EnemyDeathEvent?.Invoke(enemy);
+    }
+    
+    //加载场景完成后的事件
+    public static UnityAction<Vector3> AfterSceneLoadEvent;
+
+    public static void CallAfterSceneLoadEvent(Vector3 pos)
+    {
+        AfterSceneLoadEvent?.Invoke(pos);
+    }
+    
+    //加载新场景之前的事件
+    public static UnityAction BeforeSceneLoadEvent;
+
+    public static void CallBeforeSceneLoadEvent()
+    {
+        BeforeSceneLoadEvent?.Invoke();
     }
 
 

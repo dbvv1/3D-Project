@@ -39,7 +39,7 @@ public class CameraManager : Singleton<CameraManager>
 
     private void Update()
     {
-        Transparent();
+        //Transparent();
 
         KeyProcessing();
     }

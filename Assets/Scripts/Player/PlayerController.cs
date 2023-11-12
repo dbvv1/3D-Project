@@ -28,13 +28,12 @@ public class PlayerController : MonoBehaviour
     //public FirstPersonCamera firstPersonCamera;
 
     [Header("基本属性")]
-    private float curSpeed = 0;
+    [SerializeField]private float curSpeed = 0;
 
     [SerializeField, Header("行走速度")]              private float walkSpeed = 3;          
 
     [SerializeField, Header("奔跑速度")]              private float runSpeed = 5;   
-
-    //[SerializeField, Header("下蹲速度")]              private float crouchSpeed = 5;   
+    
 
     [SerializeField, Header("奔跑消耗精力速度速度")]    private float runCostEnergy = 1;     
 
@@ -55,6 +54,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection;                //人物移动的方向信息
 
     private PhysicalCheck physicalCheck;
+
+    private bool isLoading;
 
 
     private bool isLock;
@@ -103,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     //是否允许格挡
     public bool CanParry { get => !playerAnimationInf.IsAttack; }
-
+    
 
     private void Awake()
     {
@@ -128,7 +129,9 @@ public class PlayerController : MonoBehaviour
     {
         inputActions.Enable();
         GlobalEvent.SwitchToFirstPersonEvent += OnSwitchToFirstPerson;
-        GlobalEvent.EnemyDeath += OnEnemyDeath;
+        GlobalEvent.EnemyDeathEvent += OnEnemyDeath;
+        GlobalEvent.AfterSceneLoadEvent += OnAfterSceneLoad;
+        GlobalEvent.BeforeSceneLoadEvent += OnBeforeSceneLoad;
 
         //人物翻滚 Release Only
         inputActions.GamePlay.Roll.performed += StartRoll;
@@ -163,25 +166,50 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void OnDisable()
-    {
-        inputActions.Disable();
-        GlobalEvent.SwitchToFirstPersonEvent -= OnSwitchToFirstPerson;
-        GlobalEvent.EnemyDeath -= OnEnemyDeath;
-    }
-
-    //切换到第一视角：调整faceDireciton为人物的朝向
+    #region  全局事件函数
+    //切换到第一视角：调整faceDirection为人物的朝向
     private void OnSwitchToFirstPerson()
     {
         IsLock = false;
         faceDirection.forward = transform.forward;
     }
+    
+    private void OnAfterSceneLoad(Vector3 pos)
+    {
+        inputActions.Enable();
+        transform.position = pos;
+        Invoke(nameof(SetIsLoadingFalse), 0.02f);
+    }
+
+    private void SetIsLoadingFalse() => isLoading = false;
+
+    private void OnBeforeSceneLoad()
+    {
+        playerAnimationInf.IsWalk = false;
+        isLoading = true;
+        inputActions.GamePlay.Move.Dispose();
+        inputActions.GamePlay.Run.Dispose();        
+        inputActions.Disable();
+        
+    }
+    
+
+    #endregion
+    private void OnDisable()
+    {
+        inputActions.Disable();
+        GlobalEvent.SwitchToFirstPersonEvent -= OnSwitchToFirstPerson;
+        GlobalEvent.EnemyDeathEvent -= OnEnemyDeath;
+        GlobalEvent.AfterSceneLoadEvent -= OnAfterSceneLoad;
+        GlobalEvent.BeforeSceneLoadEvent -= OnBeforeSceneLoad;
+    }
+
 
     private void Update()
     { 
         inputDirection = inputActions.GamePlay.Move.ReadValue<Vector2>();
-        MovePlayer();
-        Gravitation();
+        if(!isLoading)MovePlayer();
+        if(!isLoading)Gravitation();
         if (jumpButton&&physicalCheck.IsOnGround&&!playerAnimationInf.IsRoll&&!playerAnimationInf.IsAttack&& playerAnimationInf.landAnimationOver) Jump(); 
         StatsCheckAndCost();
     }

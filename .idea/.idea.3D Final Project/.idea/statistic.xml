@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Statistic">
+    <option name="fileTypesIncluded" value="cs" />
+    <option name="excludedDirectories">
+      <list>
+        <option value="$PROJECT_DIR$/.idea" />
+        <option value="$PROJECT_DIR$/Library" />
+        <option value="$PROJECT_DIR$/Logs" />
+        <option value="$PROJECT_DIR$/obj" />
+        <option value="$PROJECT_DIR$/Packages" />
+        <option value="$PROJECT_DIR$/ProjectSettings" />
+        <option value="$PROJECT_DIR$/Temp" />
+        <option value="$PROJECT_DIR$/UIElementsSchema" />
+        <option value="$PROJECT_DIR$/UserSettings" />
+        <option value="$PROJECT_DIR$/Assets/AddressableAssetsData" />
+        <option value="$PROJECT_DIR$/Assets/Animation" />
+        <option value="$PROJECT_DIR$/Assets/Assets Pack" />
+        <option value="$PROJECT_DIR$/Assets/BOXOPHOBIC" />
+        <option value="$PROJECT_DIR$/Assets/Fonts" />
+        <option value="$PROJECT_DIR$/Assets/GameData" />
+        <option value="$PROJECT_DIR$/Assets/Materials" />
+        <option value="$PROJECT_DIR$/Assets/Player Move Assets" />
+        <option value="$PROJECT_DIR$/Assets/Plugins" />
+        <option value="$PROJECT_DIR$/Assets/Prefabs" />
+        <option value="$PROJECT_DIR$/Assets/Resources" />
+        <option value="$PROJECT_DIR$/Assets/Resources_moved" />
+        <option value="$PROJECT_DIR$/Assets/Scenes1" />
+        <option value="$PROJECT_DIR$/Assets/Settings" />
+        <option value="$PROJECT_DIR$/Assets/Tiny Fantasy Icons" />
+      </list>
+    </option>
+  </component>
+</project>

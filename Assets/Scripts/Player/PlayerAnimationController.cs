@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerAnimationController : MonoBehaviour
 {
@@ -23,9 +24,9 @@ public class PlayerAnimationController : MonoBehaviour
 
     private AudioSource playerAudioSource;
 
-    [SerializeField]private MultiAudioDefination lightSwordiAudio;
+    [SerializeField]private MultiAudioDefination lightSwordAudio;
 
-    [SerializeField]private MultiAudioDefination greatSwordiAudio;
+    [SerializeField]private MultiAudioDefination greatSwordAudio;
 
     #region 人物的状态信息
     private bool isWalk;
@@ -109,7 +110,7 @@ public class PlayerAnimationController : MonoBehaviour
         animatorCombatLayer = anim.GetLayerIndex("Combat Layer");
         playerController = GetComponent<PlayerController>();
         playerAudioSource = GetComponent<AudioSource>();
-        lightSwordiAudio = GetComponent<MultiAudioDefination>();
+        lightSwordAudio = GetComponent<MultiAudioDefination>();
         physicalCheck = GetComponent<PhysicalCheck>();
     }
 
@@ -129,6 +130,7 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void OnEnable()
     {
+        anim.SetBool("IsLightSword", true);
         GlobalEvent.RollAnimationOverEvent += OnAfterRollAnimationOverEvent;
         GlobalEvent.LandAnimationOverEvent += OnAfterLandAnimationOverEvent;
     }
@@ -236,9 +238,9 @@ public class PlayerAnimationController : MonoBehaviour
     public void PlayAttackClip()
     {
         if (lightSwordInHand.gameObject.activeSelf)
-            AudioManager.Instance.PlayClipBySpecifiedSource(lightSwordiAudio.PlayClipRandom(), playerAudioSource);
+            AudioManager.Instance.PlayClipBySpecifiedSource(lightSwordAudio.PlayClipRandom(), playerAudioSource);
         else if(greatSwordInHand.gameObject.activeSelf)
-            AudioManager.Instance.PlayClipBySpecifiedSource(greatSwordiAudio.PlayClipRandom(), playerAudioSource);
+            AudioManager.Instance.PlayClipBySpecifiedSource(greatSwordAudio.PlayClipRandom(), playerAudioSource);
     }
 
     //切换武器相关的事件

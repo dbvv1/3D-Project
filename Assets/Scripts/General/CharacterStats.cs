@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 //存储角色的状态信息
-public class CharacterStats : MonoBehaviour
+[RequireComponent(typeof(DataDefination))]
+public class CharacterStats : MonoBehaviour,ISavable
 {
-    //角色的基础属性值
-    public CharacterData_SO characterData;
+    //角色的模板属性值
+    public CharacterData_SO  originalCharacterData;
 
+    private CharacterData_SO characterData;
+        
     private AudioSource characterAudioSource;
 
     private Animator anim;
@@ -47,87 +51,86 @@ public class CharacterStats : MonoBehaviour
     private float curExp;                    //当前经验值
 
     #endregion
-
-    //所有相关数据的 get 和 set 方法
+    
     #region 获取角色的基础相关数据
     public float MaxHealth
     {
-        get => characterData.maxHealth; set => characterData.maxHealth = value;
+        get => originalCharacterData.maxHealth; set => originalCharacterData.maxHealth = value;
     }
 
     public float MaxEnergy
     {
-        get => characterData.maxEnergy; set => characterData.maxEnergy = value;
+        get => originalCharacterData.maxEnergy; set => originalCharacterData.maxEnergy = value;
     }
 
     public float MaxMagic
     {
-        get => characterData.maxMagic; set => characterData.maxMagic = value;
+        get => originalCharacterData.maxMagic; set => originalCharacterData.maxMagic = value;
     }
 
     public float BasePhysicalDamage
     {
-        get => characterData.basePhysicalDamage; set => characterData.basePhysicalDamage = value;
+        get => originalCharacterData.basePhysicalDamage; set => originalCharacterData.basePhysicalDamage = value;
     }
 
     public float BaseSkillDamage
     {
-        get => characterData.baseSkillDamage; set => characterData.baseSkillDamage = value;
+        get => originalCharacterData.baseSkillDamage; set => originalCharacterData.baseSkillDamage = value;
     }
 
     public float BasePhysicalDefensive
     {
-        get => characterData.basePhysicalDefensive; set => characterData.basePhysicalDefensive = value;
+        get => originalCharacterData.basePhysicalDefensive; set => originalCharacterData.basePhysicalDefensive = value;
     }
 
     public float BaseMagicalDefensive
     {
-        get => characterData.baseMagicalDefensive; set => characterData.baseMagicalDefensive = value;
+        get => originalCharacterData.baseMagicalDefensive; set => originalCharacterData.baseMagicalDefensive = value;
     }
 
     public int BasePowerPoint
     {
-        get => characterData.basePowerPoint; set => characterData.basePowerPoint = value;
+        get => originalCharacterData.basePowerPoint; set => originalCharacterData.basePowerPoint = value;
     }
 
     public int BaseAgilityPoint
     {
-        get => characterData.baseAgilityPoint; set => characterData.baseAgilityPoint = value;
+        get => originalCharacterData.baseAgilityPoint; set => originalCharacterData.baseAgilityPoint = value;
     }
 
     public int BaseIntelligencePoint
     {
-        get => characterData.baseIntelligencePoint; set => characterData.baseIntelligencePoint = value;
+        get => originalCharacterData.baseIntelligencePoint; set => originalCharacterData.baseIntelligencePoint = value;
     }
 
     public float BaseHealthRecover
     {
-        get => characterData.baseHealthRecover; set => characterData.baseHealthRecover = value;
+        get => originalCharacterData.baseHealthRecover; set => originalCharacterData.baseHealthRecover = value;
     }
 
     public float BaseEnergyRecover
     {
-        get => characterData.baseEnergyRecover; set => characterData.baseEnergyRecover = value;
+        get => originalCharacterData.baseEnergyRecover; set => originalCharacterData.baseEnergyRecover = value;
     }
 
     public float BaseMagicRecover
     {
-        get => characterData.baseMagicRecover; set => characterData.baseMagicRecover = value;
+        get => originalCharacterData.baseMagicRecover; set => originalCharacterData.baseMagicRecover = value;
     }
 
     public float BaseExp
     {
-        get => characterData.baseExp; set => characterData.baseExp = value;
+        get => originalCharacterData.baseExp; set => originalCharacterData.baseExp = value;
     }
 
     public float LevelBuf
     {
-        get => characterData.levelBuf; set => characterData.levelBuf = value;
+        get => originalCharacterData.levelBuf; set => originalCharacterData.levelBuf = value;
     }
 
     public float InvincibleTimeAfterHit
     {
-        get => characterData.invincibleTimeAfterHit; set => characterData.invincibleTimeAfterHit = value;
+        get => originalCharacterData.invincibleTimeAfterHit; set => originalCharacterData.invincibleTimeAfterHit = value;
     }
 
     #endregion
@@ -255,6 +258,8 @@ public class CharacterStats : MonoBehaviour
     {
         characterAudioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
+        if (characterData == null)
+            characterData = Instantiate(originalCharacterData);
     }
 
     private void Start()
@@ -267,6 +272,16 @@ public class CharacterStats : MonoBehaviour
         CurMagicRecover = BaseMagicRecover;
         InvincibleAfterHit = false;
         IsWeakState = false;
+    }
+
+    private void OnEnable()
+    {
+        ((ISavable)this).RegisterSaveData();
+    }
+
+    private void OnDisable()
+    {
+        ((ISavable)this).UnRegisterSaveData();
     }
 
     protected virtual void Update()
@@ -336,9 +351,23 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-    #region 状态的修改事件
+   //TODO:状态的修改
 
+   
+    public string GetDataID()
+    {
+        return GetComponent<DataDefination>().id;
+    }
 
-    #endregion
+    public void SaveData(Data data)
+    {
+        if (!data.characterStatsData.ContainsKey(GetDataID()))
+            data.characterStatsData.Add(GetDataID(), characterData);
+    }
 
+    public void LoadData(Data data)
+    {
+        if (data.characterStatsData.ContainsKey(GetDataID()))
+            data.characterStatsData.Remove(GetDataID());
+    }
 }
