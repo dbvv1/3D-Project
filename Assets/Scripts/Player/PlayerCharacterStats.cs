@@ -27,7 +27,7 @@ public class PlayerCharacterStats : CharacterStats
         //Ö´ÐÐ µôÑª + OnTakeDamageÊÂ¼þ
         float costHealth = attacker.DamageAmount - attacker.damageType switch
         {
-            DamageType.Physical => CurPhysicalDefenisve,
+            DamageType.Physical => CurPhysicalDefensive,
             DamageType.Magical => CurMagicalDefensive,
             DamageType.True => 0,
             _ => 0
@@ -89,5 +89,7 @@ public class PlayerCharacterStats : CharacterStats
             PlayerStatsUIManager.Instance.UpdateMagicSlider();
         }
     }
+    
+    
 
 }

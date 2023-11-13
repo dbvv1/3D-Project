@@ -1,18 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class InventoryManager : Singleton<InventoryManager>
+public class InventoryManager : Singleton<InventoryManager>,ISavable
 {
     [Header("背包数据")]
-    public InventoyrData_SO consumableInventory;
+    public InventoryData_SO consumableInventory;
     
-    public InventoyrData_SO euqipmentsInventory;
+    public InventoryData_SO equipmentsInventory;
 
-    public InventoyrData_SO playerEuqipmentInventory;
+    public InventoryData_SO playerEquipmentInventory;
 
-    public InventoyrData_SO actionInventory;
+    public InventoryData_SO actionInventory;
 
     [Header("背包容器")]
     public ContainerUI consumableContainer;        //消耗品背包
@@ -41,17 +42,29 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             currentShowContainer = value;
             if (value == consumableContainer) SelectConsumableContainer();
-            else if (value == equipmentsContainer) SelectEuqipmentsContainer();
+            else if (value == equipmentsContainer) SelectEquipmentsContainer();
         } 
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
     }
 
     private void Start()
     {
         CurrentShowContainer = consumableContainer;
-        CurrentShowContainer.RefreshContainerUI();
-        equipmentsContainer.RefreshContainerUI();
-        actionContainer.RefreshContainerUI();
-        playerEquipmentContainer.RefreshContainerUI();
+        RefreshAllContainer();
+    }
+
+    private void OnEnable()
+    {
+        ((ISavable)this).RegisterSaveData();
+    }
+
+    private void OnDisable()
+    {
+        ((ISavable)this).UnRegisterSaveData();
     }
 
     #region 切换不同的背包界面
@@ -62,7 +75,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
     public void OnButtonClickEquipmentsContainer()
     {
-        SelectEuqipmentsContainer();
+        SelectEquipmentsContainer();
     }
 
     private void SelectConsumableContainer()
@@ -72,7 +85,7 @@ public class InventoryManager : Singleton<InventoryManager>
         titleText.text = "消耗品";
     }
 
-    private void SelectEuqipmentsContainer()
+    private void SelectEquipmentsContainer()
     {
         consumableContainer.gameObject.SetActive(false);
         equipmentsContainer.gameObject.SetActive(true);
@@ -101,6 +114,56 @@ public class InventoryManager : Singleton<InventoryManager>
         }
         return false;
     }
+
+    #endregion
+
+    public InventoryData_SO GetSpecialInventory(InventoryType inventoryType)
+    {
+        var res = inventoryType switch
+        {
+            InventoryType.ConsumableInventory => consumableInventory,
+            InventoryType.EquipmentInventory => equipmentsInventory,
+            InventoryType.PlayerEquipmentInventory => playerEquipmentInventory,
+            InventoryType.ActionInventory => actionInventory,
+            _ => null
+        };
+        return res;
+    }
+
+    private void RefreshAllContainer()
+    {
+        CurrentShowContainer.RefreshContainerUI();
+        equipmentsContainer.RefreshContainerUI();
+        actionContainer.RefreshContainerUI();
+        playerEquipmentContainer.RefreshContainerUI();
+    }
+
+    #region Save 相关接口
+    public string GetDataID()
+    {
+        return "Inventory";
+    }
+
+    public void SaveData(Data data)
+    {
+        //Save所有的背包
+        data.consumableInventory.SettingInventory(consumableInventory);
+        data.equipmentsInventory.SettingInventory(equipmentsInventory);
+        data.playerEquipmentInventory.SettingInventory(playerEquipmentInventory);
+        data.actionInventory .SettingInventory(actionInventory);
+    }
+
+    public void LoadData(Data data)
+    {
+        //Load所有的背包
+        if(data.consumableInventory)consumableInventory.SettingInventory(data.consumableInventory);
+        if(data.equipmentsInventory)equipmentsInventory.SettingInventory(data.equipmentsInventory);
+        if(data.playerEquipmentInventory)playerEquipmentInventory.SettingInventory(data.playerEquipmentInventory);
+        if(data.actionInventory)actionInventory.SettingInventory(data.actionInventory);
+        //刷新所有的背包
+        RefreshAllContainer();
+    }
+    
 
     #endregion
 

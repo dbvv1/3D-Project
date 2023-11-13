@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   itemName: "\u7EA2\u8272\u6676\u77F3"
-  itemIcon: {fileID: 21300000, guid: c7a7bbf19aad82f41ba610cc4475aa8c, type: 3}
+  serializeSprite:
+    spriteAddress: red Crystalsv
   itemDescription: "\u7EA2\u8272\u7684\u6676\u77F3 \u4F7F\u7528\u540E\u53EF\u4EE5\u589E\u52A0\u751F\u547D\u4E0A\u9650"
-  statckable: 1
+  stackable: 1

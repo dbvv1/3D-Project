@@ -35,9 +35,9 @@ public class SlotHolder : MonoBehaviour,IPointerClickHandler,IPointerEnterHandle
         itemUI.Bag = slotType switch
         {
             SlotType.ConsumableBag => InventoryManager.Instance.consumableInventory,
-            SlotType.EquipmentBag => InventoryManager.Instance.euqipmentsInventory,
-            SlotType.PrimaryWeapon => InventoryManager.Instance.playerEuqipmentInventory,
-            SlotType.SecondaryWeapon => InventoryManager.Instance.playerEuqipmentInventory,
+            SlotType.EquipmentBag => InventoryManager.Instance.equipmentsInventory,
+            SlotType.PrimaryWeapon => InventoryManager.Instance.playerEquipmentInventory,
+            SlotType.SecondaryWeapon => InventoryManager.Instance.playerEquipmentInventory,
             SlotType.Action => InventoryManager.Instance.actionInventory,
             _ => null
         };

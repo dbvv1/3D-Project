@@ -21,7 +21,7 @@ public class EnemyCharacterStats : CharacterStats
         //Ö´ÐÐ µôÑª + OnTakeDamageÊÂ¼þ
         float costHealth = attacker.DamageAmount - attacker.damageType switch
         {
-            DamageType.Physical => CurPhysicalDefenisve,
+            DamageType.Physical => CurPhysicalDefensive,
             DamageType.Magical => CurMagicalDefensive,
             DamageType.True => 0,
             _ => 0
@@ -70,9 +70,14 @@ public class EnemyCharacterStats : CharacterStats
     }
 
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         GameManager.Instance.RemoveWeakEnemy(enemy);
     }
 
+    protected override void UpdateUIInfo()
+    {
+        healthBarUI.UpdateHealthBar(CurHealth,MaxHealth);
+    }
 }

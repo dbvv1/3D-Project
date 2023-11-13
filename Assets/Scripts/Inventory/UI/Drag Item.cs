@@ -82,7 +82,7 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         InventoryItem tmpItem = currentSlot.itemUI.GetInventoryItem;
 
         //处理可叠加的情况 (同一种物品 + 物品可堆叠 )
-        if(targetItem.itemData==tmpItem.itemData && targetItem.itemData.statckable)
+        if(targetItem.itemData==tmpItem.itemData && targetItem.itemData.stackable)
         {
             targetItem.itemAmount += tmpItem.itemAmount;
             tmpItem.itemData = null; tmpItem.itemAmount = 0;

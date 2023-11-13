@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Consume Inventory
   m_EditorClassIdentifier: 
   items:
-  - itemData: {fileID: 0}
-    itemAmount: 0
-  - itemData: {fileID: 0}
-    itemAmount: 0
-  - itemData: {fileID: 0}
-    itemAmount: 0
-  - itemData: {fileID: 0}
-    itemAmount: 0
-  - itemData: {fileID: 0}
-    itemAmount: 0
+  - itemData: {fileID: 11400000, guid: 2d8ad9c08ab39ab4ca79b66f78cbff7f, type: 2}
+    itemAmount: 3
+  - itemData: {fileID: 11400000, guid: badf0e25a705f5b40b91cfece34fc73d, type: 2}
+    itemAmount: 3
+  - itemData: {fileID: 11400000, guid: 75b59161dd5215e4187cbfd7d54060ad, type: 2}
+    itemAmount: 3
+  - itemData: {fileID: 11400000, guid: 827367beabd66ca4883b0b7d3cd6763a, type: 2}
+    itemAmount: 3
+  - itemData: {fileID: 11400000, guid: f79a5ae65b62b364fb0061dcccff7a32, type: 2}
+    itemAmount: 3
   - itemData: {fileID: 0}
     itemAmount: 0
   - itemData: {fileID: 0}
@@ -84,4 +84,4 @@ MonoBehaviour:
   - itemData: {fileID: 0}
     itemAmount: 0
   itemCapacity: 35
-  itemCount: 0
+  itemCount: 5

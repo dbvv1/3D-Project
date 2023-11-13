@@ -186,9 +186,12 @@ public class PlayerController : MonoBehaviour
     private void OnBeforeSceneLoad()
     {
         playerAnimationInf.IsWalk = false;
+        playerAnimationInf.IsRun = false;
+        anim.SetBool("RAttack Hold", false);
         isLoading = true;
         inputActions.GamePlay.Move.Dispose();
-        inputActions.GamePlay.Run.Dispose();        
+        inputActions.GamePlay.Run.Dispose();
+        inputActions.GamePlay.RAttack.Dispose();
         inputActions.Disable();
         
     }
@@ -236,7 +239,7 @@ public class PlayerController : MonoBehaviour
     {
         //人物正在奔跑：消耗体力
         if (playerAnimationInf.IsWalk && playerAnimationInf.IsRun) playerCurrentStats.ExpendEnergy(Time.deltaTime * runCostEnergy);
-        //体力太少：停止奔跑状态 TODO:若 奔跑消耗>回复 会导致反复的 奔跑->走路->奔跑的转换
+        //体力太少：停止奔跑状态 
         if (playerAnimationInf.IsRun && playerCurrentStats.CurEnergy < 3f) playerAnimationInf.IsRun = false;
     }
 
@@ -247,6 +250,7 @@ public class PlayerController : MonoBehaviour
     {
         if (IsLock) MovePlayerInThirdPersonLock();
         else MovePlayerInThirdPersonFree();
+        
     }
 
     //第三人称 自由视角 移动人物

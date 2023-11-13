@@ -20,7 +20,7 @@ public class ItemPickUp : MonoBehaviour
                     break;
                 case ItemType.PrimaryWeapon:
                 case ItemType.SecondaryWeapon:
-                    add = InventoryManager.Instance.euqipmentsInventory.AddItem(itemData);
+                    add = InventoryManager.Instance.equipmentsInventory.AddItem(itemData);
                     InventoryManager.Instance.equipmentsContainer.RefreshContainerUI();
                     break;
             }

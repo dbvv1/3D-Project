@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 [DefaultExecutionOrder(-100)]
 public class DataManager : Singleton<DataManager>
 {
-    private HashSet<ISavable> saveableSet = new HashSet<ISavable>();
+    private HashSet<ISavable> savableSet = new HashSet<ISavable>();
 
     private Data saveData;
 
@@ -20,7 +20,7 @@ public class DataManager : Singleton<DataManager>
         base.Awake();
         saveData = new Data();
 
-        jsonFolder = Application.persistentDataPath + "/Save Data";
+        jsonFolder = Application.persistentDataPath + "/Save Data/";
         Debug.Log(jsonFolder);
         ReadSaveData();
     }
@@ -41,27 +41,28 @@ public class DataManager : Singleton<DataManager>
 
     public void RegisterSaveData(ISavable savable)
     {
-        if (!saveableSet.Contains(savable))
-            saveableSet.Add(savable);
+        if (!savableSet.Contains(savable))
+            savableSet.Add(savable);
     }
 
     public void UnRegisterSaveData(ISavable savable)
     {
-        if (saveableSet.Contains(savable))
-            saveableSet.Remove(savable);
+        if (savableSet.Contains(savable))
+            savableSet.Remove(savable);
     }
 
     
     //将save列表中的数据全部保存到文件中
     public void Save()
     {
-        foreach (var saveable in saveableSet)
+        foreach (var savable in savableSet)
         {
-            saveable.SaveData(saveData);
+            savable.SaveData(saveData);
         }
 
         string resultPath = jsonFolder + "saveData.sav";
 
+        
         string jsonData = JsonConvert.SerializeObject(saveData);
 
         if (!File.Exists(resultPath))
@@ -73,16 +74,16 @@ public class DataManager : Singleton<DataManager>
 
     }
     
-    //根据savedata中的数据调整游戏数据
+    //根据save data中的数据调整游戏数据
     public void Load()
     {
-        foreach (var saveable in saveableSet)
+        foreach (var savable in savableSet)
         {
-            saveable.LoadData(saveData);
+            savable.LoadData(saveData);
         }
     }
     
-    //将文件中的数据放置到savadata中
+    //将文件中的数据放置到sava data中
     private void ReadSaveData()
     {
         string resultPath = jsonFolder + "saveData.sav";
@@ -95,25 +96,6 @@ public class DataManager : Singleton<DataManager>
     
 }
 
-
-//可被序列化的Vector3
-public class SerializeVector3
-{
-    public float x, y, z;
-
-    public SerializeVector3(Vector3 pos)
-    {
-        this.x = pos.x;
-        this.y = pos.y;
-        this.z = pos.z;
-    }
-
-    public Vector3 ToVector3()
-    {
-        return new Vector3(x, y, z);
-    }
-    
-}
 
 
 

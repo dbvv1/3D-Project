@@ -27,6 +27,14 @@ public enum SlotType
     Action                            //快捷栏格
 }
 
+public enum InventoryType
+{
+    ConsumableInventory,
+    EquipmentInventory,
+    PlayerEquipmentInventory,
+    ActionInventory
+}
+
 //显示面板的类型
 public enum PanelType
 {
