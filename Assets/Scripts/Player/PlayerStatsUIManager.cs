@@ -38,6 +38,40 @@ public class PlayerStatsUIManager : Singleton<PlayerStatsUIManager>
         energySlider.value = playerCurrentStats.CurEnergy / playerCurrentStats.MaxEnergy;
     }
 
+    public void UpdateSliderWidth(float maxHealthChange,float maxEnergyChange,float maxMagicChange)
+    {
+        UpdateHealthSliderWidth(maxHealthChange);
+        UpdateEnergySliderWidth(maxEnergyChange);
+        UpdateMagicSliderWidth(maxMagicChange);
+    }
+
+    private void UpdateHealthSliderWidth(float maxHealthChange)
+    {
+        float pre = playerCurrentStats.MaxHealth - maxHealthChange;
+        float cur = playerCurrentStats.MaxHealth;
+        Vector2 healthSlideSize = ((RectTransform)healthSlider.transform).sizeDelta;
+        healthSlideSize.x *= (1 + (cur - pre) / pre);
+        ((RectTransform)healthSlider.transform).sizeDelta = healthSlideSize;
+    }
+
+    private void UpdateEnergySliderWidth(float maxEnergyChange)
+    {
+        float pre = playerCurrentStats.MaxEnergy - maxEnergyChange;
+        float cur = playerCurrentStats.MaxEnergy;
+        Vector2 energySlideSize = ((RectTransform)energySlider.transform).sizeDelta;
+        energySlideSize.x *= (1 + (cur - pre) / pre);
+        ((RectTransform)energySlider.transform).sizeDelta = energySlideSize;
+    }
+
+    private void UpdateMagicSliderWidth(float maxMagicChange)
+    {
+        float pre = playerCurrentStats.MaxMagic - maxMagicChange;
+        float cur = playerCurrentStats.MaxMagic;
+        Vector2 magicSlideSize = ((RectTransform)magicSlider.transform).sizeDelta;
+        magicSlideSize.x *= (1 + (cur - pre) / pre);
+        ((RectTransform)magicSlider.transform).sizeDelta = magicSlideSize;
+    }
+
     public void RefreshMaxInformation()
     {
         maxHealthText.text = playerCurrentStats.MaxHealth.ToString("F0");

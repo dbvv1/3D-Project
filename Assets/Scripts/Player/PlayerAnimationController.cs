@@ -13,6 +13,8 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField] private Transform greatSwordOnBack;
 
     [SerializeField] private Transform lightSwordOnBack;
+    
+    //动画参数Parameters对应
 
     private Animator anim;
 
@@ -36,7 +38,7 @@ public class PlayerAnimationController : MonoBehaviour
         set
         {
             isWalk = value;
-            anim.SetBool("IsWalk", value);
+            anim.SetBool(Walk, value);
         }
     }
 
@@ -47,7 +49,7 @@ public class PlayerAnimationController : MonoBehaviour
         set
         {
             isRun = value;
-            anim.SetBool("IsRun", value);
+            anim.SetBool(Run, value);
         }
     }
 
@@ -57,26 +59,19 @@ public class PlayerAnimationController : MonoBehaviour
         get => isRoll;
         set
         {
-            if (value == true) anim.SetTrigger("Roll");
-            anim.SetBool("IsRoll", value);
+            if (value) anim.SetTrigger(Roll);
+            anim.SetBool(IsRoll1, value);
             isRoll = value;
         }
     }
 
     [HideInInspector] public bool rollAnimationOver;
 
-    public bool IsLeftAttack
-    {
-        get => anim.GetCurrentAnimatorStateInfo(animatorCombatLayer).IsTag("Normal Attack");
-    }
-    public bool IsFocusAttack
-    {
-        get => anim.GetCurrentAnimatorStateInfo(animatorCombatLayer).IsTag("Focus Attack");
-    }
-    public bool IsAttack
-    {
-        get => IsLeftAttack || IsFocusAttack;
-    }
+    public bool IsLeftAttack => anim.GetCurrentAnimatorStateInfo(animatorCombatLayer).IsTag("Normal Attack");
+
+    public bool IsFocusAttack => anim.GetCurrentAnimatorStateInfo(animatorCombatLayer).IsTag("Focus Attack");
+
+    public bool IsAttack => IsLeftAttack || IsFocusAttack;
 
     private bool isHurt;
     public bool IsHurt
@@ -95,8 +90,8 @@ public class PlayerAnimationController : MonoBehaviour
         {
             isGuard = value;
             playerController.playerCurrentStats.IsGuard = value;
-            if (value) anim.SetTrigger("Guard");
-            anim.SetBool("IsGuard", value);
+            if (value) anim.SetTrigger(Guard);
+            anim.SetBool(IsGuard1, value);
         }
     }
 
@@ -120,17 +115,14 @@ public class PlayerAnimationController : MonoBehaviour
         IsRun = false;
         rollAnimationOver = true;
         landAnimationOver = true;
-        anim.SetBool("IsLightSword", true);
-        anim.SetBool("IsGreatSword", false);
+        anim.SetBool(IsLightSword, true);
+        anim.SetBool(IsGreatSword, false);
     }
 
-    private void Update()
-    {
-    }
 
     private void OnEnable()
     {
-        anim.SetBool("IsLightSword", true);
+        anim.SetBool(IsLightSword, true);
         GlobalEvent.RollAnimationOverEvent += OnAfterRollAnimationOverEvent;
         GlobalEvent.LandAnimationOverEvent += OnAfterLandAnimationOverEvent;
     }
@@ -196,7 +188,18 @@ public class PlayerAnimationController : MonoBehaviour
     private Coroutine currentMoveAttackCoroutine;
 
     //翻滚时的移动修正
-    private Coroutine currentMoveRollCoroutine;
+    private Coroutine currentMoveRollCoroutine; 
+    private static readonly int Walk = Animator.StringToHash("IsWalk");
+    private static readonly int Run = Animator.StringToHash("IsRun");
+    private static readonly int Roll = Animator.StringToHash("Roll");
+    private static readonly int IsRoll1 = Animator.StringToHash("IsRoll");
+    private static readonly int Guard = Animator.StringToHash("Guard");
+    private static readonly int IsGuard1 = Animator.StringToHash("IsGuard");
+    private static readonly int IsLightSword = Animator.StringToHash("IsLightSword");
+    private static readonly int IsGreatSword = Animator.StringToHash("IsGreatSword");
+    private static readonly int Hurt = Animator.StringToHash("Hurt");
+    private static readonly int Parry = Animator.StringToHash("Parry");
+    private static readonly int Death = Animator.StringToHash("Death");
 
     public void StartAttackMove(float speed)
     {
@@ -228,10 +231,11 @@ public class PlayerAnimationController : MonoBehaviour
         {
             if (!physicalCheck.haveBarrierInMoveDirectino(transform.position+transform.up*0.5f, transform.forward, transform.forward.normalized.magnitude * speed * 2.5f * Time.deltaTime))
             {
-                playerController.characterController.Move(transform.forward.normalized * speed * Time.deltaTime);
+                playerController.characterController.Move(transform.forward.normalized * (speed * Time.deltaTime));
             }
             yield return null;
         }
+
     }
 
     //攻击的音效事件
@@ -265,17 +269,17 @@ public class PlayerAnimationController : MonoBehaviour
         if(!IsGuard)
         {
             IsHurt = true;
-            anim.SetTrigger("Hurt");
+            anim.SetTrigger(Hurt);
         }
         else
         {
-            anim.SetTrigger("Parry");
+            anim.SetTrigger(Parry);
         }
     }
 
     public void OnDeath()
     {
-        anim.SetTrigger("Death");
+        anim.SetTrigger(Death);
     }
 
     #endregion

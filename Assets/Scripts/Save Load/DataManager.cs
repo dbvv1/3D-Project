@@ -21,7 +21,6 @@ public class DataManager : Singleton<DataManager>
         saveData = new Data();
 
         jsonFolder = Application.persistentDataPath + "/Save Data/";
-        Debug.Log(jsonFolder);
         ReadSaveData();
     }
 

@@ -1656,9 +1656,9 @@ MonoBehaviour:
   chaseSpeed: 6
   rotateSpeed: 7
   killExp: 0
-  orignalPosition: {x: 0, y: 0, z: 0}
+  originalPosition: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
-  partolTargetPos: {x: 0, y: 0, z: 0}
+  patrolTargetPos: {x: 0, y: 0, z: 0}
   findPlayerRadius: 8
   patrolRadius: 6
   playerLayer:
@@ -1705,7 +1705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 554d3e1dad5c59e47b4256bb92ffa0bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tmpTransition: {fileID: 11400000, guid: 1975bd79118851a4c8eb19b1b5d2f2db, type: 2}
+  transition: {fileID: 11400000, guid: 1975bd79118851a4c8eb19b1b5d2f2db, type: 2}
   currentState: {fileID: 11400000, guid: fe95bd82347aa5f44b855b0bd3c0e45b, type: 2}
   currentStateType: 0
   currentEnemy: {fileID: 0}
@@ -1880,7 +1880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   persistentType: 0
-  id: ac957cd1-6f0f-490a-8fea-59438f02f81c
+  id: 3d129f19-bddb-47dd-9542-96a7d1030d9c
 --- !u!1 &7697879199407559309
 GameObject:
   m_ObjectHideFlags: 0

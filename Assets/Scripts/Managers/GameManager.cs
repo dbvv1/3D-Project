@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,20 +12,39 @@ public class GameManager : Singleton<GameManager>
 
     public HashSet<EnemyController> weakEnemies=new();  //记录所有处于虚弱状态的敌人 
 
-    [SerializeField] private AssetReference gameConfigRef;
+    public GameConfig gameConfig;
 
-    [HideInInspector]public GameConfig gameConfig;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        Addressables.LoadAssetAsync<GameConfig>(gameConfigRef).Completed += (handle) => gameConfig = handle.Result;
-    }
 
     private void Start()
     {
         Application.targetFrameRate = 120;
+        
     }
+
+    private void OnEnable()
+    {
+        GlobalEvent.StopTheWorldEvent += StopTheGame;
+        GlobalEvent.ContinueTheWorldEvent += ContinueTheGame;
+    }
+
+    private void OnDisable()
+    {
+        GlobalEvent.StopTheWorldEvent -= StopTheGame;
+        GlobalEvent.ContinueTheWorldEvent -= ContinueTheGame;
+    }
+
+    private void StopTheGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void ContinueTheGame()
+    {
+        Time.timeScale = 1;
+    }
+    
+    
+
 
     #region 管理所有敌人
     public void RegisterEnemy(EnemyController enemy)

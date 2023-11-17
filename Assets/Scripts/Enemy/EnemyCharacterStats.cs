@@ -76,7 +76,7 @@ public class EnemyCharacterStats : CharacterStats
         GameManager.Instance.RemoveWeakEnemy(enemy);
     }
 
-    protected override void UpdateUIInfo()
+    protected override void UpdateUIInfo(float x,float y,float z)
     {
         healthBarUI.UpdateHealthBar(CurHealth,MaxHealth);
     }

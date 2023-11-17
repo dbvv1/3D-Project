@@ -32,10 +32,13 @@ public class UIManager : Singleton<UIManager>
             characterStatsPanel.SetActive(value != PanelType.None);
             backGroundPanel.SetActive(value != PanelType.None);
             MouseManager.Instance.SetMouseCursor(value);
-            if (value != PanelType.None) Time.timeScale = 0;
+            if (value != PanelType.None)
+            {
+                GlobalEvent.CallStopTheWorldEvent();
+            }
             else
             {
-                Time.timeScale = 1;
+                GlobalEvent.CallContinueTheWorldEvent();
                 InventoryManager.Instance.itemTooltip.gameObject.SetActive(false);
             }
             //更改之前的面板
@@ -82,7 +85,6 @@ public class UIManager : Singleton<UIManager>
     private void Start()
     {
         CurrentPanel = PanelType.None;
-        Time.timeScale = 1;
     }
 
 private void OnEnable()

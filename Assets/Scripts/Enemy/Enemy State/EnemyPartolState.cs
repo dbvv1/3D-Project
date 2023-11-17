@@ -12,8 +12,8 @@ public class EnemyPartolState : StateActionSO
     {
         EnemyController currentEnemy = stateMachineSystem.currentEnemy;
         stateMachineSystem.currentStateType = EnemyState.PatrolState;
-        currentEnemy.partolTargetPos=currentEnemy.GetRandomPartolPoint();
-        currentEnemy.StartCoroutine(currentEnemy.WaitPatrolTime(waitTime/2, currentEnemy.partolTargetPos));
+        currentEnemy.patrolTargetPos=currentEnemy.GetRandomPatrolPoint();
+        currentEnemy.StartCoroutine(currentEnemy.WaitPatrolTime(waitTime/2, currentEnemy.patrolTargetPos));
     }
 
     public override void OnUpdate(StateMachineSystem stateMachineSystem)
@@ -31,14 +31,14 @@ public class EnemyPartolState : StateActionSO
     //到达了指定的巡逻点
     private bool FinishTargetPos(EnemyController currentEnemy)
     {
-        return Vector3.Distance(currentEnemy.transform.position, currentEnemy.partolTargetPos) < 1f;
+        return Vector3.Distance(currentEnemy.transform.position, currentEnemy.patrolTargetPos) < 1f;
     }
 
     //Wait，之后转向新的巡逻点
     private void TurnToNewPatrolPoint(EnemyController currentEnemy)
     {
-        currentEnemy.partolTargetPos = currentEnemy.GetRandomPartolPoint();
-        currentEnemy.StartCoroutine(currentEnemy.WaitPatrolTime(waitTime,currentEnemy.partolTargetPos));
+        currentEnemy.patrolTargetPos = currentEnemy.GetRandomPatrolPoint();
+        currentEnemy.StartCoroutine(currentEnemy.WaitPatrolTime(waitTime,currentEnemy.patrolTargetPos));
     }
 
 }

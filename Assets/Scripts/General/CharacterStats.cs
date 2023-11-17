@@ -369,8 +369,8 @@ public class CharacterStats : MonoBehaviour, ISavable
         }
     }
 
-    //TODO:状态的修改
 
+    #region Isavable 接口
 
     public string GetDataID()
     {
@@ -379,26 +379,31 @@ public class CharacterStats : MonoBehaviour, ISavable
 
     public void SaveData(Data data)
     {
-        if (!data.characterStatsData.ContainsKey(GetDataID()))
-        {
-            var saveCharacterData = ScriptableObject.CreateInstance<CharacterData_SO>();
-            saveCharacterData.InitCharacterData(characterData);
-            data.characterStatsData.Add(GetDataID(), saveCharacterData);
-        }
+        var saveCharacterData = ScriptableObject.CreateInstance<CharacterData_SO>();
+        saveCharacterData.InitCharacterData(characterData);
+        if (data.characterStatsData.ContainsKey(GetDataID()))
+            data.characterStatsData[GetDataID()] = saveCharacterData;
         else
-            data.characterStatsData[GetDataID()].InitCharacterData(characterData);
+            data.characterStatsData.Add(GetDataID(), saveCharacterData);
     }
 
     public void LoadData(Data data)
     {
         if (data.characterStatsData.ContainsKey(GetDataID()))
         {
-            characterData.InitCharacterData(data.characterStatsData[GetDataID()]);
-            UpdateUIInfo();
+            CharacterData_SO loadCharacterData = data.characterStatsData[GetDataID()];
+            float maxHealthChange = loadCharacterData.maxHealth - characterData.maxHealth;
+            float maxEnergyChange = loadCharacterData.maxEnergy - characterData.maxEnergy;
+            float maxMagicChange = loadCharacterData.maxMagic - characterData.maxMagic;
+            characterData.InitCharacterData(loadCharacterData);
+            UpdateUIInfo(maxHealthChange, maxEnergyChange, maxMagicChange);
         }
     }
 
-    protected virtual void UpdateUIInfo()
+    #endregion
+
+
+    protected virtual void UpdateUIInfo(float maxHealthChange, float maxEnergyChange, float maxMagicChange)
     {
         //通知UI进行更新操作 在子类中进行重载实现
     }

@@ -18,3 +18,4 @@ MonoBehaviour:
     spriteAddress: Mush Room
   itemDescription: "\u968F\u5904\u53EF\u89C1\u7684\u8611\u83C7\uFF0C\u4F7F\u7528\u540E\u53EF\u4EE5\u6062\u590D10\u70B9\u751F\u547D\u503C\u3002"
   stackable: 1
+  usableItemData: {fileID: 11400000, guid: 7a38e7d89b8863e4d849d7bdea81e957, type: 2}

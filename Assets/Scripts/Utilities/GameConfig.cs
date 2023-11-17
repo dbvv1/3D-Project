@@ -11,6 +11,7 @@ public class GameConfig : ScriptableObject
 
     [SerializeField] private List<AudioClip> perfectParryAudioClips;      //角色完美格挡的音效
 
+    [SerializeField] private List<ItemData_SO> allItems;
 
     #region 外界调用的接口
     public AudioClip GetRandomHitAudioClip()
@@ -27,7 +28,14 @@ public class GameConfig : ScriptableObject
     {
         return perfectParryAudioClips[Random.Range(0, perfectParryAudioClips.Count)];
     }
+
+    public void InitItemDict(Dictionary<string,ItemData_SO> itemNameToItemData)
+    {
+        foreach (var item in allItems)
+        {
+            itemNameToItemData.Add(item.itemName, item);
+        }
+    }
+    
     #endregion
-
-
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,21 +13,45 @@ public class SlotHolder : MonoBehaviour,IPointerClickHandler,IPointerEnterHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(eventData.clickCount>=2)
+        ItemData_SO itemData = itemUI.GetItemData;
+        if (eventData.clickCount >= 2 && itemData != null && itemUI.GetItemAmount >= 1)   
         {
-            UseItem();
+            switch (itemData.itemType)
+            {
+                case ItemType.Consumable:
+                    UseItem(itemData);
+                    break;
+                case ItemType.PrimaryWeapon:
+                    EquipPrimaryWeaponWeapon(itemData);
+                    break;
+                case ItemType.SecondaryWeapon:
+                    EquipSecondaryWeapon(itemData);
+                    break;
+
+            }
+
+            itemUI.GetInventoryItem.itemAmount--;
+            if(itemUI.GetInventoryItem.itemAmount==0) InventoryManager.Instance.itemTooltip.gameObject.SetActive(false); 
+            UpdateItem();
         }
     }
 
     //使用物品
-    private void UseItem()
+    private void UseItem(ItemData_SO itemData)
     {
-        if(itemUI.itemData!=null&&itemUI.GetItemData.itemType==ItemType.Consumable)
-        {
-            //TODO：使用物品的具体实现
-            itemUI.GetInventoryItem.itemAmount--;
-        }
-        UpdateItem();
+        itemData.usableItemData.OnUse();
+    }
+
+    //TODO:装备主要武器
+    private void EquipPrimaryWeaponWeapon(ItemData_SO itemData)
+    {
+        
+    }
+
+    //TODO:装备次要武器
+    private void EquipSecondaryWeapon(ItemData_SO itemData)
+    {
+        
     }
 
     //通过SlotType获取对应的背包数据库 依次来更新其中的ItemUI

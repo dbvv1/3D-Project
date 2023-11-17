@@ -18,3 +18,4 @@ MonoBehaviour:
     spriteAddress: Blue Crystalsv
   itemDescription: "\u84DD\u8272\u7684\u6676\u77F3\uFF0C\u4F7F\u7528\u540E\u53EF\u4EE5\u589E\u52A0\u9B54\u529B\u4E0A\u9650"
   stackable: 1
+  usableItemData: {fileID: 11400000, guid: efb0de26a1ad5794aba2a1db82129cb3, type: 2}

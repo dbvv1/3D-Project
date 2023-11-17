@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff143389660473143aa0c9c6b60e2fa6, type: 3}
   m_Name: Enemy Transition
   m_EditorClassIdentifier: 
+  isInit: 0
   configStateData:
   - fromState: {fileID: 11400000, guid: fe95bd82347aa5f44b855b0bd3c0e45b, type: 2}
     toState: {fileID: 11400000, guid: 53bc275bbab0bd0488f6d66afe991c29, type: 2}

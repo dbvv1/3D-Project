@@ -8,7 +8,7 @@ public class MetalonController : EnemyController
     protected override void Awake()
     {
         base.Awake();
-        orignalPosition = transform.position;
+        originalPosition = transform.position;
     }
 
     protected override void Move()

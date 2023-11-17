@@ -1,9 +1,5 @@
-using Cinemachine;
-using Cinemachine.Utility;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,7 +24,7 @@ public class PlayerController : MonoBehaviour
     //public FirstPersonCamera firstPersonCamera;
 
     [Header("基本属性")]
-    [SerializeField]private float curSpeed = 0;
+    [SerializeField]private float curSpeed;
 
     [SerializeField, Header("行走速度")]              private float walkSpeed = 3;          
 
@@ -61,6 +57,15 @@ public class PlayerController : MonoBehaviour
     private bool isLock;
 
     private bool jumpButton;
+    
+        
+    private static readonly int IsLightSword = Animator.StringToHash("IsLightSword");
+    private static readonly int IsGreatSword = Animator.StringToHash("IsGreatSword");
+    private static readonly int RAttackHold = Animator.StringToHash("RAttack Hold");
+    private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int Execution = Animator.StringToHash("Execution");
+    private static readonly int LAttack = Animator.StringToHash("LAttack");
+    private static readonly int ChangeWeapon = Animator.StringToHash("Change Weapon");
 
     private EnemyController curLockedEnemy;
     public bool IsLock
@@ -77,10 +82,10 @@ public class PlayerController : MonoBehaviour
             switch (currentWeaponType)
             {
                 case PlayerWeaponType.LightSword:
-                    anim.SetBool("IsLightSword", false);
+                    anim.SetBool(IsLightSword, false);
                     break;
                 case PlayerWeaponType.GreatSword:
-                    anim.SetBool("IsGreatSword", false);
+                    anim.SetBool(IsGreatSword, false);
                     break;
             }
 
@@ -88,16 +93,16 @@ public class PlayerController : MonoBehaviour
             switch (currentWeaponType)
             {
                 case PlayerWeaponType.LightSword:
-                    anim.SetBool("IsLightSword", true);
+                    anim.SetBool(IsLightSword, true);
                     break;
                 case PlayerWeaponType.GreatSword:
-                    anim.SetBool("IsGreatSword", true);
+                    anim.SetBool(IsGreatSword, true);
                     break;
             }
         }
     }
-
-
+    
+    
     //是否允许攻击的输入
     private bool applyAttackInput;
     public bool ApplyAttackInput { get => applyAttackInput; set => applyAttackInput = value; }
@@ -123,16 +128,8 @@ public class PlayerController : MonoBehaviour
         currentWeaponType = PlayerWeaponType.LightSword;
         applyAttackInput = true;
         animatorCombatLayer = anim.GetLayerIndex("Combat Layer");
-    }
-
-    private void OnEnable()
-    {
-        inputActions.Enable();
-        GlobalEvent.SwitchToFirstPersonEvent += OnSwitchToFirstPerson;
-        GlobalEvent.EnemyDeathEvent += OnEnemyDeath;
-        GlobalEvent.AfterSceneLoadEvent += OnAfterSceneLoad;
-        GlobalEvent.BeforeSceneLoadEvent += OnBeforeSceneLoad;
-
+        
+        
         //人物翻滚 Release Only
         inputActions.GamePlay.Roll.performed += StartRoll;
 
@@ -162,9 +159,31 @@ public class PlayerController : MonoBehaviour
 
         //切换武器
         inputActions.GamePlay.ChangeWeapon.started += SwitchWeapon;
-
+        
     }
 
+    private void OnEnable()
+    {
+        inputActions.Enable();
+        GlobalEvent.SwitchToFirstPersonEvent += OnSwitchToFirstPerson;
+        GlobalEvent.EnemyDeathEvent += OnEnemyDeath;
+        GlobalEvent.AfterSceneLoadEvent += OnAfterSceneLoad;
+        GlobalEvent.BeforeSceneLoadEvent += OnBeforeSceneLoad;
+        GlobalEvent.StopTheWorldEvent += DisablePlayerInput;
+        GlobalEvent.ContinueTheWorldEvent += EnablePlayerInput;
+        
+    }
+    
+    private void OnDisable()
+    {
+        inputActions.Disable();
+        GlobalEvent.SwitchToFirstPersonEvent -= OnSwitchToFirstPerson;
+        GlobalEvent.EnemyDeathEvent -= OnEnemyDeath;
+        GlobalEvent.AfterSceneLoadEvent -= OnAfterSceneLoad;
+        GlobalEvent.BeforeSceneLoadEvent -= OnBeforeSceneLoad;
+        GlobalEvent.StopTheWorldEvent -= DisablePlayerInput;
+        GlobalEvent.ContinueTheWorldEvent -= EnablePlayerInput;
+    }
 
     #region  全局事件函数
     //切换到第一视角：调整faceDirection为人物的朝向
@@ -187,7 +206,7 @@ public class PlayerController : MonoBehaviour
     {
         playerAnimationInf.IsWalk = false;
         playerAnimationInf.IsRun = false;
-        anim.SetBool("RAttack Hold", false);
+        anim.SetBool(RAttackHold, false);
         isLoading = true;
         inputActions.GamePlay.Move.Dispose();
         inputActions.GamePlay.Run.Dispose();
@@ -195,17 +214,26 @@ public class PlayerController : MonoBehaviour
         inputActions.Disable();
         
     }
+
+    private void DisablePlayerInput()
+    {
+        inputActions.GamePlay.Jump.Disable();
+        inputActions.GamePlay.LAttack.Disable();
+        inputActions.GamePlay.RAttack.Disable();
+        inputActions.GamePlay.Roll.Disable();
+    }
+
+    private void EnablePlayerInput()
+    {
+        inputActions.GamePlay.Jump.Enable();
+        inputActions.GamePlay.LAttack.Enable();
+        inputActions.GamePlay.RAttack.Enable();
+        inputActions.GamePlay.Roll.Enable();
+    }
     
 
     #endregion
-    private void OnDisable()
-    {
-        inputActions.Disable();
-        GlobalEvent.SwitchToFirstPersonEvent -= OnSwitchToFirstPerson;
-        GlobalEvent.EnemyDeathEvent -= OnEnemyDeath;
-        GlobalEvent.AfterSceneLoadEvent -= OnAfterSceneLoad;
-        GlobalEvent.BeforeSceneLoadEvent -= OnBeforeSceneLoad;
-    }
+
 
 
     private void Update()
@@ -213,7 +241,7 @@ public class PlayerController : MonoBehaviour
         inputDirection = inputActions.GamePlay.Move.ReadValue<Vector2>();
         if(!isLoading)MovePlayer();
         if(!isLoading)Gravitation();
-        if (jumpButton&&physicalCheck.IsOnGround&&!playerAnimationInf.IsRoll&&!playerAnimationInf.IsAttack&& playerAnimationInf.landAnimationOver) Jump(); 
+        if (jumpButton&&physicalCheck.IsOnGround&&!playerAnimationInf.IsRoll&&!playerAnimationInf.IsAttack&& playerAnimationInf.landAnimationOver) StartJump(); 
         StatsCheckAndCost();
     }
 
@@ -322,9 +350,9 @@ public class PlayerController : MonoBehaviour
         characterController.Move(velocityByGravity * Time.deltaTime);
     }
 
-    private void Jump()
+    private void StartJump()
     {
-        anim.SetTrigger("Jump");
+        anim.SetTrigger(Jump);
         playerAnimationInf.landAnimationOver = false;
         velocityByGravity.y = Mathf.Sqrt(-2 * gravity * jumpHeight);
     }
@@ -413,7 +441,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(RotateForwardWithSpeed(toDirection, 5));
             weakEnemy.IsExecuted = true;
             GlobalEvent.CallEnemyExitWeakState(weakEnemy);
-            anim.SetTrigger("Execution");
+            anim.SetTrigger(Execution);
         }
         else
         {
@@ -423,7 +451,7 @@ public class PlayerController : MonoBehaviour
                 Vector3 toDirection = new Vector3(curLockedEnemy.transform.position.x - transform.position.x, transform.forward.y, curLockedEnemy.transform.position.z - transform.position.z);
                 StartCoroutine(RotateForwardWithSpeed(toDirection, 5));
             }
-            anim.SetTrigger("LAttack");
+            anim.SetTrigger(LAttack);
         }
     }
 
@@ -438,12 +466,12 @@ public class PlayerController : MonoBehaviour
             Vector3 toDirection = new Vector3(curLockedEnemy.transform.position.x - transform.position.x, transform.forward.y, curLockedEnemy.transform.position.z - transform.position.z);
             StartCoroutine(RotateForwardWithSpeed(toDirection, 5));
         }
-        anim.SetBool("RAttack Hold", true);
+        anim.SetBool(RAttackHold, true);
     }
 
     private void StopFocusAttack(InputAction.CallbackContext obj)
     {
-        anim.SetBool("RAttack Hold", false);
+        anim.SetBool(RAttackHold, false);
     }
 
     //第三人称切换锁定状态
@@ -485,7 +513,7 @@ public class PlayerController : MonoBehaviour
                 CurrentWeaponType = PlayerWeaponType.LightSword;
                 break;
         }
-        anim.SetTrigger("Change Weapon");
+        anim.SetTrigger(ChangeWeapon);
     }
 
     //进行格挡
@@ -511,7 +539,7 @@ public class PlayerController : MonoBehaviour
     private EnemyController SelectLockEnemy()
     {
        //return SelectEnemyCloseToPlayer(GameManager.Instance.enemies, float.MaxValue, Mathf.Acos(0f));;
-       return SelectEnemyCloseToMouse(GameManager.Instance.enemies, float.MaxValue, Mathf.Acos(0f));;
+       return SelectEnemyCloseToMouse(GameManager.Instance.enemies, float.MaxValue, Mathf.Acos(0f));
     }
 
     
@@ -522,12 +550,12 @@ public class PlayerController : MonoBehaviour
     }
 
     //在指定的集合中根据当前人物的朝向选择一个敌人
-    private EnemyController SelectEnemyCloseToPlayer(HashSet<EnemyController> enemiese, float minDistance,float faceingAngle)
+    private EnemyController SelectEnemyCloseToPlayer(HashSet<EnemyController> enemies, float minDistance,float facing)
     {
         //具体要求：距离小于某个值 + 角度为人物的前方   (根据角度选择最佳的目标) 
         EnemyController currentEnemy = null;
-        float minAngle = faceingAngle / Mathf.PI * 180;
-        foreach (var enemy in enemiese)
+        float minAngle = facing / Mathf.PI * 180;
+        foreach (var enemy in enemies)
         {
             if (Vector3.Distance(transform.position, enemy.transform.position) < minDistance)
             {
@@ -544,15 +572,15 @@ public class PlayerController : MonoBehaviour
         return currentEnemy;
     }
 
-    private EnemyController SelectEnemyCloseToMouse(HashSet<EnemyController> enemiese, float minDistance, float faceingAngle)
+    private EnemyController SelectEnemyCloseToMouse(HashSet<EnemyController> enemies, float minDistance, float facing)
     {
         //具体要求：距离小于某个值 + 角度为人物的前方   (根据角度选择最佳的目标) 
         EnemyController currentEnemy = null;
         //Vector3 screenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Vector3.Distance(Camera.main.transform.position, transform.position));
         //Vector3 startPos = Camera.main.ScreenToWorldPoint(screenPoint);
         Transform startTransform = Camera.main.transform;
-        float minAngle = faceingAngle / Mathf.PI * 180;
-        foreach (var enemy in enemiese)
+        float minAngle = facing / Mathf.PI * 180;
+        foreach (var enemy in enemies)
         {
             if (Vector3.Distance(transform.position, enemy.transform.position) < minDistance)
             {
@@ -597,10 +625,10 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 旋转人物面朝的方向
     /// </summary>
-    /// <param name="目标朝向"></param>
-    /// <param name="速度倍率"></param>
+    /// <param name="toRotation"></param>
+    /// <param name="multi"></param>
     /// <returns></returns>
-    IEnumerator RotateForwardWithSpeed(Vector3 toRotation,float multi)
+    private IEnumerator RotateForwardWithSpeed(Vector3 toRotation,float multi)
     {
         while (Vector3.Angle(transform.forward, toRotation) > 3f)
         {

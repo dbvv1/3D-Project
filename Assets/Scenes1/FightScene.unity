@@ -996,14 +996,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 217128000}
     m_Modifications:
-    - target: {fileID: 3940147469071569384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
-      propertyPath: id
-      value: 3d129f19-bddb-47dd-9542-96a7d1030d9c
-      objectReference: {fileID: 0}
-    - target: {fileID: 3940147469071569384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
-      propertyPath: persistentType
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4866219474034778765, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1047,6 +1039,10 @@ PrefabInstance:
     - target: {fileID: 6906903755440118384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
       propertyPath: m_Name
       value: Green Metalon
+      objectReference: {fileID: 0}
+    - target: {fileID: 6906903755440118384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2813,6 +2809,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 217128000}
     m_Modifications:
+    - target: {fileID: 3940147469071569384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
+      propertyPath: id
+      value: dd6816bd-f436-44b4-97e4-c1b31aae0039
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940147469071569384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
+      propertyPath: persistentType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4866219474034778765, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.52
@@ -2856,6 +2860,10 @@ PrefabInstance:
     - target: {fileID: 6906903755440118384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
       propertyPath: m_Name
       value: Green Metalon (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6906903755440118384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

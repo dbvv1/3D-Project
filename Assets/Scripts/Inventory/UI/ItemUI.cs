@@ -19,11 +19,10 @@ public class ItemUI : MonoBehaviour
     
     private async void LoadSprite()
     {
-        if (itemIcon.sprite == null)
-        {
-            var spriteAssetReference = new AssetReference(itemData.serializeSprite.spriteAddress);
-            itemIcon.sprite = await spriteAssetReference.LoadAssetAsync<Sprite>().Task;
-        }
+
+        var spriteAssetReference = new AssetReference(itemData.serializeSprite.spriteAddress);
+        itemIcon.sprite = await spriteAssetReference.LoadAssetAsync<Sprite>().Task;
+
     }
 
     public  void SetUpItemUI(ItemData_SO itemData, int amount)
@@ -33,6 +32,7 @@ public class ItemUI : MonoBehaviour
             Bag.items[Index].itemData = null;
             this.itemData = null;
             itemIcon.gameObject.SetActive(false);
+            itemIcon.sprite = null;
             return;
         }
 
@@ -52,6 +52,8 @@ public class ItemUI : MonoBehaviour
     #region 获取实际物品的接口
 
     public InventoryItem GetInventoryItem => Bag.items[Index];
+    
+    public int GetItemAmount => Bag.items[Index].itemAmount;
 
     public ItemData_SO GetItemData => Bag.items[Index].itemData;
 

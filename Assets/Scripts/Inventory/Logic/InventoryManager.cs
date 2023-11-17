@@ -36,6 +36,8 @@ public class InventoryManager : Singleton<InventoryManager>,ISavable
 
     [HideInInspector]public SlotHolder dragOriginalSlot;
 
+    private Dictionary<string, ItemData_SO> itemNameToItemData = new Dictionary<string, ItemData_SO>();
+
     public ContainerUI CurrentShowContainer { 
         get => currentShowContainer;
         set
@@ -53,7 +55,14 @@ public class InventoryManager : Singleton<InventoryManager>,ISavable
 
     private void Start()
     {
+        GameManager.Instance.gameConfig.InitItemDict(itemNameToItemData);
+        
         CurrentShowContainer = consumableContainer;
+        //对所有背包进行 清空+刷新  TODO:后续会做新的游戏 和 继续游戏 的逻辑
+        consumableInventory.ClearInventory();
+        equipmentsInventory.ClearInventory();
+        playerEquipmentInventory.ClearInventory();
+        actionInventory.ClearInventory();
         RefreshAllContainer();
     }
 
@@ -132,7 +141,7 @@ public class InventoryManager : Singleton<InventoryManager>,ISavable
 
     private void RefreshAllContainer()
     {
-        CurrentShowContainer.RefreshContainerUI();
+        consumableContainer.RefreshContainerUI();
         equipmentsContainer.RefreshContainerUI();
         actionContainer.RefreshContainerUI();
         playerEquipmentContainer.RefreshContainerUI();
@@ -147,19 +156,16 @@ public class InventoryManager : Singleton<InventoryManager>,ISavable
     public void SaveData(Data data)
     {
         //Save所有的背包
-        data.consumableInventory.SettingInventory(consumableInventory);
-        data.equipmentsInventory.SettingInventory(equipmentsInventory);
-        data.playerEquipmentInventory.SettingInventory(playerEquipmentInventory);
-        data.actionInventory .SettingInventory(actionInventory);
+        data.SaveAllInventory(consumableInventory, equipmentsInventory, playerEquipmentInventory, actionInventory);
     }
 
     public void LoadData(Data data)
     {
         //Load所有的背包
-        if(data.consumableInventory)consumableInventory.SettingInventory(data.consumableInventory);
-        if(data.equipmentsInventory)equipmentsInventory.SettingInventory(data.equipmentsInventory);
-        if(data.playerEquipmentInventory)playerEquipmentInventory.SettingInventory(data.playerEquipmentInventory);
-        if(data.actionInventory)actionInventory.SettingInventory(data.actionInventory);
+        consumableInventory.LoadInventory(data.consumableInventory);
+        equipmentsInventory.LoadInventory(data.equipmentsInventory);
+        playerEquipmentInventory.LoadInventory(data.playerEquipmentInventory);
+        actionInventory.LoadInventory(data.actionInventory);
         //刷新所有的背包
         RefreshAllContainer();
     }
@@ -167,4 +173,13 @@ public class InventoryManager : Singleton<InventoryManager>,ISavable
 
     #endregion
 
+    
+    public ItemData_SO GetItemByName(string name)
+    {
+        if (itemNameToItemData.ContainsKey(name))
+            return itemNameToItemData[name];
+        else
+            return null;
+    }
+    
 }

@@ -6,6 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Transition", menuName = "State Machine/Transition")]
 public class TransitionSO : ScriptableObject
 {
+    public bool isInit = false;
+    
     //转换的信息
     [Serializable]
     private class StateTransitionConfig 
@@ -23,13 +25,10 @@ public class TransitionSO : ScriptableObject
     //获取状态配置，即外部面板的手动配置信息
     [SerializeField] private List<StateTransitionConfig> configStateData = new List<StateTransitionConfig>();
 
-
-    private StateMachineSystem stateMachineSystem; //当前管理的状态机系统
-
-
-    public void Init(StateMachineSystem stateMachineSystem) 
+    
+    public void Init()
     {
-        this.stateMachineSystem = stateMachineSystem;
+        isInit = true;
         SaveAllStateTransitionInfo();
     }
     
@@ -59,7 +58,7 @@ public class TransitionSO : ScriptableObject
     /// <summary>
     /// 尝试去获取条件成立的新状态
     /// </summary>
-    public void TryGetApplyCondition() 
+    public void TryGetApplyCondition(StateMachineSystem stateMachineSystem) 
     {
         int transitionPriority = -1;
         StateActionSO toState = null;

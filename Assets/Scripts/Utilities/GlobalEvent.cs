@@ -63,6 +63,7 @@ public static class GlobalEvent
     {
         EnemyExitWeakState?.Invoke(enemy);
     }
+    
     #endregion
 
 
@@ -81,6 +82,46 @@ public static class GlobalEvent
     {
         LandAnimationOverEvent?.Invoke();
     }
+    
     #endregion
+
+    #region 物品使用造成的事件
+
+    public static UnityAction<float, float, float> UseRecoveryItemEvent;
+    
+    public static void CallUseRecoveryItemEvent(float health, float energy, float magic)
+    {
+        UseRecoveryItemEvent?.Invoke(health, energy, magic);
+    }
+
+    public static UnityAction<float, float, float> UseStatsIncreaseItemEvent;
+    
+    public static void CallUseStatsIncreaseItemEvent(float health, float energy, float magic)
+    {
+        UseStatsIncreaseItemEvent?.Invoke(health, energy, magic);
+    }
+
+    public static UnityAction<float> UseAttackIncreaseItemEvent;
+    
+    public static void CallUseAttackIncreaseItemEvent(float attack)
+    {
+        UseAttackIncreaseItemEvent?.Invoke(attack);
+    }
+
+    #endregion
+
+    public static UnityAction StopTheWorldEvent;
+
+    public static void CallStopTheWorldEvent()
+    {
+        StopTheWorldEvent?.Invoke();
+    }
+    
+    public static UnityAction ContinueTheWorldEvent;
+
+    public static void CallContinueTheWorldEvent()
+    {
+        ContinueTheWorldEvent?.Invoke();
+    }
 
 }

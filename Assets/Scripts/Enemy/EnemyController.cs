@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -26,15 +25,15 @@ public class EnemyController : MonoBehaviour
 
     public float rotateSpeed;
 
-    public float AttackDistanceNear { get => enemyData.attackDistanceNear; }
-    public float AttackDistanceFar { get => enemyData.attackDistanceFar; }
-    public float AttackStateDistance { get => enemyData.attackStateDistance; }
+    public float AttackDistanceNear => enemyData.attackDistanceNear;
+    public float AttackDistanceFar => enemyData.attackDistanceFar;
+    public float AttackStateDistance => enemyData.attackStateDistance;
 
     public float killExp;
 
-    [HideInInspector] public Vector3 orignalPosition;
+    [HideInInspector] public Vector3 originalPosition;
     [HideInInspector] public PlayerCharacterStats player;
-    [HideInInspector] public Vector3 partolTargetPos; //敌人巡逻时的目标点
+    [HideInInspector] public Vector3 patrolTargetPos; //敌人巡逻时的目标点
     
 
     [Header("检测参数")]
@@ -60,7 +59,7 @@ public class EnemyController : MonoBehaviour
         set
         {
             findPlayer = value;
-            anim.SetBool("FindPlayer", value);
+            anim.SetBool(Find, value);
         }
     }
 
@@ -71,15 +70,12 @@ public class EnemyController : MonoBehaviour
         set
         {
             isWait = value;
-            anim.SetBool("IsWait", value);
+            anim.SetBool(Wait, value);
         }
     }
 
     protected bool isHurt;
-    public bool IsHurt
-    {
-        get => anim.GetCurrentAnimatorStateInfo(animHurtLayer).IsTag("Hurt");
-    }
+    public bool IsHurt => anim.GetCurrentAnimatorStateInfo(animHurtLayer).IsTag("Hurt");
 
     protected bool isDead;
     public bool IsDead
@@ -90,15 +86,12 @@ public class EnemyController : MonoBehaviour
             isDead = value;
             FindPlayer = false;
             IsWait = true;
-            if (value) anim.SetTrigger("Death");
+            if (value) anim.SetTrigger(Death);
         }
     }
 
     protected bool isAttack;
-    public bool IsAttack
-    {
-        get => anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack");
-    }
+    public bool IsAttack => anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack");
 
     protected bool isGuard; //当前是否处于格挡状态
     public bool IsGuard
@@ -111,11 +104,17 @@ public class EnemyController : MonoBehaviour
     }
 
     protected bool isExecuted;
+    private static readonly int Find = Animator.StringToHash("FindPlayer");
+    private static readonly int Wait = Animator.StringToHash("IsWait");
+    private static readonly int Death = Animator.StringToHash("Death");
+    private static readonly int Executed = Animator.StringToHash("IsExecuted");
+    private static readonly int Hurt = Animator.StringToHash("Hurt");
+
     public bool IsExecuted { get => isExecuted;
         set
         {
             isExecuted = value;
-            if (anim != null) anim.SetBool("IsExecuted", value);
+            if (anim != null) anim.SetBool(Executed, value);
             if (value)
             {
                 GOPoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(4f,
@@ -145,7 +144,7 @@ public class EnemyController : MonoBehaviour
 
     private void OnEnable()
     {
-        orignalPosition = transform.position;
+        originalPosition = transform.position;
         GameManager.Instance.RegisterEnemy(this);
     }
 
@@ -167,7 +166,8 @@ public class EnemyController : MonoBehaviour
     //敌人的移动
     protected virtual void Move()
     {
-        if (Physics.Raycast(transform.position + transform.up * 0.5f + transform.forward * 2f, transform.forward.normalized, 2 * curSpeed * Time.deltaTime * transform.forward.normalized.magnitude, playerLayer | barrierLayer)) return;
+        if (Physics.Raycast(transform.position + transform.up * 0.5f + transform.forward * 2f, 
+                transform.forward.normalized, 4 * curSpeed * Time.deltaTime * transform.forward.normalized.magnitude, playerLayer | barrierLayer)) return;
         characterController.Move(curSpeed * Time.deltaTime * transform.forward.normalized);
     }
 
@@ -196,12 +196,12 @@ public class EnemyController : MonoBehaviour
             waitTime -= Time.deltaTime;
             yield return null;
         }
-        yield return RotateToTatgetPos(targetPos);
+        yield return RotateToTargetPos(targetPos);
         IsWait = false;
     }
 
     //使角色转向目标点的协程
-    private  IEnumerator RotateToTatgetPos(Vector3 targetPos)
+    private  IEnumerator RotateToTargetPos(Vector3 targetPos)
     {
         Quaternion toRotation = Quaternion.LookRotation(new Vector3(targetPos.x,transform.position.y,targetPos.z) - transform.position);
         while (Quaternion.Angle(transform.rotation, toRotation) > 1f)
@@ -220,14 +220,14 @@ public class EnemyController : MonoBehaviour
 
 
     //在给定圆内随机生成一个巡逻点
-    public Vector3 GetRandomPartolPoint()
+    public Vector3 GetRandomPatrolPoint()
     {
         float randomAngle = Random.value;
         float randomRadius = Random.value;
         randomRadius = Mathf.Sqrt(randomRadius); 
         randomAngle *= 2 * Mathf.PI;
         randomRadius *= patrolRadius;
-        return new Vector3(orignalPosition.x + randomRadius * Mathf.Cos(randomAngle), transform.position.y, orignalPosition.z + randomRadius * Mathf.Sin(randomAngle));
+        return new Vector3(originalPosition.x + randomRadius * Mathf.Cos(randomAngle), transform.position.y, originalPosition.z + randomRadius * Mathf.Sin(randomAngle));
     }
 
     //延迟取消被处决
@@ -240,7 +240,7 @@ public class EnemyController : MonoBehaviour
     public void OnHurt()
     {
         //IsHurt = true;
-        anim.SetTrigger("Hurt");
+        anim.SetTrigger(Hurt);
     }
 
     public void OnDeath()
@@ -272,7 +272,7 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawRay(transform.position + transform.up * 0.5f+transform.forward*2, transform.forward.normalized);
         //Gizmos.DrawWireSphere(transform.position, findPlayerRadius);
         //Gizmos.color = Color.blue;
-        //Gizmos.DrawWireSphere(orignalPosition, patrolRadius);
+        //Gizmos.DrawWireSphere(originalPosition, patrolRadius);
     }
 
 }

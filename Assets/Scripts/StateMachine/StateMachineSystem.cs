@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class StateMachineSystem : MonoBehaviour
 {
-    public TransitionSO tmpTransition;
-
-    private TransitionSO transition;
+    public TransitionSO transition;
 
     public StateActionSO currentState;
 
@@ -18,13 +16,13 @@ public class StateMachineSystem : MonoBehaviour
     private void Awake()
     {
         currentEnemy = GetComponent<EnemyController>();
-        transition = ScriptableObject.Instantiate(tmpTransition);
-        transition.Init(this);
+        
+        if(!transition.isInit)transition.Init();
     }
 
     private void Start()
     {
-        currentState?.OnEnter(this);
+        if(currentState!=null)currentState.OnEnter(this);
     }
 
     private void Update()
@@ -34,10 +32,10 @@ public class StateMachineSystem : MonoBehaviour
 
     private void StateMachineTick() 
     {
-        transition?.TryGetApplyCondition();//每一帧都去找是否有成立的条件
+        if(transition!=null)transition.TryGetApplyCondition(this);//每一帧都去找是否有成立的条件
         //TODO:当前默认为敌人的状态机，后续采用继承，继承出不同种类的状态机（敌人,NPC,友军）等等
         if (CanEnemyAction())
-            currentState?.OnUpdate(this);
+            if(currentState!=null)currentState.OnUpdate(this);
 
     }
 
