@@ -156,7 +156,10 @@ public class InventoryManager : Singleton<InventoryManager>,ISavable
     public void SaveData(Data data)
     {
         //Save所有的背包
-        data.SaveAllInventory(consumableInventory, equipmentsInventory, playerEquipmentInventory, actionInventory);
+        data.consumableInventory.SaveInventory(consumableInventory);
+        data.equipmentsInventory.SaveInventory(equipmentsInventory);
+        data.playerEquipmentInventory.SaveInventory(playerEquipmentInventory);
+        data.actionInventory.SaveInventory(actionInventory);
     }
 
     public void LoadData(Data data)
