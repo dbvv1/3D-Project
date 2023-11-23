@@ -55,7 +55,15 @@ public class Tooltip : MonoBehaviour
 
     public void SetItemText(ItemData_SO itemData)
     {
-        itemNameText.text = itemData.name;
-        itemDescriptionText.text = itemData.itemDescription;
+        if (itemData != null)
+        {
+            itemNameText.text = itemData.name;
+            itemDescriptionText.text = itemData.itemDescription;
+        }
+        else
+        {
+            itemNameText.text = string.Empty;
+            itemDescriptionText.text = string.Empty;
+        }
     }
 }

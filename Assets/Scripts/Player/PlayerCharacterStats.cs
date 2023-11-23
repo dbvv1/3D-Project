@@ -21,17 +21,17 @@ public class PlayerCharacterStats : CharacterStats
     protected override void OnEnable()
     {
         base.OnEnable();
-        GlobalEvent.UseRecoveryItemEvent += OnUseRecoveryItem;
-        GlobalEvent.UseStatsIncreaseItemEvent += OnUseStatsIncreaseItem;
-        GlobalEvent.UseAttackIncreaseItemEvent += OnUseAttackIncreaseItem;
+        GlobalEvent.useRecoveryItemEvent += OnUseRecoveryItem;
+        GlobalEvent.useStatsIncreaseItemEvent += OnUseStatsIncreaseItem;
+        GlobalEvent.useAttackIncreaseItemEvent += OnUseAttackIncreaseItem;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        GlobalEvent.UseRecoveryItemEvent -= OnUseRecoveryItem;
-        GlobalEvent.UseStatsIncreaseItemEvent -= OnUseStatsIncreaseItem;
-        GlobalEvent.UseAttackIncreaseItemEvent -= OnUseAttackIncreaseItem;
+        GlobalEvent.useRecoveryItemEvent -= OnUseRecoveryItem;
+        GlobalEvent.useStatsIncreaseItemEvent -= OnUseStatsIncreaseItem;
+        GlobalEvent.useAttackIncreaseItemEvent -= OnUseAttackIncreaseItem;
     }
 
 

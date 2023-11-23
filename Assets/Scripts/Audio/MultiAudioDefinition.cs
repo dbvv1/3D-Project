@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MultiAudioDefination : MonoBehaviour
 {
-    public string audioDiscription;
+    public string audioDescription;
 
     public List<AudioClip> clips;
 

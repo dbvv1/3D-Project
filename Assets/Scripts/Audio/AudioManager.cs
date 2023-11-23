@@ -11,13 +11,13 @@ public class AudioManager : Singleton<AudioManager>
 
     [SerializeField]private MultiAudioDefination characterHitAudio;
 
-    public void PlayGenralBGM(AudioClip clip)
+    public void PlayGeneralBGM(AudioClip clip)
     {
         BGMSource.clip = clip;
         BGMSource.Play();
     }
 
-    public void PlayGenralFX(AudioClip clip)
+    public void PlayGeneralFX(AudioClip clip)
     {
         FXSource.clip = clip;
         FXSource.Play();

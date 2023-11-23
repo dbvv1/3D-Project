@@ -23,7 +23,7 @@ public class LootSpawner : MonoBehaviour
 
     public void SpawnLoot()
     {
-
+        //TODO ²ÉÓÃÂÖÅÌ¶ÄËã·¨
         foreach(var item in  lootItems)
         {
             float value = Random.value;

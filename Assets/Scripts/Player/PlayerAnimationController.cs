@@ -123,14 +123,14 @@ public class PlayerAnimationController : MonoBehaviour
     private void OnEnable()
     {
         anim.SetBool(IsLightSword, true);
-        GlobalEvent.RollAnimationOverEvent += OnAfterRollAnimationOverEvent;
-        GlobalEvent.LandAnimationOverEvent += OnAfterLandAnimationOverEvent;
+        GlobalEvent.rollAnimationOverEvent += OnAfterRollAnimationOverEvent;
+        GlobalEvent.landAnimationOverEvent += OnAfterLandAnimationOverEvent;
     }
 
     private void OnDisable()
     {
-        GlobalEvent.RollAnimationOverEvent -= OnAfterRollAnimationOverEvent;
-        GlobalEvent.LandAnimationOverEvent -= OnAfterLandAnimationOverEvent;
+        GlobalEvent.rollAnimationOverEvent -= OnAfterRollAnimationOverEvent;
+        GlobalEvent.landAnimationOverEvent -= OnAfterLandAnimationOverEvent;
     }
 
     public bool IsPerfectParry()
@@ -229,7 +229,7 @@ public class PlayerAnimationController : MonoBehaviour
     {
         while (true)
         {
-            if (!physicalCheck.haveBarrierInMoveDirectino(transform.position+transform.up*0.5f, transform.forward, transform.forward.normalized.magnitude * speed * 2.5f * Time.deltaTime))
+            if (!physicalCheck.HaveBarrierInMoveDirection(transform.position+transform.up*0.5f, transform.forward, transform.forward.normalized.magnitude * speed * 2.5f * Time.deltaTime))
             {
                 playerController.characterController.Move(transform.forward.normalized * (speed * Time.deltaTime));
             }

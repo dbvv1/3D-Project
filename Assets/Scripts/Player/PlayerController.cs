@@ -165,24 +165,28 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         inputActions.Enable();
-        GlobalEvent.SwitchToFirstPersonEvent += OnSwitchToFirstPerson;
-        GlobalEvent.EnemyDeathEvent += OnEnemyDeath;
-        GlobalEvent.AfterSceneLoadEvent += OnAfterSceneLoad;
-        GlobalEvent.BeforeSceneLoadEvent += OnBeforeSceneLoad;
-        GlobalEvent.StopTheWorldEvent += DisablePlayerInput;
-        GlobalEvent.ContinueTheWorldEvent += EnablePlayerInput;
-        
+        GlobalEvent.switchToFirstPersonEvent += OnSwitchToFirstPerson;
+        GlobalEvent.enemyDeathEvent += OnEnemyDeath;
+        GlobalEvent.afterSceneLoadEvent += OnAfterSceneLoad;
+        GlobalEvent.beforeSceneLoadEvent += OnBeforeSceneLoad;
+        GlobalEvent.stopTheWorldEvent += StopTheGame;
+        GlobalEvent.continueTheWorldEvent += ContinueTheGame;
+        GlobalEvent.onEnterDialogue += DisablePlayerGamePlayInput;
+        GlobalEvent.onExitDialogue += EnablePlayerGamePlayInput;
+
     }
     
     private void OnDisable()
     {
         inputActions.Disable();
-        GlobalEvent.SwitchToFirstPersonEvent -= OnSwitchToFirstPerson;
-        GlobalEvent.EnemyDeathEvent -= OnEnemyDeath;
-        GlobalEvent.AfterSceneLoadEvent -= OnAfterSceneLoad;
-        GlobalEvent.BeforeSceneLoadEvent -= OnBeforeSceneLoad;
-        GlobalEvent.StopTheWorldEvent -= DisablePlayerInput;
-        GlobalEvent.ContinueTheWorldEvent -= EnablePlayerInput;
+        GlobalEvent.switchToFirstPersonEvent -= OnSwitchToFirstPerson;
+        GlobalEvent.enemyDeathEvent -= OnEnemyDeath;
+        GlobalEvent.afterSceneLoadEvent -= OnAfterSceneLoad;
+        GlobalEvent.beforeSceneLoadEvent -= OnBeforeSceneLoad;
+        GlobalEvent.stopTheWorldEvent -= StopTheGame;
+        GlobalEvent.continueTheWorldEvent -= ContinueTheGame;
+        GlobalEvent.onEnterDialogue -= DisablePlayerGamePlayInput;
+        GlobalEvent.onExitDialogue -= EnablePlayerGamePlayInput;
     }
 
     #region  全局事件函数
@@ -204,31 +208,51 @@ public class PlayerController : MonoBehaviour
 
     private void OnBeforeSceneLoad()
     {
-        playerAnimationInf.IsWalk = false;
-        playerAnimationInf.IsRun = false;
-        anim.SetBool(RAttackHold, false);
+        InitPlayer();
         isLoading = true;
-        inputActions.GamePlay.Move.Dispose();
-        inputActions.GamePlay.Run.Dispose();
-        inputActions.GamePlay.RAttack.Dispose();
         inputActions.Disable();
         
     }
 
-    private void DisablePlayerInput()
+    private void StopTheGame()
     {
         inputActions.GamePlay.Jump.Disable();
         inputActions.GamePlay.LAttack.Disable();
         inputActions.GamePlay.RAttack.Disable();
         inputActions.GamePlay.Roll.Disable();
+        inputActions.GamePlay.Parry.Disable();
     }
 
-    private void EnablePlayerInput()
+    private void ContinueTheGame()
     {
         inputActions.GamePlay.Jump.Enable();
         inputActions.GamePlay.LAttack.Enable();
         inputActions.GamePlay.RAttack.Enable();
         inputActions.GamePlay.Roll.Enable();
+        inputActions.GamePlay.Parry.Enable();
+    }
+
+    private void DisablePlayerGamePlayInput()
+    {
+        InitPlayer();
+        inputActions.GamePlay.Disable();
+    }
+    
+    private void EnablePlayerGamePlayInput()
+    {
+        playerAnimationInf.IsGuard = false;
+        inputActions.GamePlay.Enable();
+    }
+
+    //重置Player的所有状态
+    private void InitPlayer()
+    {
+        playerAnimationInf.IsWalk = false;
+        playerAnimationInf.IsRun = false;
+        anim.SetBool(RAttackHold, false);
+        inputActions.GamePlay.Move.Dispose();
+        inputActions.GamePlay.Run.Dispose();
+        inputActions.GamePlay.RAttack.Dispose();
     }
     
 
@@ -286,7 +310,7 @@ public class PlayerController : MonoBehaviour
     {
         if (playerAnimationInf.IsWalk == false) return;
         //人物的实际移动:始终朝着面朝的方向进行移动
-        if (physicalCheck.haveBarrierInMoveDirectino(transform.position + transform.up * 0.5f, transform.forward, moveDirection.normalized.magnitude * curSpeed * Time.deltaTime * 2)) return;
+        if (physicalCheck.HaveBarrierInMoveDirection(transform.position + transform.up * 0.5f, transform.forward, moveDirection.normalized.magnitude * curSpeed * Time.deltaTime * 2)) return;
         characterController.Move(transform.forward.normalized * curSpeed * Time.deltaTime);
     }
 
@@ -297,7 +321,7 @@ public class PlayerController : MonoBehaviour
         //人物的实际移动：同时根据人物的朝向 和 人物的WASD输入
         moveDirection = transform.forward * inputDirection.y + transform.right * inputDirection.x;
         moveDirection.y = 0;
-        if (physicalCheck.haveBarrierInMoveDirectino(transform.position + transform.up * 0.5f, moveDirection, moveDirection.normalized.magnitude * curSpeed * Time.deltaTime * 2)) return;
+        if (physicalCheck.HaveBarrierInMoveDirection(transform.position + transform.up * 0.5f, moveDirection, moveDirection.normalized.magnitude * curSpeed * Time.deltaTime * 2)) return;
         characterController.Move(moveDirection.normalized * curSpeed * Time.deltaTime);
     }
 
@@ -332,7 +356,7 @@ public class PlayerController : MonoBehaviour
         //如果移动方向有阻碍物：障碍，敌人等 返回
         if (playerAnimationInf.IsWalk == false) return;
         moveDirection = faceDirection.forward * inputDirection.y + faceDirection.right * inputDirection.x;
-        if (physicalCheck.haveBarrierInMoveDirectino(transform.position + transform.up * 0.5f, moveDirection, moveDirection.normalized.magnitude * curSpeed * Time.deltaTime * 2)) return;
+        if (physicalCheck.HaveBarrierInMoveDirection(transform.position + transform.up * 0.5f, moveDirection, moveDirection.normalized.magnitude * curSpeed * Time.deltaTime * 2)) return;
         characterController.Move(moveDirection.normalized * curSpeed * Time.deltaTime);
     }
 

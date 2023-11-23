@@ -32,13 +32,13 @@ public class FirstPersonCamera : MonoBehaviour
     private void OnEnable()
     {
         mouseInput.Enable();
-        GlobalEvent.SwitchToFirstPersonEvent += OnSwitchToFirstPerson;
+        GlobalEvent.switchToFirstPersonEvent += OnSwitchToFirstPerson;
     }
 
     private void OnDisable()
     {
         mouseInput.Disable();
-        GlobalEvent.SwitchToFirstPersonEvent -= OnSwitchToFirstPerson;
+        GlobalEvent.switchToFirstPersonEvent -= OnSwitchToFirstPerson;
     }
 
     private void OnSwitchToFirstPerson()

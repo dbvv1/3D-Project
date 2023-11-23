@@ -19,11 +19,11 @@ public class DialogueUIManager : Singleton<DialogueUIManager>
     
     [SerializeField] private OptionUI optionPrefab;
 
-    public bool IsTalking { get; set; }
+    public bool IsTalking { get; set; }  //当前是否正在对话
 
     private DialogueData_SO currentDialogueData;
 
-    private int currentIndex = 0;
+    private int currentIndex;        //当前对话进行到的pieces中的位置
 
     protected override void Awake()
     {
@@ -48,20 +48,23 @@ public class DialogueUIManager : Singleton<DialogueUIManager>
         IsTalking = true;
         dialoguePanel.SetActive(true);
         UpdateMainDialogue(currentDialogueData.dialoguePieces[0]);
+        GlobalEvent.CallOnEnterDialogue();
     }
 
     public void CloseDialogue()
     {
         currentDialogueData = null;
         currentIndex = 0;
-        IsTalking = false;
         dialoguePanel.SetActive(false);
+        //由于开启对话和结束对话有可能是一个按键 有可能会在结束对话的瞬间后开启对话 因此设置一个协程的延迟调用(延迟一帧即可)
+        StartCoroutine(SetIsTalking(false));
+        GlobalEvent.CallOnExitDialogue();
     }
 
     //返回指定名字对话所在DialogueData中的下标
-    public int GetDialoguePiecesByName(string name)
+    public int GetDialoguePiecesByName(string pieceID)
     {
-        return currentDialogueData.stringToDialoguePiece[name];
+        return currentDialogueData.stringToDialoguePiece[pieceID];
     }
 
     public void UpdateMainDialogue(DialoguePiece dialoguePiece)
@@ -75,15 +78,11 @@ public class DialogueUIManager : Singleton<DialogueUIManager>
         else dialogueIcon.enabled = false;
 
         //更新文本内容
-        var t = DOTween.To(() => string.Empty, value => dialogueText.text = value, dialoguePiece.text, 1f)
-                .SetEase(Ease.Linear);
-
+        //dialogueText.text = dialoguePiece.text;
+        var t = DOTween.To(() => string.Empty, value => dialogueText.text = value, dialoguePiece.text, 1f).SetEase(Ease.Linear);
+        t.SetOptions(true);
         //处理NextButton(只有当没有选项时才选择有NextButton)
-        if (dialoguePiece.options.Count == 0)
-        {
-            nextButton.gameObject.SetActive(true);
-        }
-        else nextButton.gameObject.SetActive(false);
+        nextButton.gameObject.SetActive(dialoguePiece.options.Count == 0);
 
         currentIndex = currentDialogueData.stringToDialoguePiece[dialoguePiece.ID] + 1;
 
@@ -91,15 +90,15 @@ public class DialogueUIManager : Singleton<DialogueUIManager>
         CreateOptions(dialoguePiece);
     }
 
-    private void CreateOptions(DialoguePiece dialogPieces)
+    private void CreateOptions(DialoguePiece dialoguePiece)
     {
         //先销毁原有的Option 后创建新的Option
         foreach (Transform child in optionPanel) Destroy(child.gameObject);
 
-        foreach (var option in dialogPieces.options)
+        foreach (var option in dialoguePiece.options)
         {
             var optionUI = Instantiate(optionPrefab, optionPanel);
-            optionUI.SettingOption(currentDialogueData, option);
+            optionUI.SettingOption(currentDialogueData, dialoguePiece, option);
         }
         
     }
@@ -110,5 +109,11 @@ public class DialogueUIManager : Singleton<DialogueUIManager>
             UpdateMainDialogue(currentDialogueData.dialoguePieces[currentIndex]);
         else
             CloseDialogue();
+    }
+
+    private IEnumerator SetIsTalking(bool value)
+    {
+        yield return null;
+        IsTalking = value;
     }
 }

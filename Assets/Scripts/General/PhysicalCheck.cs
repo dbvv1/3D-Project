@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.Image;
+
 
 //角色的物理检测相关
 public class PhysicalCheck : MonoBehaviour
@@ -15,7 +15,7 @@ public class PhysicalCheck : MonoBehaviour
         set
         {
             isOnGround = value;
-            anim.SetBool("IsOnGround", value);
+            anim.SetBool(OnGround, value);
         }
     }
 
@@ -26,9 +26,10 @@ public class PhysicalCheck : MonoBehaviour
 
     public LayerMask enemyLayer;
 
-    public Vector3 buttomOffset;
+    public Vector3 bottomOffset;
 
     public float groundCheckRadius;
+    private static readonly int OnGround = Animator.StringToHash("IsOnGround");
 
 
     private void Awake()
@@ -43,7 +44,7 @@ public class PhysicalCheck : MonoBehaviour
     }
 
     //判断角色前方是否有阻挡
-    public bool haveBarrierInMoveDirectino(Vector3 origin,Vector3 direction,float distance)
+    public bool HaveBarrierInMoveDirection(Vector3 origin,Vector3 direction,float distance)
     {
         return Physics.Raycast(origin, direction, distance, enemyLayer) || Physics.Raycast(origin, direction, distance, barrierLayer);
     }

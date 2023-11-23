@@ -230,13 +230,7 @@ public class CharacterStats : MonoBehaviour, ISavable
         set => invincibleAfterHit = value;
     }
 
-    private bool invincibleWhenExecution; //当执行处决的时候角色无敌
-
-    protected bool InvincibleWhenExecution
-    {
-        get => invincibleWhenExecution;
-        set => invincibleWhenExecution = value;
-    }
+    protected bool InvincibleWhenExecution { get; set; }
 
     protected float invincibleAfterHitTimeCounter;
 
@@ -259,11 +253,12 @@ public class CharacterStats : MonoBehaviour, ISavable
         set
         {
             isWeakState = value;
-            if (anim != null) anim.SetBool("IsWeak", value);
+            if (anim != null) anim.SetBool(IsWeak, value);
         }
     }
 
     protected bool IsExecuted; //是否正在被处决
+    private static readonly int IsWeak = Animator.StringToHash("IsWeak");
 
 
     protected virtual void Awake()

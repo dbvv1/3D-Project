@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class DialogueOption
@@ -9,5 +10,5 @@ public class DialogueOption
 
     public string targetID;
 
-    public bool takeQuest;
+    [FormerlySerializedAs("takeQuest")] public bool takeTask;
 }

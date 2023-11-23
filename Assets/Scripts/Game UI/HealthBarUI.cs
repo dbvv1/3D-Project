@@ -9,7 +9,7 @@ public class HealthBarUI : MonoBehaviour
     [SerializeField] private GameObject healthUIBarPrefab;
 
     [SerializeField] private Transform healthBarPoint;
-    
+
     private Canvas worldCanvas;
 
     [SerializeField] public bool alwaysVisible;
@@ -36,25 +36,26 @@ public class HealthBarUI : MonoBehaviour
 
     private void OnDisable()
     {
-        if(UIBar!=null)
-        Destroy(UIBar.gameObject);
+        if (UIBar != null)
+            Destroy(UIBar.gameObject);
     }
 
-    public void UpdateHealthBar(float curHealth,float maxHealth)
+    public void UpdateHealthBar(float curHealth, float maxHealth)
     {
-        if(curHealth<=0)
+        if (curHealth <= 0)
         {
             if (UIBar != null)
                 Destroy(UIBar.gameObject);
         }
+
         healthSliderImage.fillAmount = curHealth / maxHealth;
         if (UIBar != null) UIBar.gameObject.SetActive(true);
-        if(!alwaysVisible)
+        if (!alwaysVisible)
         {
             //¿ªÆô¼ÆÊ±Æ÷
             showTimeCounter = showTime;
             StopAllCoroutines();
-            StartCoroutine(UpdataShowTime());
+            StartCoroutine(UpdateShowTime());
         }
     }
 
@@ -67,14 +68,14 @@ public class HealthBarUI : MonoBehaviour
         }
     }
 
-    private IEnumerator UpdataShowTime()
+    private IEnumerator UpdateShowTime()
     {
-        while(showTimeCounter>=0)
+        while (showTimeCounter >= 0)
         {
             showTimeCounter -= Time.deltaTime;
             yield return null;
         }
+
         UIBar.gameObject.SetActive(false);
     }
-
 }

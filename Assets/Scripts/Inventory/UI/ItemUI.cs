@@ -49,13 +49,14 @@ public class ItemUI : MonoBehaviour
         }
     }
 
-    #region 获取实际物品的接口
+    #region 获取实际物品的接口（从背包数据库中获取）
 
     public InventoryItem GetInventoryItem => Bag.items[Index];
     
     public int GetItemAmount => Bag.items[Index].itemAmount;
-
-    public ItemData_SO GetItemData => Bag.items[Index].itemData;
+    
+    //public ItemData_SO GetItemData => Bag.items[Index].itemData;
+    public ItemData_SO GetItemData => itemData;
 
     #endregion
 

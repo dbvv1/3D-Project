@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EnemyPointUI : MonoBehaviour
 {
     [SerializeField] private GameObject executedPointPrefab;
 
-    [SerializeField] private Image FocusPointImage;
+    [SerializeField] private Image focusPointImage;
 
     [SerializeField] private Transform pointParent;
 
@@ -17,28 +18,28 @@ public class EnemyPointUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GlobalEvent.EnemyEnterWeakState += CreateExecutedPoints;
-        GlobalEvent.EnemyExitWeakState += DeleteExecutedPoints;
+        GlobalEvent.enemyEnterWeakState += CreateExecutedPoints;
+        GlobalEvent.enemyExitWeakState += DeleteExecutedPoints;
 
-        GlobalEvent.EnterFocusOnEnemy += OnEnterFocusOnEnemy;
-        GlobalEvent.ExitFocusOnEnemy += OnExitFocusOnEnemy;
+        GlobalEvent.enterFocusOnEnemy += OnEnterFocusOnEnemy;
+        GlobalEvent.exitFocusOnEnemy += OnExitFocusOnEnemy;
 
     }
 
     private void OnDisable()
     {
-        GlobalEvent.EnemyEnterWeakState -= CreateExecutedPoints;
-        GlobalEvent.EnemyExitWeakState -= DeleteExecutedPoints;
+        GlobalEvent.enemyEnterWeakState -= CreateExecutedPoints;
+        GlobalEvent.enemyExitWeakState -= DeleteExecutedPoints;
 
-        GlobalEvent.EnterFocusOnEnemy -= OnEnterFocusOnEnemy;
-        GlobalEvent.ExitFocusOnEnemy -= OnExitFocusOnEnemy;
+        GlobalEvent.enterFocusOnEnemy -= OnEnterFocusOnEnemy;
+        GlobalEvent.exitFocusOnEnemy -= OnExitFocusOnEnemy;
     }
 
     private void LateUpdate()
     {
         if (currentLockedEnemy != null)
         {
-            FocusPointImage.transform.position = Camera.main.WorldToScreenPoint(currentLockedEnemy.transform.position);
+            focusPointImage.transform.position = Camera.main.WorldToScreenPoint(currentLockedEnemy.transform.position);
         }
         foreach(var redPoint in executedPoints)
         {
@@ -50,15 +51,15 @@ public class EnemyPointUI : MonoBehaviour
     public void OnEnterFocusOnEnemy(EnemyController enemy)
     {
         currentLockedEnemy = enemy;
-        FocusPointImage.transform.position = Camera.main.WorldToScreenPoint(currentLockedEnemy.transform.position);
-        FocusPointImage.gameObject.SetActive(true);
+        focusPointImage.transform.position = Camera.main.WorldToScreenPoint(currentLockedEnemy.transform.position);
+        focusPointImage.gameObject.SetActive(true);
     }
 
     //取消锁定的事件
     public void OnExitFocusOnEnemy()
     {
         currentLockedEnemy = null;
-        FocusPointImage.gameObject.SetActive(false);
+        focusPointImage.gameObject.SetActive(false);
     }
 
     //生成处决的points

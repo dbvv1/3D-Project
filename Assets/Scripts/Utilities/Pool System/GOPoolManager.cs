@@ -20,11 +20,6 @@ public class GOPoolManager : Singleton<GOPoolManager>
         InitPool();
     }
 
-    private void Start()
-    {
-
-    }
-
     private void InitPool()
     {
         if (assetsList.Count == 0) return;
@@ -42,12 +37,11 @@ public class GOPoolManager : Singleton<GOPoolManager>
                 //创建完毕后，遍历这个对象的总数，比如总算5，那么就创建5个，然后存进字典
                 for (int j = 0; j < assetsList[i].count; j++)
                 {
-                    GameObject temp_Gameobject = Instantiate(assetsList[i].prefab[Random.Range(0, assetsList[i].prefab.Length)]);
-                    temp_Gameobject.transform.SetParent(poolObjectParent);
-                    temp_Gameobject.transform.position = Vector3.zero;
-                    temp_Gameobject.transform.rotation = Quaternion.identity;
-                    pools[assetsList[i].assetsName].Enqueue(temp_Gameobject);
-                    temp_Gameobject.SetActive(false);
+                    GameObject tempGameObject = Instantiate(assetsList[i].prefab[Random.Range(0, assetsList[i].prefab.Length)], poolObjectParent, true);
+                    tempGameObject.transform.position = Vector3.zero;
+                    tempGameObject.transform.rotation = Quaternion.identity;
+                    pools[assetsList[i].assetsName].Enqueue(tempGameObject);
+                    tempGameObject.SetActive(false);
                 }
             }
         }
@@ -67,7 +61,7 @@ public class GOPoolManager : Singleton<GOPoolManager>
     }
 
     //立即设置其位置和旋转，然后调用其SpawnObject方法。因为这个方法已经对获取的对象进行了操作，所以它不需要返回这个对象。
-    public void TakeGameobject(string objectName, Vector3 position, Quaternion rotation)
+    public void TakeGameObject(string objectName, Vector3 position, Quaternion rotation)
     {
         if (!pools.ContainsKey(objectName)) return;
 
@@ -82,7 +76,7 @@ public class GOPoolManager : Singleton<GOPoolManager>
     }
 
     //立即设置其位置、旋转和用户，然后调用其SpawnObject方法。同样，因为这个方法已经对获取的对象进行了操作.
-    public void TakeGameobject(string objectName, Vector3 position, Quaternion rotation, Transform user)
+    public void TakeGameObject(string objectName, Vector3 position, Quaternion rotation, Transform user)
     {
         if (!pools.ContainsKey(objectName)) return;
 
@@ -108,10 +102,9 @@ public class GOPoolManager : Singleton<GOPoolManager>
     //在对象池中已经没有该种类的对象的时候， 根据对象名 Instantiate 出一个新的对象并且分配使用 实现动态扩容
     private void ExpansionPoolCapacity(string objectName)
     {
-        GameObject newGO = Instantiate(nameToPrefab[objectName][Random.Range(0, nameToPrefab[objectName].Length)]);
-        newGO.transform.SetParent(poolObjectParent);
-        newGO.SetActive(false);
-        pools[objectName].Enqueue(newGO);
+        GameObject newGo = Instantiate(nameToPrefab[objectName][Random.Range(0, nameToPrefab[objectName].Length)], poolObjectParent, true);
+        newGo.SetActive(false);
+        pools[objectName].Enqueue(newGo);
     }
 
 

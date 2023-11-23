@@ -12,4 +12,6 @@ public class DialoguePiece
     public string text;
 
     public List<DialogueOption> options = new List<DialogueOption>();
+
+    public TaskData_SO taskData;
 }

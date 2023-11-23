@@ -11,7 +11,6 @@ public class DialogueController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("CanTalk"+" " +canTalk);
         if (canTalk && Input.GetKeyDown(KeyCode.E) && !DialogueUIManager.Instance.IsTalking) 
         {
             //进入对话

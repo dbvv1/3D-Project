@@ -2,11 +2,13 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Dialogue/DialogueUIManager.cs" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Inventory/Logic/InventoryData_SO.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Inventory/UI/ItemUI.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Managers/GameManager.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerCharacterStats.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Save Load/DataManager.cs" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Task/TaskManager.cs" charset="GBK" />
     <file url="PROJECT" charset="GBK" />
   </component>
 </project>

@@ -23,14 +23,14 @@ public class GameManager : Singleton<GameManager>
 
     private void OnEnable()
     {
-        GlobalEvent.StopTheWorldEvent += StopTheGame;
-        GlobalEvent.ContinueTheWorldEvent += ContinueTheGame;
+        GlobalEvent.stopTheWorldEvent += StopTheGame;
+        GlobalEvent.continueTheWorldEvent += ContinueTheGame;
     }
 
     private void OnDisable()
     {
-        GlobalEvent.StopTheWorldEvent -= StopTheGame;
-        GlobalEvent.ContinueTheWorldEvent -= ContinueTheGame;
+        GlobalEvent.stopTheWorldEvent -= StopTheGame;
+        GlobalEvent.continueTheWorldEvent -= ContinueTheGame;
     }
 
     private void StopTheGame()

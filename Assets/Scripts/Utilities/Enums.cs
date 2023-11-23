@@ -82,3 +82,11 @@ public enum SceneType
     Location,
     Menu
 }
+
+public enum TaskStateType
+{
+    NotStarted,
+    Started,
+    Completed,
+    Finished
+}

@@ -16,15 +16,15 @@ public class SingleAudioDefinition : MonoBehaviour
     {
         if(playOnEnable)
         {
-            if (isBgm) AudioManager.Instance.PlayGenralBGM(clip);
-            else AudioManager.Instance.PlayGenralFX(clip);
+            if (isBgm) AudioManager.Instance.PlayGeneralBGM(clip);
+            else AudioManager.Instance.PlayGeneralFX(clip);
         }
     }
 
     public void PlayClip()
     {
-        if (isBgm) AudioManager.Instance.PlayGenralBGM(clip);
-        else AudioManager.Instance.PlayGenralFX(clip);
+        if (isBgm) AudioManager.Instance.PlayGeneralBGM(clip);
+        else AudioManager.Instance.PlayGeneralFX(clip);
     }
 
 }

@@ -42,6 +42,7 @@ public class UIManager : Singleton<UIManager>
                 InventoryManager.Instance.itemTooltip.gameObject.SetActive(false);
             }
             //更改之前的面板
+            if(currentPanel!=PanelType.Inventory) characterStatsPanel.SetActive(false);
             switch (currentPanel)
             {
                 case PanelType.None:
@@ -65,6 +66,7 @@ public class UIManager : Singleton<UIManager>
                     break;
                 case PanelType.Inventory:
                     inventoryPanel.SetActive(true);
+                    characterStatsPanel.SetActive(true);
                     break;
                 case PanelType.Skill:
                     skillPanel.SetActive(true);
