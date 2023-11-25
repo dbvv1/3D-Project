@@ -16,7 +16,8 @@ public class DialogueData_SO : ScriptableObject
         stringToDialoguePiece.Clear();
         for (int i = 0; i < dialoguePieces.Count; i++)
         {
-            stringToDialoguePiece.Add(dialoguePieces[i].ID, i);
+            if (!stringToDialoguePiece.ContainsKey(dialoguePieces[i].ID))
+                stringToDialoguePiece.Add(dialoguePieces[i].ID, i);
         }
 
     }

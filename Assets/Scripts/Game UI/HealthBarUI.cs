@@ -24,7 +24,7 @@ public class HealthBarUI : MonoBehaviour
 
     private void Awake()
     {
-        worldCanvas = UIManager.Instance.EnemyHealthBarCanvas;
+        worldCanvas = UIManager.Instance.enemyHealthBarCanvas;
     }
 
     private void OnEnable()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public abstract class EnemyController : MonoBehaviour
 {
     [Header("引用")]
     [HideInInspector] public Animator anim;
@@ -24,6 +24,8 @@ public class EnemyController : MonoBehaviour
     public float chaseSpeed;
 
     public float rotateSpeed;
+
+    protected string enemyTypeName;
 
     public float AttackDistanceNear => enemyData.attackDistanceNear;
     public float AttackDistanceFar => enemyData.attackDistanceFar;
@@ -127,6 +129,7 @@ public class EnemyController : MonoBehaviour
 
     protected virtual void Awake()
     {
+        SettingEnemyName();
         enemyCharacterStats = GetComponent<EnemyCharacterStats>();
         anim = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
@@ -151,6 +154,7 @@ public class EnemyController : MonoBehaviour
     private void OnDisable()
     {
         GameManager.Instance.UnRegisterEnemy(this);
+        TaskManager.Instance.UpdateTaskProgress(enemyTypeName, 1);
     }
 
 
@@ -162,6 +166,9 @@ public class EnemyController : MonoBehaviour
         if (!isDead && !IsWait && !IsHurt && !IsExecuted)  
             Move();
     }
+    
+    //设置敌人类型的名字
+    protected abstract void SettingEnemyName();
 
     //敌人的移动
     protected virtual void Move()

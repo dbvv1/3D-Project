@@ -11,6 +11,8 @@ public class EnemyPointUI : MonoBehaviour
     [SerializeField] private Image focusPointImage;
 
     [SerializeField] private Transform pointParent;
+    
+    [SerializeField] private Camera mainCamera;
 
     private Dictionary<EnemyController, GameObject> executedPoints = new();
 
@@ -39,11 +41,12 @@ public class EnemyPointUI : MonoBehaviour
     {
         if (currentLockedEnemy != null)
         {
-            focusPointImage.transform.position = Camera.main.WorldToScreenPoint(currentLockedEnemy.transform.position);
+            focusPointImage.transform.position =
+                mainCamera.WorldToScreenPoint(currentLockedEnemy.transform.position + transform.up * 0.5f);
         }
         foreach(var redPoint in executedPoints)
         {
-            redPoint.Value.transform.position = Camera.main.WorldToScreenPoint(redPoint.Key.transform.position);
+            redPoint.Value.transform.position = mainCamera.WorldToScreenPoint(redPoint.Key.transform.position);
         }
     }
 
@@ -51,7 +54,8 @@ public class EnemyPointUI : MonoBehaviour
     public void OnEnterFocusOnEnemy(EnemyController enemy)
     {
         currentLockedEnemy = enemy;
-        focusPointImage.transform.position = Camera.main.WorldToScreenPoint(currentLockedEnemy.transform.position);
+        focusPointImage.transform.position =
+            mainCamera.WorldToScreenPoint(currentLockedEnemy.transform.position + transform.up * 0.5f);
         focusPointImage.gameObject.SetActive(true);
     }
 
@@ -69,7 +73,7 @@ public class EnemyPointUI : MonoBehaviour
         if(!executedPoints.ContainsKey(enemy))
         {
             executedPoints.Add(enemy, Instantiate(executedPointPrefab, pointParent));
-            executedPoints[enemy].transform.position = Camera.main.WorldToScreenPoint(enemy.transform.position);
+            executedPoints[enemy].transform.position = mainCamera.WorldToScreenPoint(enemy.transform.position);
         }
     }
 

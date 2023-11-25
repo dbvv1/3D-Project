@@ -9,6 +9,6 @@ public class DialogueOption
     public string text;
 
     public string targetID;
-
-    [FormerlySerializedAs("takeQuest")] public bool takeTask;
+    
+    public bool takeTask;
 }

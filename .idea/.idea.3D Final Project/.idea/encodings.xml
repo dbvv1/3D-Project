@@ -9,6 +9,7 @@
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Player/PlayerController.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Save Load/DataManager.cs" charset="GBK" />
     <file url="file://$PROJECT_DIR$/Assets/Scripts/Task/TaskManager.cs" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/Assets/Scripts/Task/TaskUIManager.cs" charset="GBK" />
     <file url="PROJECT" charset="GBK" />
   </component>
 </project>

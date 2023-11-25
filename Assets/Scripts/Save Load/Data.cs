@@ -19,9 +19,10 @@ public class Data
 
     public InventoryData_SO actionInventory = ScriptableObject.CreateInstance<InventoryData_SO>();
     
-
     #endregion
 
+    public List<TaskData_SO> tasks;
+    
     /*public void SaveAllInventory(InventoryData_SO i1, InventoryData_SO i2, InventoryData_SO i3, InventoryData_SO i4)
     {
         consumableInventory = ScriptableObject.CreateInstance<InventoryData_SO>();

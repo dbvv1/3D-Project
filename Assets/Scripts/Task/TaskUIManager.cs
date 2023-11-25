@@ -13,40 +13,80 @@ public class TaskUIManager : Singleton<TaskUIManager>
     [Header("任务Button")]
     [SerializeField] private Transform taskListTransform;
 
-    [SerializeField] private TaskNameButton taskNameButton;
+    [SerializeField] private TaskNameButton taskNameButtonPrefab;
     
     [Header("任务Requirement")]
     [SerializeField] private  Transform requirementListTransform;
     [SerializeField] private  TaskRequirement requirementPrefab;
     
+    [Header("任务Reward")]
+    [SerializeField] private Transform rewardListTransform;
+    [SerializeField] private ItemUI rewardUIPrefab;
+    
     [Header("任务Description")]
-    [SerializeField] private TextMeshProUGUI taskContentText;
-
-    [SerializeField] private ItemUI rewardUI;
+    [SerializeField] private TextMeshProUGUI taskDescriptionText;
+    
     
     public void OpenTaskPanel()
     {
         taskPanel.SetActive(true);
-        taskContentText.text=string.Empty;
+        taskDescriptionText.text=string.Empty;
         //显示面板内容
         SetupTaskList();
     }
-
+    
+    //设置UI左侧任务名称列表
     private void SetupTaskList()
     {
         //先删除所有不该显示的物体：ButtonList RequireList RewardList
+        foreach (Transform taskButton in taskListTransform)
+            Destroy(taskButton.gameObject);
+
+        foreach (Transform requirement in requirementListTransform)
+            Destroy(requirement.gameObject);
+
+        foreach (Transform reward in rewardListTransform)
+            Destroy(reward.gameObject);
         
         //通过TaskManager 新生成所有的task  并且进行初始化
-    }
-
-    private void SetupRequirementList(TaskData_SO taskData)
-    {
-        
+        foreach (var task in TaskManager.Instance.tasks)
+        {
+            var taskButton = Instantiate(taskNameButtonPrefab, taskListTransform);
+            taskButton.SetupNameButton(task);
+        }
     }
     
-    private void SetupRewardList(TaskData_SO taskData)
+    //设置UI右侧的任务详情
+    public void SetUpTaskDescription(TaskData_SO taskData)
     {
-        
+        taskDescriptionText.text = taskData.taskDescription;
+    }
+
+    //设置UI右侧任务需求列表
+    public void SetupRequirementList(TaskData_SO taskData)
+    {
+        foreach (Transform requirement in requirementListTransform)
+            Destroy(requirement.gameObject);
+        foreach (var requirement in taskData.taskRequires)
+        {
+            var requirementUI = Instantiate(requirementPrefab, requirementListTransform);
+            if (taskData.TaskState == TaskStateType.Finished)
+                requirementUI.SetupRequirement(requirement.requireName, true);
+            else
+                requirementUI.SetupRequirement(requirement.requireName, requirement.requireAmount, requirement.currentAmount);
+        }
+    }
+    
+    //设置UI右侧任务奖励列表
+    public void SetupRewardList(TaskData_SO taskData)
+    {
+        foreach (Transform reward in rewardListTransform)
+            Destroy(reward.gameObject);
+        foreach (var reward in taskData.rewards)
+        {
+            var rewardItem = Instantiate(rewardUIPrefab, rewardListTransform);
+            rewardItem.SetUpItemUI(reward.itemData, reward.itemAmount);
+        }
     }
 }
 

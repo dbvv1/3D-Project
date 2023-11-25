@@ -38,9 +38,27 @@ public class OptionUI : MonoBehaviour
         //判断是否接受了任务
         if (takeTask && currentDialoguePiece.taskData != null)
         {
-            //加载到TaskManager中
+            var gameTask = TaskManager.Instance.GetTask(currentDialoguePiece.taskData);
             //如果任务列表中已经有该Task 则要判断任务是否完成 并且给予奖励
-            
+            if (gameTask != null) 
+            {
+                if (gameTask.TaskState == TaskStateType.Completed)
+                {
+                    gameTask.TaskState = TaskStateType.Finished;
+                    //给予任务的奖励
+                    
+                }
+            }
+            //任务列表中没有该Task 则直接加入
+            else
+            {
+                TaskManager.Instance.AddTask(currentDialoguePiece.taskData);
+                //初始化进度：对于所有的需求，检测背包中的物品
+                foreach (var taskRequire in currentDialoguePiece.taskData.taskRequires)
+                {
+                    InventoryManager.Instance.CheckTaskItemInBag(taskRequire.requireName);
+                }
+            }
             
         }
         

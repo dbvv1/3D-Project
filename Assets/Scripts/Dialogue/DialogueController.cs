@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DialogueController : MonoBehaviour
 {
-    public DialogueData_SO dialogueData;
+    public DialogueData_SO currentDialogueData;
 
     private bool canTalk = false;
 
@@ -21,7 +21,7 @@ public class DialogueController : MonoBehaviour
     private void OpenDialogue()
     {
         //打开UI面板 传入当前的dialogueData
-        DialogueUIManager.Instance.OpenDialogue(dialogueData);
+        DialogueUIManager.Instance.OpenDialogue(currentDialogueData);
     }
     
     

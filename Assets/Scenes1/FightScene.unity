@@ -1038,7 +1038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6906903755440118384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
       propertyPath: m_Name
-      value: Green Metalon
+      value: Metalon
       objectReference: {fileID: 0}
     - target: {fileID: 6906903755440118384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
       propertyPath: m_IsActive
@@ -2859,7 +2859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6906903755440118384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
       propertyPath: m_Name
-      value: Green Metalon (1)
+      value: Metalon
       objectReference: {fileID: 0}
     - target: {fileID: 6906903755440118384, guid: a70e5e412b8ec8a45a074df9a33e5129, type: 3}
       propertyPath: m_IsActive

@@ -14,7 +14,7 @@ public class InventoryData_SO : ScriptableObject
     public int itemCount; //当前背包中一共有多少物品
 
     //在当前背包中添加物品
-    public bool AddItem(ItemData_SO itemData)
+    public bool AddItem(ItemData_SO itemData, int itemAmount = 1)
     {
         if (itemCount == itemCapacity) return false;
         //可堆叠的情况
@@ -25,27 +25,45 @@ public class InventoryData_SO : ScriptableObject
                 //直接进行叠加操作
                 if (items[i].itemData == itemData)
                 {
-                    items[i].itemAmount++;
+                    items[i].itemAmount += itemAmount;
+                    return true;
+                }
+            }
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                if (items[i].itemData == null)
+                {
+                    items[i].itemData = itemData;
+                    items[i].itemAmount = itemAmount;
+                    itemCount++;
                     return true;
                 }
             }
         }
-
-        //需要在背包中新添加这个物品
-        for (int i = 0; i < items.Count; i++)
+        else
         {
-            if (items[i].itemData == null)
+            //不可堆叠的情况：需要在背包中新添加这个物品
+            for (int i = 0; i < items.Count; i++)
             {
-                items[i].itemData = itemData;
-                items[i].itemAmount = 1;
-                itemCount++;
-                return true;
+                if (items[i].itemData == null)
+                {
+                    items[i].itemData = itemData;
+                    items[i].itemAmount = 1;
+                    itemCount++;
+                    if (--itemAmount == 0) break;
+                }
             }
         }
+        //TODO:如果剩余物体仍然大于0 说明装不下了 则将物品掉落到世界上
+        if (itemAmount > 0)
+        {
+            
+        }
 
-        //没有添加成功，说明背包满了 
-        return false;
+        return true;
     }
+    
 
     //对外提供复制操作
     public void SaveInventory(InventoryData_SO inventoryDataSo)

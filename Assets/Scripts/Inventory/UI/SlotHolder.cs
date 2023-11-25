@@ -31,6 +31,7 @@ public class SlotHolder : MonoBehaviour,IPointerClickHandler,IPointerEnterHandle
             }
 
             itemUI.GetInventoryItem.itemAmount--;
+            TaskManager.Instance.UpdateTaskProgress(itemData.itemName, -1);
             if(itemUI.GetInventoryItem.itemAmount==0) InventoryManager.Instance.itemTooltip.gameObject.SetActive(false); 
             UpdateItem();
         }

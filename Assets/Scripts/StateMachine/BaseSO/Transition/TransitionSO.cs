@@ -26,12 +26,18 @@ public class TransitionSO : ScriptableObject
     [SerializeField] private List<StateTransitionConfig> configStateData = new List<StateTransitionConfig>();
 
     
-    public void Init()
+    /*public void Init()
     {
         isInit = true;
         SaveAllStateTransitionInfo();
+    }*/
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        SaveAllStateTransitionInfo();
     }
-    
+#endif
 
     /// <summary>
     /// 保存所有状态配置信息

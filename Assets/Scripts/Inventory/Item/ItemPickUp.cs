@@ -24,7 +24,12 @@ public class ItemPickUp : MonoBehaviour
                     InventoryManager.Instance.equipmentsContainer.RefreshContainerUI();
                     break;
             }
-            if (add) Destroy(gameObject);
+
+            if (add)
+            {
+                TaskManager.Instance.UpdateTaskProgress(itemData.itemName, 1);
+                Destroy(gameObject);
+            }
         }
     }
 }

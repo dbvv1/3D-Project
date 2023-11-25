@@ -12,12 +12,10 @@ public class StateMachineSystem : MonoBehaviour
     public EnemyState currentStateType;
 
     public EnemyController currentEnemy;
-
+    
     private void Awake()
     {
         currentEnemy = GetComponent<EnemyController>();
-        
-        if(!transition.isInit)transition.Init();
     }
 
     private void Start()

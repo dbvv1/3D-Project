@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class TaskData_SO : ScriptableObject
     [System.Serializable]
     public class TaskRequire
     {
-        //TODO:暂时以目标的名字作为判断
+        //暂时以目标的名字作为判断
         public string requireName;
         
         public int requireAmount;
@@ -21,9 +22,39 @@ public class TaskData_SO : ScriptableObject
     [TextArea]
     public string taskDescription;
 
-    public TaskStateType taskState;
-
+    public TaskStateType TaskState { get; set; }
+    
     public List<TaskRequire> taskRequires = new();
 
     public List<InventoryItem> rewards = new();
+
+    private int restRequireAmount;
+
+    public int RestRequireAmount
+    {
+        get => restRequireAmount;
+        set
+        {
+            restRequireAmount = value;
+            if (restRequireAmount == 0) TaskState = TaskStateType.Completed;
+            else TaskState = TaskStateType.Started;
+        }
+    }
+
+    public void GiveRewards()
+    {
+        foreach (var reward in rewards)
+        {
+            if (reward.itemAmount < 0)
+            {
+                int costAmount = -reward.itemAmount;
+                InventoryManager.Instance.TaskCostItem(reward, costAmount);
+            }
+            else
+            {
+                InventoryManager.Instance.TaskRewardItem(reward, reward.itemAmount);
+            }
+        }
+    }
+    
 }

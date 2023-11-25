@@ -11,6 +11,11 @@ public class MetalonController : EnemyController
         originalPosition = transform.position;
     }
 
+    protected override void SettingEnemyName()
+    {
+        enemyTypeName = "Metalon";
+    }
+
     protected override void Move()
     {
         if (Physics.Raycast(transform.position + Vector3.up, Vector3.forward, 2 * curSpeed * Time.deltaTime * transform.forward.normalized.magnitude + 2.4f, playerLayer | barrierLayer))       return;

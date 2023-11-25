@@ -34,7 +34,7 @@ public class MouseManager : Singleton<MouseManager>
         {
             if (!DialogueUIManager.Instance.IsTalking)
             {
-                Cursor.SetCursor(thirdPersonCombatMouseTexture, new Vector2(thirdPersonCombatMouseTexture.width / 2, thirdPersonCombatMouseTexture.height / 2), CursorMode.Auto);
+                Cursor.SetCursor(thirdPersonCombatMouseTexture, new Vector2(thirdPersonCombatMouseTexture.width / 2f, thirdPersonCombatMouseTexture.height / 2f), CursorMode.Auto);
 
                 Cursor.lockState = CursorLockMode.Locked;
 
@@ -44,7 +44,7 @@ public class MouseManager : Singleton<MouseManager>
         //进入角色面板界面： 设置光标图标 + 显示光标
         else
         {
-            Cursor.SetCursor(characterPanelMouseTexture, Vector2.zero, CursorMode.Auto);
+            Cursor.SetCursor(characterPanelMouseTexture, new Vector2(characterPanelMouseTexture.width/16f*5f,characterPanelMouseTexture.height/16f), CursorMode.Auto);
 
             Cursor.lockState = CursorLockMode.None;
 

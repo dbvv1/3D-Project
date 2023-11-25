@@ -10,9 +10,10 @@ public abstract class CombatSkillBase_SO : ScriptableObject
     [SerializeField] private float skillCDTime;
     [SerializeField] private float skillDistance;
 
+    
     //从外部调用这个技能
     public abstract void InvokeSkill();
-
+    
     //内部使用这个技能
     private void UseSkill()
     {

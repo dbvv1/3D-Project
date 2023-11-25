@@ -14,4 +14,6 @@ public class DialoguePiece
     public List<DialogueOption> options = new List<DialogueOption>();
 
     public TaskData_SO taskData;
+
+    [HideInInspector]public bool canExpand;
 }

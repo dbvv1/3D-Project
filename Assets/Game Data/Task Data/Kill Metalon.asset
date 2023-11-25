@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efd09013f36843e4abee9be6c29b657e, type: 3}
+  m_Name: Kill Metalon
+  m_EditorClassIdentifier: 
+  taskName: "\u51FB\u6740\u8725\u8734"
+  taskDescription: "\u91CE\u5916\u7684\u8725\u8734\u5B9E\u5728\u662F\u592A\u591A\u4E86\uFF0C\u5FEB\u53BB\u6D88\u706D\u5B83\u4EEC\u5427\uFF01"
+  taskRequires:
+  - requireName: Metalon
+    requireAmount: 3
+    currentAmount: 0
+  rewards:
+  - itemData: {fileID: 11400000, guid: 2d8ad9c08ab39ab4ca79b66f78cbff7f, type: 2}
+    itemAmount: 3

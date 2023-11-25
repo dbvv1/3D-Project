@@ -1305,6 +1305,7 @@ GameObject:
   - component: {fileID: 5595976178138301920}
   - component: {fileID: 1648519868735138591}
   - component: {fileID: 6073715997754636736}
+  - component: {fileID: 8655346832747530415}
   m_Layer: 0
   m_Name: RPGHeroPolyart
   m_TagString: Untagged
@@ -1433,7 +1434,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2027c16543a73554984d4fb5853fd26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogueData: {fileID: 11400000, guid: f8fc024c194253b428e9cf1503e14ff0, type: 2}
+  currentDialogueData: {fileID: 11400000, guid: f8fc024c194253b428e9cf1503e14ff0, type: 2}
+--- !u!114 &8655346832747530415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5523335585028770523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d3f3c77f52a56c4884c45ea0214ae38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTaskData: {fileID: 11400000, guid: 34863de2c14b12f41afd76556a1cdc35, type: 2}
+  startDialogueData: {fileID: 11400000, guid: f8fc024c194253b428e9cf1503e14ff0, type: 2}
+  progressDialogueData: {fileID: 11400000, guid: b513e564f287cac4494a71d724be7d6f, type: 2}
+  CompleteDialogueData: {fileID: 11400000, guid: 559d1805bc6d4654585696aef544d7cf, type: 2}
+  FinishDialogueData: {fileID: 11400000, guid: 4562f320c7deff242ba218dd744b1c32, type: 2}
 --- !u!1 &5548634446840086326
 GameObject:
   m_ObjectHideFlags: 0
