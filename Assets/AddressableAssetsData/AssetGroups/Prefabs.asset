@@ -16,7 +16,12 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 3e17d874548737e44ad42f0b20a5a8d4
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: a70e5e412b8ec8a45a074df9a33e5129
+    m_Address: Metalon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 1441725f7fe705849949e9280ee0f18e, type: 2}
   m_SchemaSet:

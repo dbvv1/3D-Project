@@ -9,8 +9,6 @@ public class AudioManager : Singleton<AudioManager>
 
     public AudioSource FXSource;
 
-    [SerializeField]private MultiAudioDefination characterHitAudio;
-
     public void PlayGeneralBGM(AudioClip clip)
     {
         BGMSource.clip = clip;

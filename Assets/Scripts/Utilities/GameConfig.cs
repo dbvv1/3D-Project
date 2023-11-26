@@ -13,6 +13,8 @@ public class GameConfig : ScriptableObject
 
     [SerializeField] private List<ItemData_SO> allItems;
 
+    public Material[] metalonMaterials;
+    
     #region 外界调用的接口
     public AudioClip GetRandomHitAudioClip()
     {

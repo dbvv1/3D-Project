@@ -36,3 +36,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 75b59161dd5215e4187cbfd7d54060ad, type: 2}
   - {fileID: 11400000, guid: 827367beabd66ca4883b0b7d3cd6763a, type: 2}
   - {fileID: 11400000, guid: badf0e25a705f5b40b91cfece34fc73d, type: 2}
+  metalonMaterials:
+  - {fileID: 2100000, guid: eb8fac8d0552e3f499a0eca1d3932a07, type: 2}
+  - {fileID: 2100000, guid: 343efc4e4daa6884fb114514185426c9, type: 2}
+  - {fileID: 2100000, guid: bcaad48fae9d78948944fe183b6e39fe, type: 2}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
+[DefaultExecutionOrder(-100)]
 public class GameManager : Singleton<GameManager>
 {
     public PlayerCharacterStats playerCurrentStats;

@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class MetalonController : EnemyController
 {
-    //Metalon：anim在父物体身上 删除时要删除父物体
+    [Header("Metalon")]
+    private static Material[] _metalonMaterials;
+    [SerializeField] private SkinnedMeshRenderer meshRenderer;
     protected override void Awake()
     {
         base.Awake();
-        originalPosition = transform.position;
+        _metalonMaterials = GameManager.Instance.gameConfig.metalonMaterials;
     }
 
     protected override void SettingEnemyName()
     {
         enemyTypeName = "Metalon";
+    }
+
+    public void SettingMaterials()
+    {
+        meshRenderer.material = _metalonMaterials[Random.Range(0, _metalonMaterials.Length)];
     }
 
     protected override void Move()

@@ -23,13 +23,22 @@ public class LootSpawner : MonoBehaviour
 
     public void SpawnLoot()
     {
-        //TODO 采用轮盘赌算法
-        foreach(var item in  lootItems)
+        //采用轮盘赌算法
+        float[] accP = new float[lootItems.Length + 1];  //累计的概率
+        float total = 0;
+        for (int i = 0; i < lootItems.Length; i++)
         {
-            float value = Random.value;
-            if (value >= item.weight)
+            accP[i] = total;
+            total += lootItems[i].weight;
+        }
+        accP[lootItems.Length] = total;
+        float random = Random.Range(0, total);
+        for (int i = 0; i < lootItems.Length; i++)
+        {
+            if (random <= accP[i + 1])
             {
-                Instantiate(item.GetRandomObject(), transform.position + Vector3.up * 2, Quaternion.identity);
+                Instantiate(lootItems[i].GetRandomObject(), transform.position + Vector3.up * 2, Quaternion.identity);
+                break;
             }
         }
     }
