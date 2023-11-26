@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Serialization;
 
 //物品的数据信息
 [CreateAssetMenu(fileName ="New Item",menuName ="Item/Item Data")]

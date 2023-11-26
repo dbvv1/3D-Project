@@ -116,9 +116,9 @@ public class InventoryManager : Singleton<InventoryManager>, ISavable
 
     private bool CheckInSpecifiedInventory(ContainerUI specifiedInventory, Vector3 position)
     {
-        for (int i = 0; i < specifiedInventory.slotHolders.Length; i++)
+        foreach (var t1 in specifiedInventory.slotHolders)
         {
-            RectTransform t = specifiedInventory.slotHolders[i].transform as RectTransform;
+            RectTransform t = t1.transform as RectTransform;
             if (RectTransformUtility.RectangleContainsScreenPoint(t, position))
                 return true;
         }
@@ -188,8 +188,8 @@ public class InventoryManager : Singleton<InventoryManager>, ISavable
         {
             if (item.itemAmount >= costAmount)
             {
-                costAmount = 0;
                 item.itemAmount -= costAmount;
+                costAmount = 0;
                 break;
             }
             else

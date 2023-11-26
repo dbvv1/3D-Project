@@ -35,7 +35,7 @@ public class TaskGiver : MonoBehaviour
       dialogueController.currentDialogueData = startDialogueData;
    }
 
-   //TODO：暂时在Update中检测任务的状态并且更新NPC的对话内容
+   //在Update中检测任务的状态并且更新NPC的对话内容
    private void Update()
    {
       dialogueController.currentDialogueData = TaskState switch

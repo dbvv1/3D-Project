@@ -35,7 +35,7 @@ MonoBehaviour:
     - text: "\u6CA1\u7A7A"
       targetID: 
       takeTask: 0
-    taskData: {fileID: 11400000, guid: f9bcb816e3158e04bac9038129d7bd63, type: 2}
+    taskData: {fileID: 11400000, guid: 34863de2c14b12f41afd76556a1cdc35, type: 2}
     canExpand: 1
   - ID: Piece03
     image: {fileID: 21300000, guid: cdec13907ffc75749ab2ed436bec6b14, type: 3}

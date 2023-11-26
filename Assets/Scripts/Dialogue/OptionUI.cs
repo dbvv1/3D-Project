@@ -46,7 +46,7 @@ public class OptionUI : MonoBehaviour
                 {
                     gameTask.TaskState = TaskStateType.Finished;
                     //给予任务的奖励
-                    
+                    gameTask.GiveRewards();
                 }
             }
             //任务列表中没有该Task 则直接加入
