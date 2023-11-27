@@ -38,22 +38,13 @@ public class EnemyAttackState : StateActionSO
         //敌人在近战攻击距离内 使用近战攻击
         if (distance < currentEnemy.AttackDistanceNear)
         {
-            AttackNear(currentEnemy);
+            currentEnemy.AttackNearF();
         }
         //否则，即如果敌人在远程攻击距离内，使用远程攻击
         else if (distance < currentEnemy.AttackDistanceFar)
         {
-            AttackFar(currentEnemy);
+            currentEnemy.AttackFarF();
         }
     }
 
-    private void AttackNear(EnemyController currentEnemy)
-    {
-        currentEnemy.anim.SetTrigger("AttackNear");
-    }
-
-    private void AttackFar(EnemyController currentEnemy)
-    {
-        currentEnemy.anim.SetTrigger("AttackFar");
-    }
 }

@@ -47,11 +47,13 @@ public abstract class EnemyController : MonoBehaviour
 
     [SerializeField]protected LayerMask barrierLayer;
 
+    public Transform lockTransform;
+
     private Collider[] playerCollider = new Collider[1];
 
     //动画层级
-    private int animHurtLayer;
-    private int animCombatLayer;
+    protected int animHurtLayer;
+    protected int animCombatLayer;
 
     #region 敌人状态
     protected bool findPlayer;
@@ -111,6 +113,8 @@ public abstract class EnemyController : MonoBehaviour
     private static readonly int Death = Animator.StringToHash("Death");
     private static readonly int Executed = Animator.StringToHash("IsExecuted");
     private static readonly int Hurt = Animator.StringToHash("Hurt");
+    private static readonly int AttackNear = Animator.StringToHash("AttackNear");
+    private static readonly int AttackFar = Animator.StringToHash("AttackFar");
 
     public bool IsExecuted { get => isExecuted;
         set
@@ -174,6 +178,7 @@ public abstract class EnemyController : MonoBehaviour
     //敌人的移动
     protected virtual void Move()
     {
+        if (anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack")) return;
         if (Physics.Raycast(transform.position + transform.up * 0.5f + transform.forward * 2f, 
                 transform.forward.normalized, 4 * curSpeed * Time.deltaTime * transform.forward.normalized.magnitude, playerLayer | barrierLayer)) return;
         characterController.Move(curSpeed * Time.deltaTime * transform.forward.normalized);
@@ -242,6 +247,18 @@ public abstract class EnemyController : MonoBehaviour
     public void CancelExecution()
     {
         IsExecuted = false;
+    }
+    
+    //进行近战攻击
+    public virtual void AttackNearF()
+    {
+        anim.SetTrigger(AttackNear);
+    }
+    
+    //进行远程攻击
+    public virtual void AttackFarF()
+    {
+        anim.SetTrigger(AttackFar);
     }
 
     #region UnityEvent事件

@@ -11,7 +11,7 @@ public class StateMachineSystem : MonoBehaviour
     //敌人相关组件
     public EnemyState currentStateType;
 
-    public EnemyController currentEnemy;
+    [HideInInspector]public EnemyController currentEnemy;
     
     private void Awake()
     {

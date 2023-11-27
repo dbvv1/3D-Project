@@ -19,7 +19,8 @@ public class LootSpawner : MonoBehaviour
 
     }
 
-    [SerializeField]private LootItem[] lootItems;
+    [SerializeField] private int lootItemCount;
+    [SerializeField] private LootItem[] lootItems;
 
     public void SpawnLoot()
     {
@@ -32,13 +33,16 @@ public class LootSpawner : MonoBehaviour
             total += lootItems[i].weight;
         }
         accP[lootItems.Length] = total;
-        float random = Random.Range(0, total);
-        for (int i = 0; i < lootItems.Length; i++)
+        for (int i = 0; i < lootItemCount; i++)
         {
-            if (random <= accP[i + 1])
+            float random = Random.Range(0, total);
+            for (int j = 0; j < lootItems.Length; j++)
             {
-                Instantiate(lootItems[i].GetRandomObject(), transform.position + Vector3.up * 2, Quaternion.identity);
-                break;
+                if (random <= accP[j + 1])
+                {
+                    Instantiate(lootItems[j].GetRandomObject(), transform.position + Vector3.up * 2, Quaternion.identity);
+                    break;
+                }
             }
         }
     }

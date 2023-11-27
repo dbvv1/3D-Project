@@ -41,7 +41,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField, Header("重力加速度")]             private float gravity = -9.8f;        
 
-    [SerializeField, Header("跳跃高度")]               private float jumpHeight = 10f;      
+    [SerializeField, Header("跳跃高度")]               private float jumpHeight = 10f;
+
+    public Transform focusPoint;
 
     private Vector3 velocityByGravity;            //重力所产生的向下的速度
 

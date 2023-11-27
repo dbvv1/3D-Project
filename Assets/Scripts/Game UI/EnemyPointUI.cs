@@ -42,7 +42,7 @@ public class EnemyPointUI : MonoBehaviour
         if (currentLockedEnemy != null)
         {
             focusPointImage.transform.position =
-                mainCamera.WorldToScreenPoint(currentLockedEnemy.transform.position + transform.up * 0.5f);
+                mainCamera.WorldToScreenPoint(currentLockedEnemy.lockTransform.position);
         }
         foreach(var redPoint in executedPoints)
         {
@@ -55,7 +55,7 @@ public class EnemyPointUI : MonoBehaviour
     {
         currentLockedEnemy = enemy;
         focusPointImage.transform.position =
-            mainCamera.WorldToScreenPoint(currentLockedEnemy.transform.position + transform.up * 0.5f);
+            mainCamera.WorldToScreenPoint(currentLockedEnemy.lockTransform.position);
         focusPointImage.gameObject.SetActive(true);
     }
 

@@ -1655,7 +1655,7 @@ MonoBehaviour:
   walkSpeed: 4.5
   chaseSpeed: 6
   rotateSpeed: 7
-  killExp: 0
+  killExp: 10
   originalPosition: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
   patrolTargetPos: {x: 0, y: 0, z: 0}
@@ -1667,10 +1667,7 @@ MonoBehaviour:
   barrierLayer:
     serializedVersion: 2
     m_Bits: 1024
-  metalonMaterials:
-  - {fileID: 2100000, guid: eb8fac8d0552e3f499a0eca1d3932a07, type: 2}
-  - {fileID: 2100000, guid: 343efc4e4daa6884fb114514185426c9, type: 2}
-  - {fileID: 2100000, guid: bcaad48fae9d78948944fe183b6e39fe, type: 2}
+  lockTransform: {fileID: 6777883712931094417}
   meshRenderer: {fileID: 1731947470377880888}
 --- !u!143 &5382353494746483379
 CharacterController:
@@ -1865,6 +1862,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be90acc7c51d3484fa0f57de970b3114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lootItemCount: 0
   lootItems:
   - lootItem:
     - {fileID: 1678884195978160, guid: 88a59d065b581d34bb75630868ac30b2, type: 3}
@@ -1885,7 +1883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   persistentType: 0
-  id: 3d129f19-bddb-47dd-9542-96a7d1030d9c
+  id: c8cb0237-0504-4545-afdc-2ce1741ca204
 --- !u!1 &7697879199407559309
 GameObject:
   m_ObjectHideFlags: 0

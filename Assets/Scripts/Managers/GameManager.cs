@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 public class GameManager : Singleton<GameManager>
 {
     public PlayerCharacterStats playerCurrentStats;
-
+    
     public HashSet<EnemyController> enemies = new();      //记录所有的敌人
 
     public HashSet<EnemyController> weakEnemies=new();  //记录所有处于虚弱状态的敌人 

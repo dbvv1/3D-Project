@@ -25,6 +25,7 @@ public class MetalonController : EnemyController
 
     protected override void Move()
     {
+        if (anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack")) return;
         if (Physics.Raycast(transform.position + Vector3.up, Vector3.forward, 2 * curSpeed * Time.deltaTime * transform.forward.normalized.magnitude + 2.4f, playerLayer | barrierLayer))       return;
         characterController.Move(curSpeed * Time.deltaTime * transform.forward.normalized);
     }

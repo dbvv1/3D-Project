@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc3d2bf6d6dbf14b825fb01d6d4147a, type: 3}
+  m_Name: Golem
+  m_EditorClassIdentifier: 
+  maxHealth: 200
+  curHealth: 0
+  maxEnergy: 100
+  curEnergy: 0
+  maxMagic: 0
+  curMagic: 0
+  baseHealthRecover: 2
+  curHealthRecover: 0
+  baseEnergyRecover: 5
+  curEnergyRecover: 0
+  baseMagicRecover: 0
+  curMagicRecover: 0
+  basePhysicalDamage: 0
+  curPhysicalDamage: 0
+  baseSkillDamage: 0
+  curSkillDamage: 0
+  basePhysicalDefensive: 0
+  curPhysicalDefensive: 0
+  baseMagicalDefensive: 0
+  curMagicalDefensive: 0
+  basePowerPoint: 0
+  curPowerPoint: 0
+  baseAgilityPoint: 0
+  curAgilityPoint: 0
+  baseIntelligencePoint: 0
+  curIntelligencePoint: 0
+  baseExp: 0
+  curLevel: 0
+  curNeedExp: 0
+  curExp: 0
+  levelBuf: 0
+  invincibleTimeAfterHit: 0.15
+  attackDistanceNear: 2.5
+  attackDistanceFar: 10
+  attackStateDistance: 9

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,4 +31,5 @@ public class AttackDefinition : MonoBehaviour
         if (other.GetComponentInParent<MetalonController>())
             other.GetComponentInParent<CharacterStats>()?.TakeDamage(this);
     }
+
 }
