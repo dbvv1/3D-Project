@@ -5,19 +5,28 @@ using UnityEngine;
 public class EnemyCharacterStats : CharacterStats
 {
     private EnemyController enemy;
-
-    private HealthBarUI healthBarUI;
+    private EnemyStatsBarUI enemyStatsBarUI;
     protected override void Awake()
     {
         base.Awake();
         enemy = GetComponent<EnemyController>();
-        healthBarUI = GetComponent<HealthBarUI>();
+        enemyStatsBarUI = GetComponent<EnemyStatsBarUI>();
+    }
+
+    protected override void RecoverStats()
+    {
+        base.RecoverStats();
+        enemyStatsBarUI.UpdateStats(CurHealth, MaxHealth, CurEnergy, MaxEnergy);
     }
 
     public override void TakeDamage(AttackDefinition attacker)
     {
-        if (IsInvincible) return;
         base.TakeDamage(attacker);
+        Vector3 attackerPos = attacker.attacker.transform.position;
+        Quaternion toRotation =
+            Quaternion.LookRotation(
+                new Vector3(attackerPos.x, transform.position.y, attackerPos.z) - transform.position);
+        StartCoroutine(RotateToAttacker(toRotation));
         //执行 掉血 + OnTakeDamage事件
         float costHealth = attacker.DamageAmount - attacker.damageType switch
         {
@@ -44,7 +53,7 @@ public class EnemyCharacterStats : CharacterStats
             CurHealth -= costHealth;
             OnTakeDamage?.Invoke();
         }
-        healthBarUI.UpdateHealthBar(CurHealth, MaxHealth);
+        enemyStatsBarUI.UpdateStats(CurHealth, MaxHealth,CurEnergy,MaxEnergy);
         //如果角色还没有死亡，且体力值为0，则进入为期1秒的虚弱状态，敌人处于虚弱状态时可以被处决
         if (!isDead && CurEnergy == 0 && !IsWeakState) 
         {
@@ -60,8 +69,9 @@ public class EnemyCharacterStats : CharacterStats
                     {
                         IsWeakState = false;
                         GlobalEvent.CallEnemyExitWeakState(enemy);
+                        CurEnergy = MaxEnergy; 
                     }
-                    CurEnergy = MaxEnergy; GameManager.Instance.RemoveWeakEnemy(enemy);
+                    GameManager.Instance.RemoveWeakEnemy(enemy);
                 } 
             });
 
@@ -78,6 +88,6 @@ public class EnemyCharacterStats : CharacterStats
 
     protected override void UpdateUIInfo(float x,float y,float z)
     {
-        healthBarUI.UpdateHealthBar(CurHealth,MaxHealth);
+        enemyStatsBarUI.UpdateStats(CurHealth,MaxHealth,CurEnergy,MaxEnergy);
     }
 }

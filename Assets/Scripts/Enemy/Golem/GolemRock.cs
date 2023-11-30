@@ -11,12 +11,12 @@ public class GolemRock : MonoBehaviour
         HitEnemy,
         HitNothing
     }
-    
+
     private Rigidbody rb;
     private MeshCollider col;
-    
-    [Header("石块属性")]
-    [SerializeField] private float force;
+    private GolemController golemController;
+
+    [Header("石块属性")] [SerializeField] private float force;
 
     [SerializeField] private GameObject rockBreakEffect;
 
@@ -32,7 +32,7 @@ public class GolemRock : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         attackDefinition = GetComponent<AttackDefinition>();
     }
-    
+
 
     private void FixedUpdate()
     {
@@ -42,6 +42,7 @@ public class GolemRock : MonoBehaviour
 
     public void InitAfterCreate(GolemController golemController)
     {
+        this.golemController = golemController;
         target = golemController.player.gameObject;
         transform.localPosition = Vector3.zero;
         transform.localScale = new Vector3(100, 100, 100);
@@ -54,18 +55,18 @@ public class GolemRock : MonoBehaviour
     {
         rb.isKinematic = false;
         transform.SetParent(GOPoolManager.Instance.poolObjectParent);
-        FlyToTarget();
         rb.velocity = Vector3.one;
+        FlyToTarget();
         CurrentRockState = RockState.HitPlayer;
     }
 
 
     private void FlyToTarget()
     {
-        Vector3 direction = (target.transform.position+Vector3.up - transform.position + transform.up).normalized;
-        rb.AddForce(direction*force, ForceMode.Impulse);
+        Vector3 direction = (target.transform.position + Vector3.up - transform.position).normalized;
+        rb.AddForce(direction * force, ForceMode.Impulse);
     }
-    
+
 
     private void OnCollisionEnter(Collision other)
     {
@@ -73,28 +74,59 @@ public class GolemRock : MonoBehaviour
         Vector3 direction = (target.transform.position + Vector3.up - transform.position).normalized;
         switch (CurrentRockState)
         {
-            
             case RockState.HitPlayer:
                 if (other.gameObject.CompareTag("Player"))
                 {
+                    //如果玩家此时是处于完美格挡的状态 则直接弹反岩石
+                    //若处于普通格挡的状态 移动的距离需要减少
+                    CurrentRockState = RockState.HitNothing;
+                    var playerInfo = other.gameObject.GetComponent<PlayerAnimationController>();
+                    if (playerInfo.IsGuard) direction /= 2;
+                    other.gameObject.GetComponent<CharacterController>().Move(direction);
                     other.gameObject.GetComponent<PlayerCharacterStats>().TakeDamage(attackDefinition);
+                    if (playerInfo.IsPerfectParry())
+                    {
+                        Vector3 toEnemy = (golemController.FocusTransform.position - transform.position).normalized;
+                        rb.velocity = Vector3.one;
+                        CurrentRockState = RockState.HitEnemy;
+                        attackDefinition.attacker = playerInfo.GetComponent<PlayerCharacterStats>();
+                        rb.AddForce(toEnemy * force, ForceMode.Impulse);
+                    }
                 }
+
                 break;
             case RockState.HitEnemy:
                 if (other.gameObject.CompareTag("Enemy"))
                 {
+                    CurrentRockState = RockState.HitNothing;
                     Instantiate(rockBreakEffect, transform.position, Quaternion.identity);
+                    other.gameObject.GetComponent<CharacterController>().Move(direction);
                     other.gameObject.GetComponent<EnemyCharacterStats>().TakeDamage(attackDefinition);
-                    Destroy(gameObject);   
+                    Destroy(gameObject);
                 }
+
                 break;
             case RockState.HitNothing:
-                if (other.gameObject.CompareTag("Player Weapon"))
-                {
-                    rb.velocity = Vector3.one;
-                    CurrentRockState = RockState.HitEnemy;
-                }
                 break;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (CurrentRockState == RockState.HitNothing)
+        {
+            if (other.gameObject.CompareTag("Player Weapon"))
+            {
+                rb.velocity = Vector3.one;
+                Vector3 direction = (transform.position - target.transform.position).normalized;
+                //如果玩家目前是锁定状态，则直接将岩石飞向锁定的敌人
+                var playerController = other.GetComponentInParent<PlayerController>();
+                if (playerController.GetCurrentLockEnemy != null)
+                    direction = (playerController.GetCurrentLockEnemy.FocusTransform.position - transform.position).normalized;
+                rb.AddForce(direction * force, ForceMode.Impulse);
+                attackDefinition.attacker = playerController.playerCurrentStats;
+                CurrentRockState = RockState.HitEnemy;
+            }
         }
     }
 }

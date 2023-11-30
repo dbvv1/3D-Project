@@ -5,17 +5,18 @@ using UnityEngine;
 public class PlayerCharacterStats : CharacterStats
 {
 
-    public override bool IsInvincible { get => InvincibleAfterHit || InvincibleWhenRoll||InvincibleWhenExecution; } //当前是否处于无敌状态
+    public override bool IsInvincible => InvincibleAfterHit || InvincibleWhenRoll||InvincibleWhenExecution; //当前是否处于无敌状态
 
-    private bool invincibleWhenRoll;     //翻滚时的无敌效果
-    public bool InvincibleWhenRoll { get => invincibleWhenRoll; set => invincibleWhenRoll = value; }
+    public bool InvincibleWhenRoll { get; set; }
 
-    private PlayerAnimationController PlayerAnimationInfo;
+    private PlayerAnimationController playerAnimationInfo;
+    private PlayerController playerController;
 
     protected override void Awake()
     {
         base.Awake();
-        PlayerAnimationInfo = GetComponent<PlayerAnimationController>();
+        playerAnimationInfo = GetComponent<PlayerAnimationController>();
+        playerController = GetComponent<PlayerController>();
     }
 
     protected override void OnEnable()
@@ -34,11 +35,26 @@ public class PlayerCharacterStats : CharacterStats
         GlobalEvent.useAttackIncreaseItemEvent -= OnUseAttackIncreaseItem;
     }
 
+    //得到金钱和经验值
+    public void GainExpAndMoney()
+    {
+        
+    }
+
 
     public override void TakeDamage(AttackDefinition attacker)
     {
+        //如果当前人物不是处于锁定状态 则转向
+        if (playerController.GetCurrentLockEnemy == null)
+        {
+            Vector3 attackerPos = attacker.attacker.transform.position;
+            Quaternion toRotation = Quaternion.LookRotation(
+                    new Vector3(attackerPos.x, transform.position.y, attackerPos.z) - transform.position);
+            StartCoroutine(RotateToAttacker(toRotation));
+        }
+        
         //通过玩家的动画判断是否处于完美格挡
-        IsPerfectGuard = PlayerAnimationInfo.IsPerfectParry();
+        IsPerfectGuard = playerAnimationInfo.IsPerfectParry();
         base.TakeDamage(attacker);
         //执行 掉血 + OnTakeDamage事件
         float costHealth = attacker.DamageAmount - attacker.damageType switch
@@ -89,21 +105,10 @@ public class PlayerCharacterStats : CharacterStats
 
     protected override void RecoverStats()
     {
-        if (CurHealth < MaxHealth)
-        {
-            CurHealth = Mathf.Clamp(CurHealth + Time.deltaTime * CurHealthRecover, 0, MaxHealth);
-            PlayerStatsUIManager.Instance.UpdateHealthSlider();
-        }
-        if (CurEnergy < MaxEnergy)
-        {
-            CurEnergy = Mathf.Clamp(CurEnergy + Time.deltaTime * CurEnergyRecover, 0, MaxEnergy);
-            PlayerStatsUIManager.Instance.UpdateEnergySlider();
-        }
-        if (CurMagic < MaxMagic)
-        {
-            CurMagic = Mathf.Clamp(CurMagic + Time.deltaTime * CurHealthRecover, 0, MaxMagic);
-            PlayerStatsUIManager.Instance.UpdateMagicSlider();
-        }
+        base.RecoverStats();
+        PlayerStatsUIManager.Instance.UpdateHealthSlider();
+        PlayerStatsUIManager.Instance.UpdateEnergySlider();
+        PlayerStatsUIManager.Instance.UpdateMagicSlider();
     }
     
     #region 状态的修改全局事件

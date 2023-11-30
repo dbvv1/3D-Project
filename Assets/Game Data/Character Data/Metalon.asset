@@ -13,21 +13,37 @@ MonoBehaviour:
   m_Name: Metalon
   m_EditorClassIdentifier: 
   maxHealth: 100
+  curHealth: 0
   maxEnergy: 50
+  curEnergy: 0
   maxMagic: 0
+  curMagic: 0
   baseHealthRecover: 0
+  curHealthRecover: 0
   baseEnergyRecover: 2
+  curEnergyRecover: 0
   baseMagicRecover: 0
+  curMagicRecover: 0
   basePhysicalDamage: 0
+  curPhysicalDamage: 0
   baseSkillDamage: 0
+  curSkillDamage: 0
   basePhysicalDefensive: 0
+  curPhysicalDefensive: 0
   baseMagicalDefensive: 0
+  curMagicalDefensive: 0
   basePowerPoint: 0
+  curPowerPoint: 0
   baseAgilityPoint: 0
+  curAgilityPoint: 0
   baseIntelligencePoint: 0
+  curIntelligencePoint: 0
   baseExp: 0
+  curLevel: 0
+  curNeedExp: 0
+  curExp: 0
   levelBuf: 0
-  invincibleTimeAfterHit: 0.15
+  invincibleTimeAfterHit: 0.1
   attackDistanceNear: 2.2
   attackDistanceFar: 3
-  attackStateDistance: 2.7
+  attackStateDistance: 2.95

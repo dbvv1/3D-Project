@@ -18,9 +18,9 @@ public class UIManager : Singleton<UIManager>
 
     [SerializeField]private GameObject skillPanel;
     
-    [FormerlySerializedAs("EnemyHealthBarCanvas")]
+
     [Header("其他引用")]
-    [SerializeField]public Canvas enemyHealthBarCanvas;
+    [SerializeField]public Canvas enemyStatsBarCanvas;
 
     [SerializeField] private TextMeshProUGUI panelTitleText;
     [SerializeField] private TextMeshProUGUI leftPanelInfoText;

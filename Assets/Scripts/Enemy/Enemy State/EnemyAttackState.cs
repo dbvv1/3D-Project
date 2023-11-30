@@ -14,8 +14,11 @@ public class EnemyAttackState : StateActionSO
     public override void OnUpdate(StateMachineSystem stateMachineSystem)
     {
         EnemyController currentEnemy = stateMachineSystem.currentEnemy;
+        Vector3 playerPos = currentEnemy.player.transform.position;
+        
         if (currentEnemy == null || currentEnemy.IsDead||currentEnemy.IsHurt) return;
-        float distance = Vector3.Distance(currentEnemy.transform.position, currentEnemy.player.transform.position);
+        float distance = Vector3.Distance(currentEnemy.transform.position,
+            new Vector3(playerPos.x, currentEnemy.transform.position.y, playerPos.z));
         //敌人在攻击范围内，先判断敌人现在是否正在攻击
         if(distance<currentEnemy.AttackStateDistance&&!currentEnemy.IsAttack)
         {
@@ -23,7 +26,6 @@ public class EnemyAttackState : StateActionSO
                 Attack(currentEnemy, distance);
         }
         //敌人的视野始终跟随人物
-        Vector3 playerPos = currentEnemy.player.transform.position;
         Quaternion toRotation = Quaternion.LookRotation(new Vector3(playerPos.x, currentEnemy.transform.position.y, playerPos.z) - currentEnemy.transform.position);
         currentEnemy.transform.rotation=(Quaternion.Slerp(currentEnemy.transform.rotation, toRotation, Time.deltaTime * currentEnemy.rotateSpeed));
     }

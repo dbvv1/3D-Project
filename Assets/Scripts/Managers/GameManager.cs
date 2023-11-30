@@ -20,6 +20,7 @@ public class GameManager : Singleton<GameManager>
     {
         Application.targetFrameRate = 120;
         
+
     }
 
     private void OnEnable()

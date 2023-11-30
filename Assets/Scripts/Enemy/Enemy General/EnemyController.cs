@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public abstract class EnemyController : MonoBehaviour
 {
-    [Header("ÒıÓÃ")]
-    [HideInInspector] public Animator anim;
+    [Header("å¼•ç”¨")] [HideInInspector] public Animator anim;
 
 
-    [HideInInspector]public EnemyCharacterStats enemyCharacterStats;
+    [HideInInspector] public EnemyCharacterStats enemyCharacterStats;
 
     protected EnemyData_SO enemyData;
 
@@ -16,8 +16,7 @@ public abstract class EnemyController : MonoBehaviour
 
     protected StateMachineSystem stateMachineSystem;
 
-    [Header("µĞÈËÊôĞÔ")]
-    public float curSpeed;
+    [Header("æ•Œäººå±æ€§")] public float curSpeed;
 
     public float walkSpeed;
 
@@ -25,49 +24,55 @@ public abstract class EnemyController : MonoBehaviour
 
     public float rotateSpeed;
 
+    public float leaveChaseStateMinTime;
+
+    private float leaveChaseStateMinTimeCounter;
+
     protected string enemyTypeName;
 
     public float AttackDistanceNear => enemyData.attackDistanceNear;
     public float AttackDistanceFar => enemyData.attackDistanceFar;
     public float AttackStateDistance => enemyData.attackStateDistance;
 
-    public float killExp;
-
     [HideInInspector] public Vector3 originalPosition;
     [HideInInspector] public PlayerCharacterStats player;
-    [HideInInspector] public Vector3 patrolTargetPos; //µĞÈËÑ²ÂßÊ±µÄÄ¿±êµã
-    
+    [HideInInspector] public Vector3 patrolTargetPos; //æ•Œäººå·¡é€»æ—¶çš„ç›®æ ‡ç‚¹
 
-    [Header("¼ì²â²ÎÊı")]
-    public float findPlayerRadius;
+
+    [Header("æ£€æµ‹å‚æ•°")] public float findPlayerRadius;
 
     public float patrolRadius;
 
-    [SerializeField]protected LayerMask playerLayer;
+    [SerializeField] protected LayerMask playerLayer;
 
-    [SerializeField]protected LayerMask barrierLayer;
+    [SerializeField] protected LayerMask barrierLayer;
 
-    public Transform lockTransform;
+    public Transform FocusTransform;
 
     private Collider[] playerCollider = new Collider[1];
 
-    //¶¯»­²ã¼¶
+    //åŠ¨ç”»å±‚çº§
     protected int animHurtLayer;
     protected int animCombatLayer;
 
-    #region µĞÈË×´Ì¬
+    #region æ•ŒäººçŠ¶æ€
+
     protected bool findPlayer;
+
     public bool FindPlayer
     {
         get => findPlayer;
         set
         {
             findPlayer = value;
+            if (value) leaveChaseStateMinTimeCounter = leaveChaseStateMinTime;
+            else leaveChaseStateMinTimeCounter -= Time.deltaTime;
             anim.SetBool(Find, value);
         }
     }
 
     protected bool isWait;
+
     public bool IsWait
     {
         get => isWait;
@@ -78,10 +83,10 @@ public abstract class EnemyController : MonoBehaviour
         }
     }
 
-    protected bool isHurt;
     public bool IsHurt => anim.GetCurrentAnimatorStateInfo(animHurtLayer).IsTag("Hurt");
 
     protected bool isDead;
+
     public bool IsDead
     {
         get => isDead;
@@ -97,10 +102,12 @@ public abstract class EnemyController : MonoBehaviour
     protected bool isAttack;
     public bool IsAttack => anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack");
 
-    protected bool isGuard; //µ±Ç°ÊÇ·ñ´¦ÓÚ¸ñµ²×´Ì¬
+    protected bool isGuard; //å½“å‰æ˜¯å¦å¤„äºæ ¼æŒ¡çŠ¶æ€
+
     public bool IsGuard
     {
-        get=>isGuard;set
+        get => isGuard;
+        set
         {
             isGuard = value;
             enemyCharacterStats.IsGuard = value;
@@ -116,7 +123,9 @@ public abstract class EnemyController : MonoBehaviour
     private static readonly int AttackNear = Animator.StringToHash("AttackNear");
     private static readonly int AttackFar = Animator.StringToHash("AttackFar");
 
-    public bool IsExecuted { get => isExecuted;
+    public bool IsExecuted
+    {
+        get => isExecuted;
         set
         {
             isExecuted = value;
@@ -124,7 +133,13 @@ public abstract class EnemyController : MonoBehaviour
             if (value)
             {
                 GOPoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(4f,
-                () => { IsExecuted = false;enemyCharacterStats.IsWeakState = false; GlobalEvent.CallEnemyExitWeakState(this); }) ;
+                    () =>
+                    {
+                        IsExecuted = false;
+                        enemyCharacterStats.IsWeakState = false;
+                        GlobalEvent.CallEnemyExitWeakState(this);
+                        enemyCharacterStats.CurEnergy = enemyCharacterStats.MaxEnergy;
+                    });
             }
         }
     }
@@ -165,22 +180,23 @@ public abstract class EnemyController : MonoBehaviour
 
     private void Update()
     {
-        //Ä¬ÈÏÊÜÉË»áÔì³É½©Ö± boss¿ÉÄÜ»á¸Ä±ä
-        if (IsHurt||IsExecuted) return;
+        //é»˜è®¤å—ä¼¤ä¼šé€ æˆåƒµç›´ bosså¯èƒ½ä¼šæ”¹å˜
+        if (IsHurt || IsExecuted) return;
         FindPlayer = CanFindPlayer();
-        if (!isDead && !IsWait && !IsHurt && !IsExecuted)  
+        if (!isDead && !IsWait && !IsHurt && !IsExecuted)
             Move();
     }
-    
-    //ÉèÖÃµĞÈËÀàĞÍµÄÃû×Ö
+
+    //è®¾ç½®æ•Œäººç±»å‹çš„åå­—
     protected abstract void SettingEnemyName();
 
-    //µĞÈËµÄÒÆ¶¯
+    //æ•Œäººçš„ç§»åŠ¨
     protected virtual void Move()
     {
         if (anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack")) return;
-        if (Physics.Raycast(transform.position + transform.up * 0.5f + transform.forward * 2f, 
-                transform.forward.normalized, 4 * curSpeed * Time.deltaTime * transform.forward.normalized.magnitude, playerLayer | barrierLayer)) return;
+        if (Physics.Raycast(FocusTransform.position + transform.forward * 2f,
+                transform.forward.normalized, 4 * curSpeed * Time.deltaTime * transform.forward.normalized.magnitude,
+                playerLayer | barrierLayer)) return;
         characterController.Move(curSpeed * Time.deltaTime * transform.forward.normalized);
     }
 
@@ -188,18 +204,20 @@ public abstract class EnemyController : MonoBehaviour
     {
         int count = Physics.OverlapSphereNonAlloc(transform.position, findPlayerRadius, playerCollider, playerLayer);
         if (count == 0) return false;
-        //´ÓµĞÈËÎ»ÖÃÏòÄ¿±êÎ»ÖÃ·¢ÉäÒ»ÌõÉäÏß£¬ÅĞ¶ÏÖĞ¼äÓĞÎŞÕÏ°­Îï
+        //ä»æ•Œäººä½ç½®å‘ç›®æ ‡ä½ç½®å‘å°„ä¸€æ¡å°„çº¿ï¼Œåˆ¤æ–­ä¸­é—´æœ‰æ— éšœç¢ç‰©
         float distance = Vector3.Distance(transform.position, playerCollider[0].transform.position);
-        if (!Physics.Raycast(transform.position + transform.up * 0.5f, transform.forward.normalized,distance,barrierLayer))
+        if (!Physics.Raycast(transform.position + transform.up * 0.5f, transform.forward.normalized, distance,
+                barrierLayer))
         {
-            //ÅĞ¶ÏµĞÈËÊÇ·ñÊÇ³¯Ïò½ÇÉ«µÄ
+            //åˆ¤æ–­æ•Œäººæ˜¯å¦æ˜¯æœå‘è§’è‰²çš„
             return transform.IsFacingTarget(player.transform);
         }
+
         return false;
     }
 
 
-    //Ñ²ÂßµÈ´ıÊ±¼äµÄ Ğ­³Ì
+    //å·¡é€»ç­‰å¾…æ—¶é—´çš„ åç¨‹
     public IEnumerator WaitPatrolTime(float waitTime, Vector3 targetPos)
     {
         IsWait = true;
@@ -209,19 +227,22 @@ public abstract class EnemyController : MonoBehaviour
             waitTime -= Time.deltaTime;
             yield return null;
         }
+
         yield return RotateToTargetPos(targetPos);
         IsWait = false;
     }
 
-    //Ê¹½ÇÉ«×ªÏòÄ¿±êµãµÄĞ­³Ì
-    private  IEnumerator RotateToTargetPos(Vector3 targetPos)
+    //ä½¿è§’è‰²è½¬å‘ç›®æ ‡ç‚¹çš„åç¨‹
+    private IEnumerator RotateToTargetPos(Vector3 targetPos)
     {
-        Quaternion toRotation = Quaternion.LookRotation(new Vector3(targetPos.x,transform.position.y,targetPos.z) - transform.position);
+        Quaternion toRotation =
+            Quaternion.LookRotation(new Vector3(targetPos.x, transform.position.y, targetPos.z) - transform.position);
         while (Quaternion.Angle(transform.rotation, toRotation) > 1f)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * rotateSpeed);
             yield return null;
         }
+
         curSpeed = stateMachineSystem.currentStateType switch
         {
             EnemyState.PatrolState => walkSpeed,
@@ -232,60 +253,67 @@ public abstract class EnemyController : MonoBehaviour
     }
 
 
-    //ÔÚ¸ø¶¨Ô²ÄÚËæ»úÉú³ÉÒ»¸öÑ²Âßµã
+    //åœ¨ç»™å®šåœ†å†…éšæœºç”Ÿæˆä¸€ä¸ªå·¡é€»ç‚¹
     public Vector3 GetRandomPatrolPoint()
     {
         float randomAngle = Random.value;
         float randomRadius = Random.value;
-        randomRadius = Mathf.Sqrt(randomRadius); 
+        randomRadius = Mathf.Sqrt(randomRadius);
         randomAngle *= 2 * Mathf.PI;
         randomRadius *= patrolRadius;
-        return new Vector3(originalPosition.x + randomRadius * Mathf.Cos(randomAngle), transform.position.y, originalPosition.z + randomRadius * Mathf.Sin(randomAngle));
+        return new Vector3(originalPosition.x + randomRadius * Mathf.Cos(randomAngle), transform.position.y,
+            originalPosition.z + randomRadius * Mathf.Sin(randomAngle));
     }
 
-    //ÑÓ³ÙÈ¡Ïû±»´¦¾ö
+    //å»¶è¿Ÿå–æ¶ˆè¢«å¤„å†³
     public void CancelExecution()
     {
         IsExecuted = false;
     }
-    
-    //½øĞĞ½üÕ½¹¥»÷
-    public virtual void AttackNearF()
+
+    public bool CanReturnToPatrolState()
     {
-        anim.SetTrigger(AttackNear);
-    }
-    
-    //½øĞĞÔ¶³Ì¹¥»÷
-    public virtual void AttackFarF()
-    {
-        anim.SetTrigger(AttackFar);
+        return !CanFindPlayer() && leaveChaseStateMinTimeCounter <= 0;
     }
 
-    #region UnityEventÊÂ¼ş
-    public void OnHurt()
+    //è¿›è¡Œè¿‘æˆ˜æ”»å‡»
+    public virtual void AttackNearF()
     {
-        //IsHurt = true;
+            anim.SetTrigger(AttackNear);
+    }
+
+    //è¿›è¡Œè¿œç¨‹æ”»å‡»
+    public virtual void AttackFarF()
+    {
+            anim.SetTrigger(AttackFar);
+    }
+
+    #region UnityEventäº‹ä»¶
+
+    public virtual void OnHurt()
+    {
         anim.SetTrigger(Hurt);
     }
 
     public void OnDeath()
     {
         IsDead = true;
-        //TODO£º¸øÍæ¼ÒÕÇ¾­Ñé
-
     }
+
     #endregion
 
-    #region ¶¯»­ÊÂ¼ş
+    #region åŠ¨ç”»äº‹ä»¶
+
     public void AfterDeathAnimation()
     {
-        //TODO:Ê¹ÓÃ¶ÔÏó³Ø¹ÜÀíµĞÈË
+        //TODO:ä½¿ç”¨å¯¹è±¡æ± ç®¡ç†æ•Œäºº
         GlobalEvent.CallOnEnemyDeath(this);
         GlobalEvent.CallEnemyExitWeakState(this);
         if (TryGetComponent(out LootSpawner lootSpawner))
         {
             lootSpawner.SpawnLoot();
         }
+
         Destroy(transform.gameObject);
     }
 
@@ -294,10 +322,9 @@ public abstract class EnemyController : MonoBehaviour
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position + transform.up * 0.5f+transform.forward*2, transform.forward.normalized);
+        Gizmos.DrawRay(FocusTransform.position + transform.forward * 2, transform.forward.normalized);
         //Gizmos.DrawWireSphere(transform.position, findPlayerRadius);
         //Gizmos.color = Color.blue;
         //Gizmos.DrawWireSphere(originalPosition, patrolRadius);
     }
-
 }

@@ -8,15 +8,15 @@ public class TransitionPoint : MonoBehaviour
     [SerializeField] private GameSceneSO sceneToGo;
 
     [SerializeField] private Vector3 positionToGo;
-    
+
     private void OnTriggerEnter(Collider other)
     {
-        TransitionAction();
+        if (other.gameObject.CompareTag("Player"))
+            TransitionAction();
     }
 
     private void TransitionAction()
     {
         SceneLoader.Instance.SceneTransition(sceneToGo, positionToGo, true);
     }
-    
 }

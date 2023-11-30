@@ -7,6 +7,6 @@ public class ChaseToPatrol : ConditionSO
 {
     public override bool ConditionSetUp(StateMachineSystem stateMachineSystem)
     {
-        return !stateMachineSystem.currentEnemy.FindPlayer;
+        return stateMachineSystem.currentEnemy.CanReturnToPatrolState();
     }
 }

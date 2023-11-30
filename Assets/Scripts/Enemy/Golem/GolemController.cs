@@ -25,6 +25,16 @@ public class GolemController : EnemyController
         base.AttackFarF();
     }
 
+    public override void OnHurt()
+    {
+        base.OnHurt();
+        //删除rockSpawnPoint下可能存在的没有扔出去的岩石
+        foreach (Transform rock in rockSpawnPoint)
+        {
+            Destroy(rock.gameObject);
+        }
+    }
+
     //动画事件
     public void CreateRock()
     {

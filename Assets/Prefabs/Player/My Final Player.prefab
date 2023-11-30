@@ -386,37 +386,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.13651603, y: 0.017703254, z: 0.00000008195639}
     m_Extent: {x: 0.070054345, y: 0.055245217, z: 0.13489029}
   m_DirtyAABB: 0
---- !u!1 &557074758774679795
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8498665367292118970}
-  m_Layer: 11
-  m_Name: CrouchDetectionPosition
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8498665367292118970
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557074758774679795}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.144, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8288085774762129861}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &703840247735879088
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,9 +690,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5603370747466316273}
-  - {fileID: 8498665367292118970}
   - {fileID: 7069732335661582004}
-  - {fileID: 8912392308970291826}
   - {fileID: 6978232716246265172}
   - {fileID: 8921198295260654383}
   - {fileID: 8459401933394895206}
@@ -800,7 +767,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 4096
-  buttomOffset: {x: 0, y: 0, z: 0}
+  bottomOffset: {x: 0, y: 0, z: 0}
   groundCheckRadius: 0.15
 --- !u!114 &4984120424452908924
 MonoBehaviour:
@@ -870,6 +837,7 @@ MonoBehaviour:
   rotationSpeed: 5
   gravity: -19.6
   jumpHeight: 2.5
+  focusPoint: {fileID: 0}
 --- !u!114 &1214138062952733250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,8 +854,8 @@ MonoBehaviour:
   lightSwordInHand: {fileID: 3881784938687777314}
   greatSwordOnBack: {fileID: 7948817767166803413}
   lightSwordOnBack: {fileID: 5420162378558301739}
-  lightSwordAudio: {fileID: 0}
-  greatSwordAudio: {fileID: 0}
+  lightSwordAudio: {fileID: 8677340244982366998}
+  greatSwordAudio: {fileID: 7694529746560365387}
   rollAnimationOver: 0
   landAnimationOver: 0
 --- !u!114 &8677340244982366998
@@ -902,7 +870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361b8cdfe58c0be4d85a664ae0cd0faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioDiscription: Light Sword
+  audioDescription: 
   clips:
   - {fileID: 8300000, guid: 32c6b82e0a332444f90b2e560718a29c, type: 3}
   - {fileID: 8300000, guid: d72140a18a109d048ba479665e9457f5, type: 3}
@@ -921,7 +889,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 361b8cdfe58c0be4d85a664ae0cd0faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioDiscription: Great Sword
+  audioDescription: 
   clips:
   - {fileID: 8300000, guid: 5bbe4c2b6b81f194b902ab6e860951ff, type: 3}
   - {fileID: 8300000, guid: 14c5a909a93bad5428846eb96f7e8c50, type: 3}
@@ -2152,7 +2120,7 @@ GameObject:
   - component: {fileID: 269929396161770325}
   m_Layer: 13
   m_Name: Katana_low.002_UV_0
-  m_TagString: Untagged
+  m_TagString: Player Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2752,37 +2720,6 @@ Transform:
   m_Children:
   - {fileID: 6054600170437136792}
   m_Father: {fileID: 6349366361986933743}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &3636748220506612345
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8912392308970291826}
-  m_Layer: 11
-  m_Name: CrouchCameraLook
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8912392308970291826
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3636748220506612345}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.75, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8288085774762129861}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3670854186094033424
 GameObject:
@@ -6731,7 +6668,7 @@ GameObject:
   - component: {fileID: 3271385950379253965}
   m_Layer: 13
   m_Name: GreatSword_00
-  m_TagString: Untagged
+  m_TagString: Player Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

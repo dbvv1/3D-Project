@@ -687,7 +687,7 @@ GameObject:
   - component: {fileID: 3024804992802840522}
   - component: {fileID: 1278985355003144780}
   - component: {fileID: 2924090177529026266}
-  - component: {fileID: 5861787234529293766}
+  - component: {fileID: 7342288641642152157}
   m_Layer: 8
   m_Name: Red Crystalsv
   m_TagString: Untagged
@@ -779,7 +779,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &5861787234529293766
+--- !u!65 &7342288641642152157
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -799,4 +799,4 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}

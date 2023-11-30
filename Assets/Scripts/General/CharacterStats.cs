@@ -217,10 +217,7 @@ public class CharacterStats : MonoBehaviour, ISavable
 
     #endregion
 
-    public virtual bool IsInvincible
-    {
-        get => InvincibleAfterHit || InvincibleWhenExecution;
-    }
+    public virtual bool IsInvincible => InvincibleAfterHit || InvincibleWhenExecution;
 
     protected bool invincibleAfterHit; //受到伤害之后的短暂无敌
 
@@ -274,14 +271,7 @@ public class CharacterStats : MonoBehaviour, ISavable
 
     private void Start()
     {
-        CurHealth = MaxHealth;
-        CurEnergy = MaxEnergy;
-        CurMagic = MaxMagic;
-        CurHealthRecover = BaseHealthRecover;
-        CurEnergyRecover = BaseEnergyRecover;
-        CurMagicRecover = BaseMagicRecover;
-        InvincibleAfterHit = false;
-        IsWeakState = false;
+        ResetStats();
     }
 
     protected virtual void OnEnable()
@@ -300,6 +290,24 @@ public class CharacterStats : MonoBehaviour, ISavable
         UpdateInvincibleAfterHurt();
     }
 
+    //重新设置属性：发生在游戏开始时/玩家升级时
+    private void ResetStats()
+    {
+        CurHealth = MaxHealth;
+        CurEnergy = MaxEnergy;
+        CurMagic = MaxMagic;
+        
+        CurHealthRecover = BaseHealthRecover;
+        CurEnergyRecover = BaseEnergyRecover;
+        CurMagicRecover = BaseMagicRecover;
+    }
+
+    //升级
+    public void LevelUp()
+    {
+        
+    }
+
 
     //角色受到伤害 传进来的是攻击者的信息 (基类中处理通用的内容，还会在在主角和敌人的子类中分别重写)
     public virtual void TakeDamage(AttackDefinition attacker)
@@ -311,14 +319,7 @@ public class CharacterStats : MonoBehaviour, ISavable
         invincibleAfterHitTimeCounter = InvincibleTimeAfterHit;
         //播放音效：受击音效 或者 格挡音效
         PlayHitAudio();
-        //人物转向
-        Vector3 attackerPos = attacker.attacker.transform.position;
-        Quaternion toRotation =
-            Quaternion.LookRotation(
-                new Vector3(attackerPos.x, transform.position.y, attackerPos.z) - transform.position);
-        StartCoroutine(RotateToAttacker(toRotation));
-
-        //后续内容：实际受到伤害，格挡的影响，是否进入虚弱状态
+        //后续内容在子类中实现：人物转向 实际受到伤害，格挡的影响，是否进入虚弱状态
     }
 
     public void PlayHitAudio()
@@ -350,9 +351,12 @@ public class CharacterStats : MonoBehaviour, ISavable
     //恢复状态
     protected virtual void RecoverStats()
     {
-        CurHealth = Mathf.Clamp(CurHealth + Time.deltaTime * CurHealthRecover, 0, MaxHealth);
-        CurEnergy = Mathf.Clamp(CurEnergy + Time.deltaTime * CurEnergyRecover, 0, MaxEnergy);
-        CurMagic = Mathf.Clamp(CurMagic + Time.deltaTime * CurHealthRecover, 0, MaxMagic);
+        if (!IsWeakState && !IsExecuted)
+        {
+            CurHealth = Mathf.Clamp(CurHealth + Time.deltaTime * CurHealthRecover, 0, MaxHealth);
+            CurEnergy = Mathf.Clamp(CurEnergy + Time.deltaTime * CurEnergyRecover, 0, MaxEnergy);
+            CurMagic = Mathf.Clamp(CurMagic + Time.deltaTime * CurHealthRecover, 0, MaxMagic);
+        }
     }
 
     protected IEnumerator RotateToAttacker(Quaternion toRotation)
@@ -400,6 +404,6 @@ public class CharacterStats : MonoBehaviour, ISavable
 
     protected virtual void UpdateUIInfo(float maxHealthChange, float maxEnergyChange, float maxMagicChange)
     {
-        //通知UI进行更新操作 在子类中进行重载实现
+        //在加载之后 通知UI进行更新操作 在子类中进行重载实现
     }
 }

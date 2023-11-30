@@ -74,44 +74,7 @@ public class CharacterData_SO : ScriptableObject
     
     [Header("特殊属性")]
     public float invincibleTimeAfterHit;//受伤后的无敌时间
-
     
-    public virtual void InitCharacterData(float maxHealth, float curHealth, float maxEnergy, float curEnergy, float maxMagic, float curMagic, float baseHealthRecover, float curHealthRecover, float baseEnergyRecover, float curEnergyRecover, float baseMagicRecover, float curMagicRecover, float basePhysicalDamage, float curPhysicalDamage, float baseSkillDamage, float curSkillDamage, float basePhysicalDefensive, float curPhysicalDefensive, float baseMagicalDefensive, float curMagicalDefensive, int basePowerPoint, int curPowerPoint, int baseAgilityPoint, int curAgilityPoint, int baseIntelligencePoint, int curIntelligencePoint, float baseExp, int curLevel, float curNeedExp, float curExp, float levelBuf, float invincibleTimeAfterHit)
-    {
-        this.maxHealth = maxHealth;
-        this.curHealth = curHealth;
-        this.maxEnergy = maxEnergy;
-        this.curEnergy = curEnergy;
-        this.maxMagic = maxMagic;
-        this.curMagic = curMagic;
-        this.baseHealthRecover = baseHealthRecover;
-        this.curHealthRecover = curHealthRecover;
-        this.baseEnergyRecover = baseEnergyRecover;
-        this.curEnergyRecover = curEnergyRecover;
-        this.baseMagicRecover = baseMagicRecover;
-        this.curMagicRecover = curMagicRecover;
-        this.basePhysicalDamage = basePhysicalDamage;
-        this.curPhysicalDamage = curPhysicalDamage;
-        this.baseSkillDamage = baseSkillDamage;
-        this.curSkillDamage = curSkillDamage;
-        this.basePhysicalDefensive = basePhysicalDefensive;
-        this.curPhysicalDefensive = curPhysicalDefensive;
-        this.baseMagicalDefensive = baseMagicalDefensive;
-        this.curMagicalDefensive = curMagicalDefensive;
-        this.basePowerPoint = basePowerPoint;
-        this.curPowerPoint = curPowerPoint;
-        this.baseAgilityPoint = baseAgilityPoint;
-        this.curAgilityPoint = curAgilityPoint;
-        this.baseIntelligencePoint = baseIntelligencePoint;
-        this.curIntelligencePoint = curIntelligencePoint;
-        this.baseExp = baseExp;
-        this.curLevel = curLevel;
-        this.curNeedExp = curNeedExp;
-        this.curExp = curExp;
-        this.levelBuf = levelBuf;
-        this.invincibleTimeAfterHit = invincibleTimeAfterHit;
-    }
-
 
     public virtual void InitCharacterData (CharacterData_SO characterDataSo)
     {

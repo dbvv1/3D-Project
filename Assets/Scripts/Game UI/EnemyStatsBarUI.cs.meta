@@ -5,6 +5,9 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - healthUIBarPrefab: {fileID: 6407910385657836840, guid: 48413bd26aa5f774280617b08810bb52, type: 3}
+  - energyUIBarPrefab: {fileID: 6407910385657836840, guid: 3eb573dde563292468a2dd65e9f690a3, type: 3}
+  - healthBarPoint: {instanceID: 0}
+  - energyBarPoint: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 200
   curHealth: 0
-  maxEnergy: 100
+  maxEnergy: 20
   curEnergy: 0
   maxMagic: 0
   curMagic: 0
-  baseHealthRecover: 2
+  baseHealthRecover: 5
   curHealthRecover: 0
   baseEnergyRecover: 5
   curEnergyRecover: 0
@@ -43,7 +43,7 @@ MonoBehaviour:
   curNeedExp: 0
   curExp: 0
   levelBuf: 0
-  invincibleTimeAfterHit: 0.15
-  attackDistanceNear: 2.5
+  invincibleTimeAfterHit: 0.1
+  attackDistanceNear: 3
   attackDistanceFar: 10
   attackStateDistance: 9

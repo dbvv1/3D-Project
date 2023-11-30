@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4661321886554710118}
   - component: {fileID: 6033880141049547979}
   - component: {fileID: 8923861718624155549}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 20
+  rockBreakEffect: {fileID: 8922427845372811153, guid: b2fb55e43a37d6b489c58041bfc0fe0d, type: 3}
 --- !u!64 &4661321886554710118
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -141,7 +142,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 4096
+    m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1

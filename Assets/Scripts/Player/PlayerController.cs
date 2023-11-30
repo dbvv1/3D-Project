@@ -267,7 +267,7 @@ public class PlayerController : MonoBehaviour
         inputDirection = inputActions.GamePlay.Move.ReadValue<Vector2>();
         if(!isLoading)MovePlayer();
         if(!isLoading)Gravitation();
-        if (jumpButton&&physicalCheck.IsOnGround&&!playerAnimationInf.IsRoll&&!playerAnimationInf.IsAttack&& playerAnimationInf.landAnimationOver) StartJump(); 
+        if (jumpButton&&physicalCheck.IsOnGround&&!playerAnimationInf.IsRoll&&!playerAnimationInf.IsAttack&&!playerAnimationInf.IsGuard&& playerAnimationInf.landAnimationOver) StartJump(); 
         StatsCheckAndCost();
     }
 
@@ -567,6 +567,9 @@ public class PlayerController : MonoBehaviour
        //return SelectEnemyCloseToPlayer(GameManager.Instance.enemies, float.MaxValue, Mathf.Acos(0f));;
        return SelectEnemyCloseToMouse(GameManager.Instance.enemies, float.MaxValue, Mathf.Acos(0f));
     }
+    
+    //返回锁定的敌人
+    public EnemyController GetCurrentLockEnemy => curLockedEnemy;
 
     
     //综合判断是否有敌人可以被处决 (根据人物当前方向处决)

@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 5839499841894988638}
   - component: {fileID: 404585865418433601}
   - component: {fileID: 571213956983174737}
-  - component: {fileID: 8234428755207674885}
+  - component: {fileID: 8251684337798771217}
   m_Layer: 8
   m_Name: Purple Crystalsv
   m_TagString: Untagged
@@ -447,7 +447,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8234428755207674885
+--- !u!65 &8251684337798771217
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -467,7 +467,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1769666605981858
 GameObject:
   m_ObjectHideFlags: 0

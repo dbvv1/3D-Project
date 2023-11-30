@@ -1392,11 +1392,42 @@ Transform:
   m_GameObject: {fileID: 5996465737685647314}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.976, z: 0.098}
+  m_LocalPosition: {x: 0, y: 0.976, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4866219474034778765}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6537035276090818870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5788523349687314543}
+  m_Layer: 12
+  m_Name: Energy Bar Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5788523349687314543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6537035276090818870}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5846300426866970324}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6550671178791682896
 GameObject:
@@ -1485,12 +1516,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6740001206824144738}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.176, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4866219474034778765}
+  m_Father: {fileID: 5846300426866970324}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6837287972065830702
 GameObject:
@@ -1569,7 +1600,7 @@ Transform:
   m_Children:
   - {fileID: 6937871136777937522}
   - {fileID: 1039732696762211140}
-  - {fileID: 150259794782816715}
+  - {fileID: 5846300426866970324}
   - {fileID: 6777883712931094417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1655,7 +1686,7 @@ MonoBehaviour:
   walkSpeed: 4.5
   chaseSpeed: 6
   rotateSpeed: 7
-  killExp: 10
+  leaveChaseStateMinTime: 5
   originalPosition: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
   patrolTargetPos: {x: 0, y: 0, z: 0}
@@ -1667,7 +1698,7 @@ MonoBehaviour:
   barrierLayer:
     serializedVersion: 2
     m_Bits: 1024
-  lockTransform: {fileID: 6777883712931094417}
+  FocusTransform: {fileID: 6777883712931094417}
   meshRenderer: {fileID: 1731947470377880888}
 --- !u!143 &5382353494746483379
 CharacterController:
@@ -1682,7 +1713,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -1847,7 +1878,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthUIBarPrefab: {fileID: 6407910385657836840, guid: 48413bd26aa5f774280617b08810bb52, type: 3}
+  energyUIBarPrefab: {fileID: 6407910385657836840, guid: 3eb573dde563292468a2dd65e9f690a3, type: 3}
   healthBarPoint: {fileID: 150259794782816715}
+  energyBarPoint: {fileID: 5788523349687314543}
   alwaysVisible: 1
   showTime: 5
 --- !u!114 &502908482353037795
@@ -1862,13 +1895,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be90acc7c51d3484fa0f57de970b3114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lootItemCount: 0
+  exp: 0
+  money: 0
+  lootItemCount: 1
   lootItems:
   - lootItem:
     - {fileID: 1678884195978160, guid: 88a59d065b581d34bb75630868ac30b2, type: 3}
     - {fileID: 1545413116446980, guid: e3e1ab6e5e287c24d84c003cbb7d1a54, type: 3}
     - {fileID: 1935905646489204, guid: e5ae9333b8073ef44902586b24e9e637, type: 3}
     - {fileID: 1025607677209464, guid: b555c8dbd3c0a874993156d6069ce31a, type: 3}
+    weight: 0.5
+  - lootItem: []
     weight: 0.5
 --- !u!114 &3940147469071569384
 MonoBehaviour:
@@ -1915,6 +1952,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1165684978576567996}
   m_LocalEulerAnglesHint: {x: -12.211511, y: -84.12023, z: -175.55025}
+--- !u!1 &7800295417028067106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5846300426866970324}
+  m_Layer: 12
+  m_Name: Enemy Stats Bar Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5846300426866970324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7800295417028067106}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 150259794782816715}
+  - {fileID: 5788523349687314543}
+  m_Father: {fileID: 4866219474034778765}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7936212552346818953
 GameObject:
   m_ObjectHideFlags: 0
