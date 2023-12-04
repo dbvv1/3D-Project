@@ -1,0 +1,6 @@
+
+Ocsharpsquid:S3903	"-Move 'CharacterStats' into a named namespace.(ÄòŒœüÿÿÿÿ
+acsharpsquid:S1104"DMake this field 'private' and encapsulate it in a 'public' property.(£¼ƒ
+gcsharpsquid:S1104ë"DMake this field 'private' and encapsulate it in a 'public' property.(¬„ëüÿÿÿÿ
+gcsharpsquid:S1104í"DMake this field 'private' and encapsulate it in a 'public' property.(†ñÿÿÿÿÿ
+bcsharpsquid:S2292á"DMake this an auto-implemented property and remove its backing field.(éÖğ

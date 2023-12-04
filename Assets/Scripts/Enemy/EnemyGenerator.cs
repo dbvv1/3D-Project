@@ -12,31 +12,34 @@ public class EnemyGenerator : MonoBehaviour
 
     [Header("敌人生成设置")] 
     
-    [SerializeField] private float generateTime;   //每波的冷却时间（杀死所有敌人后）
+    [SerializeField] private float generateTime;   // 每波的冷却时间（杀死所有敌人后）
     
-    [SerializeField] private int generateMinEnemyCount; //每波生成的最少敌人
+    [SerializeField] private int generateMinEnemyCount; // 每波生成的最少敌人
 
-    [SerializeField] private int generateMaxEnemyCount; //每波生成的最大敌人
+    [SerializeField] private int generateMaxEnemyCount; // 每波生成的最大敌人
 
-    [SerializeField] private float generateEliteProbability; //生成精英敌人的概率
+    [SerializeField] private float generateEliteProbability; // 生成精英敌人的概率
 
-    [SerializeField] private float restTimeAfterBossFight;   //boss战后的调整时间
+    [SerializeField] private float restTimeAfterBossFight;   // boss战后的调整时间
 
     [Header("引用")] 
-    [SerializeField] private GameObject transitionPatrol; //战斗场景的传送门：规则打完boss之后会打开一段时间
+    [SerializeField] private GameObject transitionPatrol; // 战斗场景的传送门：规则打完boss之后会打开一段时间
     
-    private int generateTimes;          //当前的波数：每10波生成一个boss
+    private int generateTimes;          // 当前的波数：每10波生成一个boss
 
-    private bool isBossFightOver;       //是否是在Boss波结束后
+    private bool isBossFightOver;       // 是否是在Boss波结束后
 
-    private bool isFightOver;           //是否是在一波战斗结束后
+    private bool isFightOver;           // 是否是在一波战斗结束后
 
-    //不同阶级敌人的生成工厂：用于在某个阶级上随机生成不同敌人
+    // 不同阶级敌人的生成工厂：用于在某个阶级上随机生成不同种类敌人
     private readonly List<EnemyFactory> normalEnemyFactories = new();
     private readonly List<EnemyFactory> eliteEnemyFactories = new();
     private readonly List<EnemyFactory> bossEnemyFactories = new();
 
-    private float generateTimeCounter; //生成冷却时间的计时器
+    // 字典工厂：可以指定生成某种类的敌人
+    private readonly Dictionary<string, EnemyFactory> enemyNameToFactories = new();
+    
+    private float generateTimeCounter; // 生成冷却时间的计时器
     public float GenerateTimeCounter
     {
         get => generateTimeCounter;
@@ -55,18 +58,20 @@ public class EnemyGenerator : MonoBehaviour
     {
         foreach (var enemyPrefab in enemyPrefabs)
         {
+            var factory = enemyPrefab.CreateFactory(enemyPrefab);
             switch (enemyPrefab.EnemyLevel)
             {
                 case EnemyLevelType.Normal:
-                    normalEnemyFactories.Add(enemyPrefab.CreateFactory(enemyPrefab));
+                    normalEnemyFactories.Add(factory);
                     break;
                 case EnemyLevelType.Elite:
-                    eliteEnemyFactories.Add(enemyPrefab.CreateFactory(enemyPrefab));
+                    eliteEnemyFactories.Add(factory);
                     break;
                 case EnemyLevelType.Boss:
-                    bossEnemyFactories.Add(enemyPrefab.CreateFactory(enemyPrefab));
+                    bossEnemyFactories.Add(factory);
                     break;
             }
+            enemyNameToFactories.Add(enemyPrefab.EnemyName, factory);
         }
     }
 
@@ -100,8 +105,8 @@ public class EnemyGenerator : MonoBehaviour
 
     private void Update()
     {
-        //只有当处于战斗场景并且当前敌人的数量为0的时候 才
-        if (SceneLoader.Instance.GetCurrentSceneType == SceneType.FightScene && GameManager.Instance.enemies.Count == 0)
+        // 计时器计时的规则：1：当前是战斗场景 2：敌人数量为0 3：当前不是正在加载场景
+        if (SceneLoader.Instance.GetCurrentSceneType == SceneType.FightScene && GameManager.Instance.enemies.Count == 0&& !SceneLoader.Instance.IsLoading)
             GenerateTimeCounter -= Time.deltaTime;
 
         // 如果在boss波结束后按下E键 则立刻进入下一波
@@ -117,13 +122,13 @@ public class EnemyGenerator : MonoBehaviour
     {
         ++generateTimes;
         transitionPatrol.gameObject.SetActive(false);
-        //生成boss类敌人
+        // 生成boss类敌人
         if (generateTimes % 10 == 0)
         {
             CreateRandomBossEnemy();
             yield break;
         }
-        //生成普通/精英敌人
+        // 生成普通/精英敌人
         int generateEnemyCount = Random.Range(generateMinEnemyCount, generateMaxEnemyCount);
         for (int i = 0; i < generateEnemyCount; i++)
         {
@@ -154,8 +159,8 @@ public class EnemyGenerator : MonoBehaviour
 
     private void CreateRandomBossEnemy()
     {
-        //TODO：暂时没有设计boss 
+        // TODO：暂时没有设计boss 
         var enemy = eliteEnemyFactories[Random.Range(0, eliteEnemyFactories.Count)].CreateEnemy();
-        //var enemy = bossEnemyFactories[Random.Range(0, bossEnemyFactories.Count)].CreateEnemy();
+        // var enemy = bossEnemyFactories[Random.Range(0, bossEnemyFactories.Count)].CreateEnemy();
     }
 }

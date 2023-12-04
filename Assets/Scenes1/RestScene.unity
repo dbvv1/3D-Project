@@ -263,6 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneToGo: {fileID: 11400000, guid: de28495dd5987054f82c3aa2ada8ebc3, type: 2}
   positionToGo: {x: 0, y: 0, z: 0}
+  hideAfterTransition: 0
 --- !u!64 &1903465129
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -344,7 +345,7 @@ Transform:
   m_GameObject: {fileID: 1903465127}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: -7.38}
+  m_LocalPosition: {x: 0, y: 3, z: 11.72}
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_ConstrainProportionsScale: 1
   m_Children: []

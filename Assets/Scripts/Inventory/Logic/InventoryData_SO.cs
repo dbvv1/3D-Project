@@ -55,13 +55,8 @@ public class InventoryData_SO : ScriptableObject
                 }
             }
         }
-        //TODO:如果剩余物体仍然大于0 说明装不下了 则将物品掉落到世界上
-        if (itemAmount > 0)
-        {
-            
-        }
 
-        return true;
+        return itemAmount == 0;
     }
     
 

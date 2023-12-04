@@ -1,0 +1,11 @@
+
+Jcsharpsquid:S3903"-Move 'EnemyGenerator' into a named namespace.(×¼ªû
+|csharpsquid:S1450 "ZRemove the field 'isFightOver' and declare it as a local variable in the relevant methods.(û€Ùúùÿÿÿÿ
+wcsharpsquid:S2696V"UMake the enclosing instance method 'static' or remove this set on the 'static' field.(­ûòûÿÿÿÿ
+rcsharpsquid:S2696["UMake the enclosing instance method 'static' or remove this set on the 'static' field.(°úá´
+;csharpsquid:S2178a"Correct this '&' to '&&'.(„îÛÁşÿÿÿÿ
+Lcsharpsquid:S1481˜")Remove the unused local variable 'enemy'.(ŞÔÒÆùÿÿÿÿ
+Gcsharpsquid:S1481")Remove the unused local variable 'enemy'.(ÌŠ™Œ
+Gcsharpsquid:S1481£")Remove the unused local variable 'enemy'.(ÌŠ™Œ
+<csharpsquid:S125¤"Remove this commented out code.(¸¸£Ü
+Qcsharpsquid:S1135¢"4Complete the task associated to this 'TODO' comment.(ŒÆö+

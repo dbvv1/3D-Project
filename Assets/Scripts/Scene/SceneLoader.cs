@@ -22,8 +22,8 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
 
     private bool needFade;
 
-    private bool isLoading;
-    
+    public bool IsLoading { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -52,9 +52,9 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
     /// <param name="needFade">是否需要淡入淡出</param>
     public void SceneTransition(GameSceneSO sceneToGo, Vector3 posToGo, bool needFade)
     {
-        if (isLoading) return;
+        if (IsLoading) return;
         //设定加载的状态和信息
-        isLoading = true;
+        IsLoading = true;
         this.sceneToGo = sceneToGo;
         this.posToGo = posToGo;
         this.needFade = needFade;
@@ -88,7 +88,7 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
             currentScene = sceneToGo;
-            isLoading = false;
+            IsLoading = false;
             GlobalEvent.CallAfterSceneLoadEvent(posToGo);
             if (needFade)
             {
@@ -118,8 +118,9 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
 
     public void LoadData(Data data)
     {
-        isLoading = false;
+        IsLoading = false;
         SceneTransition(data.LoadScene(), data.playerPos.ToVector3(), true);
+
 
     }
 

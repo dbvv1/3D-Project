@@ -62,11 +62,11 @@ public class InventoryManager : Singleton<InventoryManager>, ISavable
     {
         GameManager.Instance.gameConfig.InitItemDict(itemNameToItemData);
         CurrentShowContainer = consumableContainer;
-        //对所有背包进行 清空+刷新  TODO:后续会做新的游戏 和 继续游戏 的逻辑
+        //对所有背包进行 清空+刷新 
         consumableInventory.ClearInventory();
         equipmentsInventory.ClearInventory();
         playerEquipmentInventory.ClearInventory();
-        //actionInventory.ClearInventory();
+        actionInventory.ClearInventory();
         RefreshAllContainer();
     }
 

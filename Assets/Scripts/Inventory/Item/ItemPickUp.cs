@@ -25,6 +25,7 @@ public class ItemPickUp : MonoBehaviour
                     break;
             }
 
+            //只有在add成功的情况下才删除物品
             if (add)
             {
                 TaskManager.Instance.UpdateTaskProgress(itemData.itemName, 1);

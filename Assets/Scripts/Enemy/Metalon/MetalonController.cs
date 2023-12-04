@@ -8,8 +8,8 @@ public class MetalonController : EnemyController
     private static Material[] _metalonMaterials;
     [SerializeField] private SkinnedMeshRenderer meshRenderer;
 
-    private const string StaticName = "Metalon";
-    private const EnemyLevelType StaticType = EnemyLevelType.Normal;
+    public const string StaticName = "Metalon";
+    public const EnemyLevelType StaticType = EnemyLevelType.Normal;
 
     public override string EnemyName => StaticName;
     public override EnemyLevelType EnemyLevel => StaticType;
