@@ -15,7 +15,7 @@ MonoBehaviour:
   taskName: "\u6536\u96C6\u8611\u83C7"
   taskDescription: "\u6536\u96C6\u4E00\u4E9B\u8611\u83C7\u5427\uFF01"
   taskRequires:
-  - requireName: MushRoom
+  - requireName: "\u5C0F\u8611\u83C7"
     requireAmount: 3
     currentAmount: 0
   rewards:

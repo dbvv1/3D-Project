@@ -9,17 +9,19 @@ using JetBrains.Annotations;
 [DefaultExecutionOrder(-100)]
 public class DataManager : Singleton<DataManager>
 {
-    private HashSet<ISavable> savableSet = new HashSet<ISavable>();
+    private readonly HashSet<ISavable> savableSet = new HashSet<ISavable>();
 
     private Data saveData;
 
     private string jsonFolder;
+    
+    private readonly JsonSerializerSettings settings = new JsonSerializerSettings();
 
     protected override void Awake()
     {
         base.Awake();
         saveData = new Data();
-
+        settings.TypeNameHandling = TypeNameHandling.Auto;
         jsonFolder = Application.persistentDataPath + "/Save Data/";
         ReadSaveData();
     }
@@ -61,8 +63,8 @@ public class DataManager : Singleton<DataManager>
 
         string resultPath = jsonFolder + "saveData.sav";
 
-        
-        string jsonData = JsonConvert.SerializeObject(saveData);
+
+        string jsonData = JsonConvert.SerializeObject(saveData, settings);
 
         if (!File.Exists(resultPath))
         {
@@ -89,7 +91,7 @@ public class DataManager : Singleton<DataManager>
         if (File.Exists(resultPath))
         {
             string stringData = File.ReadAllText(resultPath);
-            saveData = JsonConvert.DeserializeObject<Data>(stringData);
+            saveData = JsonConvert.DeserializeObject<Data>(stringData,settings);
         }
     }
     

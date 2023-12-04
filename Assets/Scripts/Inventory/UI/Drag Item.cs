@@ -44,26 +44,29 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
                 else
                     targetSlot = eventData.pointerEnter.gameObject.GetComponentInParent<SlotHolder>();
                 //根据目标格子的类型进行交换
-                switch (targetSlot.slotType)
+                if (targetSlot != null)
                 {
-                    case SlotType.ConsumableBag:
-                        if (currentItemUI.itemData.itemType == ItemType.Consumable) SwapItem();
-                        break;
-                    case SlotType.EquipmentBag:
-                        if (currentItemUI.itemData.itemType != ItemType.Consumable) SwapItem();
-                        break;
-                    case SlotType.PrimaryWeapon:
-                        if(currentItemUI.itemData.itemType== ItemType.PrimaryWeapon) SwapItem();
-                        break;
-                    case SlotType.SecondaryWeapon:
-                        if (currentItemUI.itemData.itemType == ItemType.SecondaryWeapon) SwapItem();
-                        break;
-                    case SlotType.Action:
-                        if (currentItemUI.itemData.itemType == ItemType.Consumable) SwapItem();
-                        break;
+                    switch (targetSlot.slotType)
+                    {
+                        case SlotType.ConsumableBag:
+                            if (currentItemUI.itemData.itemType == ItemType.Consumable) SwapItem();
+                            break;
+                        case SlotType.EquipmentBag:
+                            if (currentItemUI.itemData.itemType != ItemType.Consumable) SwapItem();
+                            break;
+                        case SlotType.PrimaryWeapon:
+                            if(currentItemUI.itemData.itemType== ItemType.PrimaryWeapon) SwapItem();
+                            break;
+                        case SlotType.SecondaryWeapon:
+                            if (currentItemUI.itemData.itemType == ItemType.SecondaryWeapon) SwapItem();
+                            break;
+                        case SlotType.Action:
+                            if (currentItemUI.itemData.itemType == ItemType.Consumable) SwapItem();
+                            break;
+                    }
+                    currentSlot.UpdateItem();
+                    targetSlot.UpdateItem();
                 }
-                currentSlot.UpdateItem();
-                targetSlot.UpdateItem();
             }
         }
         transform.SetParent(InventoryManager.Instance.dragOriginalSlot.transform);

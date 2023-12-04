@@ -1593,8 +1593,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6906903755440118384}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.29, y: 0, z: 2.43}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1603,7 +1603,7 @@ Transform:
   - {fileID: 5846300426866970324}
   - {fileID: 6777883712931094417}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &4700363794927279098
 Animator:
   serializedVersion: 5
@@ -1617,7 +1617,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: f9f6a70179b3aa4408cd66cae162aac7, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1698,7 +1698,13 @@ MonoBehaviour:
   barrierLayer:
     serializedVersion: 2
     m_Bits: 1024
-  FocusTransform: {fileID: 6777883712931094417}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  focusTransform: {fileID: 6777883712931094417}
   meshRenderer: {fileID: 1731947470377880888}
 --- !u!143 &5382353494746483379
 CharacterController:
@@ -1766,9 +1772,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 1
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!82 &3318795455012479757
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1895,8 +1901,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be90acc7c51d3484fa0f57de970b3114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exp: 0
-  money: 0
+  exp: 10
+  money: 10
   lootItemCount: 1
   lootItems:
   - lootItem:

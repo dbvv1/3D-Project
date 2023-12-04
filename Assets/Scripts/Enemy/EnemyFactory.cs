@@ -1,12 +1,15 @@
 using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 
+public interface ICreateFactory
+{
+    public EnemyFactory CreateFactory(EnemyController enemyPrefab);
+}
+
 public abstract class EnemyFactory
 {
-    
     public abstract EnemyController CreateEnemy();
 
-     ~EnemyFactory() { }
 }
 
 public class MetalonFactory : EnemyFactory
@@ -20,8 +23,7 @@ public class MetalonFactory : EnemyFactory
     public override EnemyController CreateEnemy()
     {
         var metalon = Object.Instantiate(metalonPrefab);
-        metalon.transform.position = Vector3.zero; //后续转变为一个随机的位置
-        metalon.SettingMaterials();
+        metalon.InitAfterGenerate();
         return metalon;
     }
 }
@@ -39,7 +41,7 @@ public class GolemFactory : EnemyFactory
     public override EnemyController CreateEnemy()
     {
         var golem = Object.Instantiate(golemPrefab);
-        golem.transform.position = Vector3.zero; //后续转变为一个随机的位置
+        golem.InitAfterGenerate();
         return golem;
     }
 }

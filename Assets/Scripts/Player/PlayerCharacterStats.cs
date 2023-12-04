@@ -9,6 +9,25 @@ public class PlayerCharacterStats : CharacterStats
 
     public bool InvincibleWhenRoll { get; set; }
 
+    public int Money
+    {
+        get => playerData.money;
+        set => playerData.money = value;
+    }
+
+    public int SkillPoint
+    {
+        get => playerData.skillPoint;
+        set => playerData.skillPoint = value;
+    }
+
+    public int AttributePoint
+    {
+        get=>playerData.attributePoint;
+        set => playerData.attributePoint = value;
+    }
+
+    private PlayerData_SO playerData;
     private PlayerAnimationController playerAnimationInfo;
     private PlayerController playerController;
 
@@ -17,6 +36,12 @@ public class PlayerCharacterStats : CharacterStats
         base.Awake();
         playerAnimationInfo = GetComponent<PlayerAnimationController>();
         playerController = GetComponent<PlayerController>();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        playerData=characterData as PlayerData_SO;
     }
 
     protected override void OnEnable()
@@ -35,10 +60,39 @@ public class PlayerCharacterStats : CharacterStats
         GlobalEvent.useAttackIncreaseItemEvent -= OnUseAttackIncreaseItem;
     }
 
-    //得到金钱和经验值
-    public void GainExpAndMoney()
+    protected override void LevelUp()
     {
-        
+        base.LevelUp();
+        SkillPoint++;
+        AttributePoint++;
+        PlayerStatsUIManager.Instance.UpdateSliderWidth(playerData.maxHealth * (1 - 1 / (1 + playerData.levelBuf)),
+            playerData.maxEnergy * (1 - 1 / (1 + playerData.levelBuf)),
+            playerData.maxMagic * (1 - 1 / (1 + playerData.levelBuf)));
+        PlayerStatsUIManager.Instance.UpdateSliderValue();
+        PlayerStatsUIManager.Instance.RefreshMaxInformation();
+    }
+
+    public void ChangeExp(int expChangeAmount)
+    {
+        //当前升级所需的经验值小于所给的就经验，需要升级
+        if (CurNeedExp - CurExp <= expChangeAmount)
+        {
+            CurExp = expChangeAmount - (CurNeedExp - CurExp);
+            LevelUp();
+        }
+        else
+        {
+            CurExp+=expChangeAmount;
+        }
+
+        Debug.Log("角色经验值：" + CurExp);
+        PlayerStatsUIManager.Instance.UpdateLevelInfo();
+    }
+
+    public void ChangeMoney(int moneyChangeAmount)
+    {
+        Money += moneyChangeAmount;
+        PlayerStatsUIManager.Instance.UpdateMoneyAmountInfo();
     }
 
 
@@ -94,22 +148,21 @@ public class PlayerCharacterStats : CharacterStats
         if (CurEnergy == 0 && !IsWeakState)
         {
             IsWeakState = true;
-            GOPoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(2f, () =>
+            PoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(2f, () =>
             {
                 IsWeakState = false;
             });
 
         }
-        Debug.Log("主角血量:" + CurHealth + "主角能量:" + CurEnergy);
     }
 
     protected override void RecoverStats()
     {
         base.RecoverStats();
-        PlayerStatsUIManager.Instance.UpdateHealthSlider();
-        PlayerStatsUIManager.Instance.UpdateEnergySlider();
-        PlayerStatsUIManager.Instance.UpdateMagicSlider();
+        PlayerStatsUIManager.Instance.UpdateSliderValue();
     }
+    
+    
     
     #region 状态的修改全局事件
 
@@ -119,9 +172,7 @@ public class PlayerCharacterStats : CharacterStats
         CurHealth = Mathf.Clamp(CurHealth + health, 0, MaxHealth);
         CurEnergy = Mathf.Clamp(CurEnergy + energy, 0, MaxEnergy);
         CurMagic = Mathf.Clamp(CurMagic +magic, 0, MaxMagic);
-        PlayerStatsUIManager.Instance.UpdateHealthSlider();
-        PlayerStatsUIManager.Instance.UpdateEnergySlider();
-        PlayerStatsUIManager.Instance.UpdateMagicSlider();
+        PlayerStatsUIManager.Instance.UpdateSliderValue();
     }
     
     //使用增加最大状态的物品
@@ -130,9 +181,7 @@ public class PlayerCharacterStats : CharacterStats
         MaxHealth += health;
         MaxEnergy += energy;
         MaxMagic += magic;
-        PlayerStatsUIManager.Instance.UpdateHealthSlider();
-        PlayerStatsUIManager.Instance.UpdateEnergySlider();
-        PlayerStatsUIManager.Instance.UpdateMagicSlider();
+        PlayerStatsUIManager.Instance.UpdateSliderValue();
         PlayerStatsUIManager.Instance.UpdateSliderWidth(health,energy,magic);
         PlayerStatsUIManager.Instance.RefreshMaxInformation();
     }
@@ -149,9 +198,8 @@ public class PlayerCharacterStats : CharacterStats
 
     protected override void UpdateUIInfo(float maxHealthChange, float maxEnergyChange, float maxMagicChange)
     {
-        PlayerStatsUIManager.Instance.UpdateHealthSlider();
-        PlayerStatsUIManager.Instance.UpdateEnergySlider();
-        PlayerStatsUIManager.Instance.UpdateMagicSlider();
+        PlayerStatsUIManager.Instance.UpdateUserUIInfo();
+        PlayerStatsUIManager.Instance.UpdateSliderValue();
         PlayerStatsUIManager.Instance.UpdateSliderWidth(maxHealthChange, maxEnergyChange, maxMagicChange);
     }
 }

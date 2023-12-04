@@ -42,11 +42,11 @@ public class EnemyPointUI : MonoBehaviour
         if (currentLockedEnemy != null)
         {
             focusPointImage.transform.position =
-                mainCamera.WorldToScreenPoint(currentLockedEnemy.FocusTransform.position);
+                mainCamera.WorldToScreenPoint(currentLockedEnemy.focusTransform.position);
         }
         foreach(var redPoint in executedPoints)
         {
-            redPoint.Value.transform.position = mainCamera.WorldToScreenPoint(redPoint.Key.FocusTransform.position);
+            redPoint.Value.transform.position = mainCamera.WorldToScreenPoint(redPoint.Key.focusTransform.position);
         }
     }
 
@@ -55,7 +55,7 @@ public class EnemyPointUI : MonoBehaviour
     {
         currentLockedEnemy = enemy;
         focusPointImage.transform.position =
-            mainCamera.WorldToScreenPoint(currentLockedEnemy.FocusTransform.position);
+            mainCamera.WorldToScreenPoint(currentLockedEnemy.focusTransform.position);
         focusPointImage.gameObject.SetActive(true);
     }
 
@@ -73,7 +73,7 @@ public class EnemyPointUI : MonoBehaviour
         if(!executedPoints.ContainsKey(enemy))
         {
             executedPoints.Add(enemy, Instantiate(executedPointPrefab, pointParent));
-            executedPoints[enemy].transform.position = mainCamera.WorldToScreenPoint(enemy.FocusTransform.position);
+            executedPoints[enemy].transform.position = mainCamera.WorldToScreenPoint(enemy.focusTransform.position);
         }
     }
 

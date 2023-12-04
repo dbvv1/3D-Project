@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Consume Inventory
   m_EditorClassIdentifier: 
   items:
-  - itemData: {fileID: 11400000, guid: 2d8ad9c08ab39ab4ca79b66f78cbff7f, type: 2}
-    itemAmount: 1
   - itemData: {fileID: 0}
-    itemAmount: 1
+    itemAmount: 0
+  - itemData: {fileID: 0}
+    itemAmount: 0
   - itemData: {fileID: 0}
     itemAmount: 0
   - itemData: {fileID: 0}
@@ -84,4 +84,4 @@ MonoBehaviour:
   - itemData: {fileID: 0}
     itemAmount: 0
   itemCapacity: 35
-  itemCount: 2
+  itemCount: 0

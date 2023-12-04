@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class EnemyController : MonoBehaviour
+public abstract class EnemyController : MonoBehaviour, ICreateFactory
 {
     [Header("引用")] [HideInInspector] public Animator anim;
 
@@ -28,7 +28,9 @@ public abstract class EnemyController : MonoBehaviour
 
     private float leaveChaseStateMinTimeCounter;
 
-    protected string enemyTypeName;
+    //在子类中设置const变量name 和 levelType   注意：C#中的const成员变量 默认是静态/隐式的 和C++不同
+    public virtual string EnemyName => "Enemy";
+    public virtual EnemyLevelType EnemyLevel => EnemyLevelType.Normal;
 
     public float AttackDistanceNear => enemyData.attackDistanceNear;
     public float AttackDistanceFar => enemyData.attackDistanceFar;
@@ -47,9 +49,13 @@ public abstract class EnemyController : MonoBehaviour
 
     [SerializeField] protected LayerMask barrierLayer;
 
-    public Transform FocusTransform;
+    [SerializeField] protected LayerMask enemyLayer;
 
-    private Collider[] playerCollider = new Collider[1];
+    [SerializeField] protected LayerMask groundLayer;
+
+    public Transform focusTransform;
+
+    private readonly Collider[] playerCollider = new Collider[1];
 
     //动画层级
     protected int animHurtLayer;
@@ -132,7 +138,7 @@ public abstract class EnemyController : MonoBehaviour
             if (anim != null) anim.SetBool(Executed, value);
             if (value)
             {
-                GOPoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(4f,
+                PoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(4f,
                     () =>
                     {
                         IsExecuted = false;
@@ -148,7 +154,7 @@ public abstract class EnemyController : MonoBehaviour
 
     protected virtual void Awake()
     {
-        SettingEnemyName();
+        //SettingEnemyName();
         enemyCharacterStats = GetComponent<EnemyCharacterStats>();
         anim = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
@@ -159,7 +165,6 @@ public abstract class EnemyController : MonoBehaviour
     private void Start()
     {
         curSpeed = walkSpeed;
-        originalPosition = transform.position;
         player = GameManager.Instance.playerCurrentStats;
         animCombatLayer = anim.GetLayerIndex("Combat Layer");
         animHurtLayer = anim.GetLayerIndex("Hurt Layer");
@@ -174,7 +179,7 @@ public abstract class EnemyController : MonoBehaviour
     private void OnDisable()
     {
         GameManager.Instance.UnRegisterEnemy(this);
-        TaskManager.Instance.UpdateTaskProgress(enemyTypeName, 1);
+        TaskManager.Instance.UpdateTaskProgress(EnemyName, 1);
     }
 
 
@@ -187,14 +192,29 @@ public abstract class EnemyController : MonoBehaviour
             Move();
     }
 
-    //设置敌人类型的名字
-    protected abstract void SettingEnemyName();
+    //设置敌人类型的名字 类型  //可以在prefab界面中进行赋值 或者 用Static成员变量
+    //protected abstract void SettingEnemyName();
+
+    public virtual void InitAfterGenerate()
+    {
+        //随机设置敌人的位置 以及如何判断给定的位置合法（没有其他的敌人） 参数可以在类中设置const字段单独设置
+        bool isOccupied = true;
+        Vector3 randomPos = Vector3.zero;
+        while (isOccupied)
+        {
+            randomPos = new Vector3(Random.Range(-20f, 20f), 0f, Random.Range(-20f, 20f));
+            isOccupied = Physics.CheckSphere(randomPos, 3f, barrierLayer | enemyLayer);
+        }
+        transform.position = randomPos;
+        originalPosition = randomPos;
+        //后续可以增加特效的生成 等等额外内容
+    }
 
     //敌人的移动
     protected virtual void Move()
     {
         if (anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack")) return;
-        if (Physics.Raycast(FocusTransform.position + transform.forward * 2f,
+        if (Physics.Raycast(focusTransform.position + transform.forward * 2f,
                 transform.forward.normalized, 4 * curSpeed * Time.deltaTime * transform.forward.normalized.magnitude,
                 playerLayer | barrierLayer)) return;
         characterController.Move(curSpeed * Time.deltaTime * transform.forward.normalized);
@@ -279,13 +299,13 @@ public abstract class EnemyController : MonoBehaviour
     //进行近战攻击
     public virtual void AttackNearF()
     {
-            anim.SetTrigger(AttackNear);
+        anim.SetTrigger(AttackNear);
     }
 
     //进行远程攻击
     public virtual void AttackFarF()
     {
-            anim.SetTrigger(AttackFar);
+        anim.SetTrigger(AttackFar);
     }
 
     #region UnityEvent事件
@@ -322,9 +342,11 @@ public abstract class EnemyController : MonoBehaviour
     protected virtual void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(FocusTransform.position + transform.forward * 2, transform.forward.normalized);
+        Gizmos.DrawRay(focusTransform.position + transform.forward * 2, transform.forward.normalized);
         //Gizmos.DrawWireSphere(transform.position, findPlayerRadius);
         //Gizmos.color = Color.blue;
         //Gizmos.DrawWireSphere(originalPosition, patrolRadius);
     }
+
+    public abstract EnemyFactory CreateFactory(EnemyController enemyPrefab);
 }

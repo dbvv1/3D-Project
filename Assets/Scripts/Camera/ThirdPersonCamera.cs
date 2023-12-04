@@ -23,10 +23,12 @@ public class ThirdPersonCamera : MonoBehaviour
 
     private void OnEnable()
     {
-        //在从第一人称转到第三人称的时候 需要调整 XAxis.Value
+        //从第一人称到第三人称的时候 需要调整   XAxis.Value  横向
+        //从锁定人称到第三人称的时候 需要调整   YAxis.Value  纵向
         float angle = Vector3.Angle(player.forward, Vector3.forward);
         if (Vector3.Cross(player.forward, Vector3.forward).y > 0) angle *= -1;
         cinemachine.m_XAxis.Value = angle;
+        cinemachine.m_YAxis.Value = 0.7f;
     }
 
     private void Update()

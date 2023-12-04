@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class InventoryManager : Singleton<InventoryManager>, ISavable
 {
-    [Header("背包数据")] public InventoryData_SO consumableInventory;
+    [Header("背包数据")]
+    public InventoryData_SO consumableInventory;
 
     public InventoryData_SO equipmentsInventory;
 
@@ -20,12 +22,17 @@ public class InventoryManager : Singleton<InventoryManager>, ISavable
     public ContainerUI equipmentsContainer; //装备背包
 
     public ContainerUI actionContainer; //快捷栏上的背包
-
+    
     public ContainerUI playerEquipmentContainer; //人物正在装备的装备背包
 
     private ContainerUI currentShowContainer; //当前选择的背包 (指角色面板中的背包选项,不包括人物正在穿的装备)
 
-    [Header("引用")] public TextMeshProUGUI titleText;
+    [Header("引用")] 
+    public Transform actionOnGameTransform;
+
+    public Transform actionOnUITransform;
+    
+    public TextMeshProUGUI titleText;
 
     public Tooltip itemTooltip;
 
@@ -54,13 +61,12 @@ public class InventoryManager : Singleton<InventoryManager>, ISavable
     private void Start()
     {
         GameManager.Instance.gameConfig.InitItemDict(itemNameToItemData);
-
         CurrentShowContainer = consumableContainer;
         //对所有背包进行 清空+刷新  TODO:后续会做新的游戏 和 继续游戏 的逻辑
         consumableInventory.ClearInventory();
         equipmentsInventory.ClearInventory();
         playerEquipmentInventory.ClearInventory();
-        actionInventory.ClearInventory();
+        //actionInventory.ClearInventory();
         RefreshAllContainer();
     }
 
@@ -72,6 +78,25 @@ public class InventoryManager : Singleton<InventoryManager>, ISavable
     private void OnDisable()
     {
         ((ISavable)this).UnRegisterSaveData();
+    }
+
+    public void SetActionContainerParent(PanelType panelType)
+    {
+        switch (panelType)
+        {
+            case PanelType.None:            
+            case PanelType.Skill:
+            case PanelType.QuestTask:
+                actionContainer.transform.SetParent(actionOnGameTransform);
+                actionContainer.transform.localScale = new Vector3(1, 1, 1);
+                actionContainer.transform.localPosition = Vector3.zero;
+                break;
+            case PanelType.Inventory:
+                actionContainer.transform.SetParent(actionOnUITransform);
+                actionContainer.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+                actionContainer.transform.localPosition = new Vector3(44, -344, 0);
+                break;
+        }
     }
 
     #region 切换不同的背包界面

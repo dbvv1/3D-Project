@@ -91,7 +91,6 @@ public class TransitionSO : ScriptableObject
         if (toState != null) 
         {
             stateMachineSystem.currentState.OnExit(stateMachineSystem);
-            Debug.Log(toState);
             stateMachineSystem.currentState = toState;
             stateMachineSystem.currentState.OnEnter(stateMachineSystem);            
         }

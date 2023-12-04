@@ -1,15 +1,15 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : Singleton<SceneLoader>
+public class SceneLoader : Singleton<SceneLoader>,ISavable
 {
     public GameSceneSO firstScene;
-
+    
     public float fadeDuration;
 
     [SerializeField] private Transform player;
@@ -27,17 +27,29 @@ public class SceneLoader : Singleton<SceneLoader>
     protected override void Awake()
     {
         base.Awake();
-        firstScene.sceneReference.LoadSceneAsync(LoadSceneMode.Additive);
-        currentScene = firstScene;
+        sceneToGo = firstScene;
+        LoadNewScene();
 
     }
+
+    private void OnEnable()
+    {
+        (this as ISavable).RegisterSaveData();
+    }
+
+    private void OnDisable()
+    {
+        (this as ISavable).UnRegisterSaveData();
+    }
+
+    public SceneType GetCurrentSceneType => currentScene.sceneType;
     
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="前往的场景"></param>
-    /// <param name="新场景的初始的位置"></param>
-    /// <param name="是否需要淡入淡出"></param>
+    /// <param name="sceneToGo">前往的场景</param>
+    /// <param name="posToGo">新场景的初始的位置</param>
+    /// <param name="needFade">是否需要淡入淡出</param>
     public void SceneTransition(GameSceneSO sceneToGo, Vector3 posToGo, bool needFade)
     {
         if (isLoading) return;
@@ -73,15 +85,42 @@ public class SceneLoader : Singleton<SceneLoader>
 
     private void OnLoadCompleted(AsyncOperationHandle<SceneInstance> obj)
     {
-        currentScene = sceneToGo;
-        isLoading = false;
-        GlobalEvent.CallAfterSceneLoadEvent(posToGo);
-        if (needFade)
+        if (obj.Status == AsyncOperationStatus.Succeeded)
         {
-            UIManager.Instance.fadeCanvas.FadeOut(fadeDuration);
+            currentScene = sceneToGo;
+            isLoading = false;
+            GlobalEvent.CallAfterSceneLoadEvent(posToGo);
+            if (needFade)
+            {
+                UIManager.Instance.fadeCanvas.FadeOut(fadeDuration);
+            }
+            SceneManager.SetActiveScene(obj.Result.Scene);
+        }
+        else
+        {
+            Debug.LogError("Failed to load scene: " + obj.OperationException.Message);
         }
         
 
 
     }
+
+    public string GetDataID()
+    {
+        return "Scene";
+    }
+
+    public void SaveData(Data data)
+    {
+        data.SaveScene(currentScene);
+        data.playerPos = new SerializeVector3(player.position);
+    }
+
+    public void LoadData(Data data)
+    {
+        isLoading = false;
+        SceneTransition(data.LoadScene(), data.playerPos.ToVector3(), true);
+
+    }
+
 }

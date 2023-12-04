@@ -61,13 +61,13 @@ public class CharacterData_SO : ScriptableObject
     public int curIntelligencePoint;
 
     [Header("升级信息")]
-    public float baseExp;                //升级所需的基础经验值
+    public int baseExp;                //升级所需的基础经验值
 
     public int curLevel;
     
-    public float curNeedExp;
+    public int curNeedExp;
 
-    public float curExp;
+    public int curExp;
 
     public float levelBuf;               //升级的整体加成
     

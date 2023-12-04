@@ -33,6 +33,7 @@ public class FirstPersonCamera : MonoBehaviour
     {
         mouseInput.Enable();
         GlobalEvent.switchToFirstPersonEvent += OnSwitchToFirstPerson;
+        GlobalEvent.CallSwitchToFirstPersonEvent();
     }
 
     private void OnDisable()
@@ -43,8 +44,9 @@ public class FirstPersonCamera : MonoBehaviour
 
     private void OnSwitchToFirstPerson()
     {
-        //在从第三人称转到第一人称的时候 需要调整yRotation
+        //在从第三人称转到第一人称的时候 需要调整yRotation xRotation
         yRotation = Vector3.Angle(playerFaceDirection.forward, Vector3.forward);
+        xRotation = 0;
         if (Vector3.Cross(playerFaceDirection.forward, Vector3.forward).y > 0) yRotation *= -1;
     }
 

@@ -18,8 +18,9 @@ public class TaskUIManager : Singleton<TaskUIManager>
     [Header("任务Requirement")]
     [SerializeField] private  Transform requirementListTransform;
     [SerializeField] private  TaskRequirement requirementPrefab;
-    
-    [Header("任务Reward")]
+
+    [Header("任务Reward")] 
+    [SerializeField] private GameObject rewardTitle;
     [SerializeField] private Transform rewardListTransform;
     [SerializeField] private ItemUI rewardUIPrefab;
     
@@ -31,6 +32,7 @@ public class TaskUIManager : Singleton<TaskUIManager>
     {
         taskPanel.SetActive(true);
         taskDescriptionText.text=string.Empty;
+        rewardTitle.SetActive(false);
         //显示面板内容
         SetupTaskList();
     }
@@ -82,6 +84,7 @@ public class TaskUIManager : Singleton<TaskUIManager>
     {
         foreach (Transform reward in rewardListTransform)
             Destroy(reward.gameObject);
+        rewardTitle.SetActive(true);
         foreach (var reward in taskData.rewards)
         {
             var rewardItem = Instantiate(rewardUIPrefab, rewardListTransform);

@@ -29,10 +29,10 @@ public enum SlotType
 
 public enum InventoryType
 {
-    ConsumableInventory,
-    EquipmentInventory,
-    PlayerEquipmentInventory,
-    ActionInventory
+    ConsumableInventory,              //消耗品背包 
+    EquipmentInventory,               //装备背包
+    PlayerEquipmentInventory,         //人物正在穿戴的装备背包
+    ActionInventory                   //快捷栏背包
 }
 
 //显示面板的类型
@@ -52,6 +52,14 @@ public enum DamageType
     Magical,       //魔法伤害
     True           //真实伤害
 
+}
+
+//敌人的阶层类型
+public enum EnemyLevelType
+{
+    Normal,
+    Elite,
+    Boss
 }
 
 //敌人的状态类型
@@ -79,8 +87,9 @@ public enum PersistentType
 
 public enum SceneType
 {
-    Location,
-    Menu
+    Menu,
+    RestScene,
+    FightScene
 }
 
 public enum TaskStateType

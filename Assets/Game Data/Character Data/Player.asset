@@ -13,18 +13,37 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   maxHealth: 1000
+  curHealth: 0
   maxEnergy: 50
+  curEnergy: 0
   maxMagic: 50
+  curMagic: 0
   baseHealthRecover: 0
-  baseEnergyRecover: 4
+  curHealthRecover: 0
+  baseEnergyRecover: 20
+  curEnergyRecover: 0
   baseMagicRecover: 0
+  curMagicRecover: 0
   basePhysicalDamage: 0
+  curPhysicalDamage: 0
   baseSkillDamage: 0
+  curSkillDamage: 0
   basePhysicalDefensive: 0
+  curPhysicalDefensive: 0
   baseMagicalDefensive: 0
+  curMagicalDefensive: 0
   basePowerPoint: 0
+  curPowerPoint: 0
   baseAgilityPoint: 0
+  curAgilityPoint: 0
   baseIntelligencePoint: 0
-  baseExp: 100
+  curIntelligencePoint: 0
+  baseExp: 20
+  curLevel: 0
+  curNeedExp: 20
+  curExp: 0
   levelBuf: 0.2
   invincibleTimeAfterHit: 0.5
+  money: 0
+  attributePoint: 0
+  skillPoint: 0

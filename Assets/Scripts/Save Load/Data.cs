@@ -1,13 +1,20 @@
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 //记录所有需要存储的数据
 public class Data
 {
-    private string curScene;
+    public string sceneToSave;
+
+    public SerializeVector3 playerPos;
     
     //所有角色的状态信息
     public Dictionary<string, CharacterData_SO> characterStatsData = new();
+    
+    public List<TaskData_SO> tasks = new ();
+
+    public Dictionary<string, TaskData_SO> taskDict = new();
 
     #region 背包信息
 
@@ -20,8 +27,7 @@ public class Data
     public InventoryData_SO actionInventory = ScriptableObject.CreateInstance<InventoryData_SO>();
     
     #endregion
-
-    public List<TaskData_SO> tasks;
+    
     
     /*public void SaveAllInventory(InventoryData_SO i1, InventoryData_SO i2, InventoryData_SO i3, InventoryData_SO i4)
     {
@@ -35,14 +41,16 @@ public class Data
         actionInventory.SaveInventory(i4);
     }*/
 
-    public void SaveScene()
+    public void SaveScene(GameSceneSO gameScene)
     {
-        
+        sceneToSave = JsonUtility.ToJson(gameScene);
     }
 
-    public void GetSavedScene()
+    public GameSceneSO LoadScene()
     {
-        
+         var gameScene = ScriptableObject.CreateInstance<GameSceneSO>();
+         JsonUtility.FromJsonOverwrite(sceneToSave, gameScene);
+         return gameScene;
     }
     
     

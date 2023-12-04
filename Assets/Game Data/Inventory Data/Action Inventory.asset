@@ -19,11 +19,5 @@ MonoBehaviour:
     itemAmount: 0
   - itemData: {fileID: 0}
     itemAmount: 0
-  - itemData: {fileID: 0}
-    itemAmount: 0
-  - itemData: {fileID: 0}
-    itemAmount: 0
-  - itemData: {fileID: 0}
-    itemAmount: 0
-  itemCapacity: 6
+  itemCapacity: 3
   itemCount: 0

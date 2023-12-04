@@ -17,7 +17,7 @@ public class AttackDefinition : MonoBehaviour
     public float DamageAmount => attackBaseDamage + damageType switch
     {
         DamageType.Physical => attacker.CurPhysicalDamage,
-        DamageType.Magical => attacker.CurMagicDamage,
+        DamageType.Magical => attacker.CurSkillDamage,
         DamageType.True => 0,
         _ => 0
     };

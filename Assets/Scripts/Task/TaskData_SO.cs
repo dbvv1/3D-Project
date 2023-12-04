@@ -9,7 +9,7 @@ public class TaskData_SO : ScriptableObject
     [System.Serializable]
     public class TaskRequire
     {
-        //暂时以目标的名字作为判断
+        //任务需求
         public string requireName;
         
         public int requireAmount;
@@ -55,6 +55,11 @@ public class TaskData_SO : ScriptableObject
                 InventoryManager.Instance.TaskRewardItem(reward, reward.itemAmount);
             }
         }
+    }
+
+    public void InitTaskData(TaskData_SO taskData)
+    {
+        
     }
     
 }

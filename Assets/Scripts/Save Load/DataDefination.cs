@@ -9,6 +9,7 @@ public class DataDefination : MonoBehaviour
 
     public string id;
 
+    
     private void OnValidate()
     {
         if (persistentType == PersistentType.ReadWrite)

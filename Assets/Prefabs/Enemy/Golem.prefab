@@ -456,7 +456,7 @@ CharacterController:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 24576
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
@@ -556,7 +556,13 @@ MonoBehaviour:
   barrierLayer:
     serializedVersion: 2
     m_Bits: 1024
-  FocusTransform: {fileID: 1635356168944818836}
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  focusTransform: {fileID: 1635356168944818836}
   rockPrefab: {fileID: -8640492808129845079, guid: f66e99a53caead541a64bfb108aab8be, type: 3}
   rockSpawnPoint: {fileID: 5168276191853501449}
 --- !u!82 &7546940772963840253
@@ -685,8 +691,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be90acc7c51d3484fa0f57de970b3114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  exp: 0
-  money: 0
+  exp: 20
+  money: 20
   lootItemCount: 4
   lootItems:
   - lootItem:

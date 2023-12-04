@@ -32,14 +32,14 @@ public abstract class PoolItemBase : MonoBehaviour, IPool
     public virtual void SettingObject(Transform user)
     {
         this.user = user;
-        GOPoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(maxDelayTime,() => RecycleObject(), false);
+        PoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(maxDelayTime,() => RecycleObject(), false);
     }
 
     //回收物品
     public virtual void RecycleObject()
     {
         this.user = null;
-        GOPoolManager.Instance.RecycleGameObject(gameObject, objectName);
+        PoolManager.Instance.RecycleGameObject(gameObject, objectName);
 
     }
 

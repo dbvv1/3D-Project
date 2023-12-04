@@ -68,6 +68,7 @@ public class UIManager : Singleton<UIManager>
             }
             currentPanel = value;
             //设定新的面板
+            InventoryManager.Instance.SetActionContainerParent(currentPanel);
             switch (currentPanel)
             {
                 case PanelType.None:

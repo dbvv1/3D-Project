@@ -9,6 +9,8 @@ public class TransitionPoint : MonoBehaviour
 
     [SerializeField] private Vector3 positionToGo;
 
+    [SerializeField] private bool hideAfterTransition;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -18,5 +20,6 @@ public class TransitionPoint : MonoBehaviour
     private void TransitionAction()
     {
         SceneLoader.Instance.SceneTransition(sceneToGo, positionToGo, true);
+        if(hideAfterTransition) gameObject.SetActive(false);
     }
 }

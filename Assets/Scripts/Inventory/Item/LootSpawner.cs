@@ -53,8 +53,8 @@ public class LootSpawner : MonoBehaviour
 
     public void SpawnLoot()
     {
-        //TODO:掉落 经验值 金钱
-        //enemyController.player.
+        enemyController.player.ChangeExp(exp);
+        enemyController.player.ChangeMoney(money);
         
         //采用轮盘赌算法处理掉落的物品
         for (int i = 0; i < lootItemCount; i++)
@@ -65,7 +65,10 @@ public class LootSpawner : MonoBehaviour
                 if (random <= accP[j + 1])
                 {
                     if (lootItems[j].LootItemCount != 0)
-                        Instantiate(lootItems[j].GetRandomObject(), enemyController.FocusTransform.position,Quaternion.identity);
+                    {
+                        Vector3 randomPos = new Vector3(Random.value, Random.value, Random.value);
+                        Instantiate(lootItems[j].GetRandomObject(), enemyController.focusTransform.position+randomPos,Quaternion.identity);
+                    }
                     break;
                 }
             }

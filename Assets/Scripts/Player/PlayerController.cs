@@ -674,10 +674,12 @@ public class PlayerController : MonoBehaviour
         //如果当前锁定的敌人死亡，则解除死亡状态
         if(curLockedEnemy!=null&&curLockedEnemy==enemy)
         {
+            Debug.Log("Enemy Death");
             IsLock = false;
             curLockedEnemy = null;
             GlobalEvent.CallExitFocusOnEnemy();
             CameraManager.Instance.SwitchCameraStyle(CameraStyle.ThirdPersonNormal);
+            
         }
     }
 

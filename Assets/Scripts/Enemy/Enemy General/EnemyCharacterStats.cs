@@ -6,11 +6,25 @@ public class EnemyCharacterStats : CharacterStats
 {
     private EnemyController enemy;
     private EnemyStatsBarUI enemyStatsBarUI;
+    private EnemyData_SO enemyData;
+    
     protected override void Awake()
     {
         base.Awake();
         enemy = GetComponent<EnemyController>();
         enemyStatsBarUI = GetComponent<EnemyStatsBarUI>();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        enemyData=characterData as EnemyData_SO;
+        
+    }
+
+    protected override void Update()
+    {
+        base.Update();
     }
 
     protected override void RecoverStats()
@@ -61,7 +75,7 @@ public class EnemyCharacterStats : CharacterStats
             //将该敌人加入到虚弱敌人表中
             GameManager.Instance.AddWeakEnemy(enemy);
             GlobalEvent.CallEnemyEnterWeakState(enemy);
-            GOPoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(2f, () => 
+            PoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime(2f, () => 
             {
                 if(enemy!=null)
                 {
@@ -76,7 +90,6 @@ public class EnemyCharacterStats : CharacterStats
             });
 
         }
-        Debug.Log("怪物血量:" + CurHealth);
     }
 
 

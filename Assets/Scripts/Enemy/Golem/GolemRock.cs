@@ -54,7 +54,7 @@ public class GolemRock : MonoBehaviour
     public void InitAfterFly(GolemController golemController)
     {
         rb.isKinematic = false;
-        transform.SetParent(GOPoolManager.Instance.poolObjectParent);
+        transform.SetParent(PoolManager.Instance.poolObjectParent);
         rb.velocity = Vector3.one;
         FlyToTarget();
         CurrentRockState = RockState.HitPlayer;
@@ -86,7 +86,7 @@ public class GolemRock : MonoBehaviour
                     other.gameObject.GetComponent<PlayerCharacterStats>().TakeDamage(attackDefinition);
                     if (playerInfo.IsPerfectParry())
                     {
-                        Vector3 toEnemy = (golemController.FocusTransform.position - transform.position).normalized;
+                        Vector3 toEnemy = (golemController.focusTransform.position - transform.position).normalized;
                         rb.velocity = Vector3.one;
                         CurrentRockState = RockState.HitEnemy;
                         attackDefinition.attacker = playerInfo.GetComponent<PlayerCharacterStats>();
@@ -122,7 +122,7 @@ public class GolemRock : MonoBehaviour
                 //如果玩家目前是锁定状态，则直接将岩石飞向锁定的敌人
                 var playerController = other.GetComponentInParent<PlayerController>();
                 if (playerController.GetCurrentLockEnemy != null)
-                    direction = (playerController.GetCurrentLockEnemy.FocusTransform.position - transform.position).normalized;
+                    direction = (playerController.GetCurrentLockEnemy.focusTransform.position - transform.position).normalized;
                 rb.AddForce(direction * force, ForceMode.Impulse);
                 attackDefinition.attacker = playerController.playerCurrentStats;
                 CurrentRockState = RockState.HitEnemy;

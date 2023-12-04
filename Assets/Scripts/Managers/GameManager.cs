@@ -14,13 +14,10 @@ public class GameManager : Singleton<GameManager>
     public HashSet<EnemyController> weakEnemies=new();  //记录所有处于虚弱状态的敌人 
 
     public GameConfig gameConfig;
-
-
+    
     private void Start()
     {
         Application.targetFrameRate = 120;
-        
-
     }
 
     private void OnEnable()

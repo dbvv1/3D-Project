@@ -17,7 +17,7 @@ MonoBehaviour:
   taskRequires:
   - requireName: Metalon
     requireAmount: 3
-    currentAmount: 0
+    currentAmount: 6
   rewards:
   - itemData: {fileID: 11400000, guid: 2d8ad9c08ab39ab4ca79b66f78cbff7f, type: 2}
     itemAmount: 3

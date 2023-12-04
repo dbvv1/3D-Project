@@ -23,7 +23,7 @@ public abstract class CombatSkillBase_SO : ScriptableObject
         isSkillDone = false;
 
         //处理技能CD：使用计时器Timer
-        GOPoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime
+        PoolManager.Instance.TakeGameObject("Timer").GetComponent<Timer>().CreateTime
             (skillCDTime, () => isSkillDone = true);
 
     }

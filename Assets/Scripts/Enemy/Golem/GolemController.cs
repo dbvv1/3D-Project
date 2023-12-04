@@ -9,10 +9,21 @@ public class GolemController : EnemyController
     [SerializeField] private Transform rockSpawnPoint;
     
     private GolemRock currentRock;
-    
-    protected override void SettingEnemyName()
+
+    private const string StaticName = "Golem";
+    private const EnemyLevelType StaticType = EnemyLevelType.Elite;
+
+    public override string EnemyName => StaticName;
+    public override EnemyLevelType EnemyLevel => StaticType;
+
+    public override void InitAfterGenerate()
     {
-        enemyTypeName = "Golem";
+        base.InitAfterGenerate();
+    }
+
+    public override EnemyFactory CreateFactory(EnemyController enemyPrefab)
+    {
+        return new GolemFactory(enemyPrefab as GolemController);
     }
 
     public override void AttackNearF()

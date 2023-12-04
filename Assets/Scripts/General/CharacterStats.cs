@@ -11,7 +11,7 @@ public class CharacterStats : MonoBehaviour, ISavable
     //角色的模板属性值
     public CharacterData_SO originalCharacterData;
 
-    private CharacterData_SO characterData;
+    protected CharacterData_SO characterData;
 
     private AudioSource characterAudioSource;
 
@@ -97,7 +97,7 @@ public class CharacterStats : MonoBehaviour, ISavable
         set => characterData.baseMagicRecover = value;
     }
 
-    public float BaseExp
+    public int BaseExp
     {
         get => characterData.baseExp;
         set => characterData.baseExp = value;
@@ -143,7 +143,7 @@ public class CharacterStats : MonoBehaviour, ISavable
         set => characterData.curPhysicalDamage = value;
     }
 
-    public float CurMagicDamage
+    public float CurSkillDamage
     {
         get => characterData.curSkillDamage;
         set => characterData.curSkillDamage = value;
@@ -185,13 +185,13 @@ public class CharacterStats : MonoBehaviour, ISavable
         set => characterData.curLevel = value;
     }
 
-    public float CurExp
+    public int CurExp
     {
         get => characterData.curExp;
         set => characterData.curExp = value;
     }
 
-    public float CurNeedExp
+    public int CurNeedExp
     {
         get => characterData.curNeedExp;
         set => characterData.curNeedExp = value;
@@ -214,6 +214,7 @@ public class CharacterStats : MonoBehaviour, ISavable
         get => characterData.curMagicRecover;
         set => characterData.curMagicRecover = value;
     }
+    
 
     #endregion
 
@@ -264,12 +265,12 @@ public class CharacterStats : MonoBehaviour, ISavable
         anim = GetComponent<Animator>();
         if (characterData == null)
         {
-            characterData = ScriptableObject.CreateInstance<CharacterData_SO>();
+            characterData = Instantiate(originalCharacterData);
             characterData.InitCharacterData(originalCharacterData);
         }
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         ResetStats();
     }
@@ -296,16 +297,31 @@ public class CharacterStats : MonoBehaviour, ISavable
         CurHealth = MaxHealth;
         CurEnergy = MaxEnergy;
         CurMagic = MaxMagic;
-        
+
         CurHealthRecover = BaseHealthRecover;
         CurEnergyRecover = BaseEnergyRecover;
-        CurMagicRecover = BaseMagicRecover;
+        CurMagicRecover= BaseMagicRecover;
+
+        CurPhysicalDamage = BasePhysicalDamage;
+        CurSkillDamage = BaseSkillDamage;
+        CurPhysicalDefensive = BasePhysicalDefensive;
+        CurMagicalDefensive = BaseMagicalDefensive;
     }
 
     //升级
-    public void LevelUp()
+    protected virtual void LevelUp()
     {
-        
+        CurLevel++;
+        CurNeedExp = (int)(CurNeedExp * (1 + LevelBuf));
+        MaxHealth *= (1 + LevelBuf);
+        MaxEnergy *= (1 + LevelBuf);
+        MaxMagic *= (1 + LevelBuf);
+        BasePhysicalDamage *= (1 + LevelBuf);
+        BaseSkillDamage *= (1 + LevelBuf);
+        BasePhysicalDefensive*= (1 + LevelBuf);
+        BaseMagicalDefensive*= (1 + LevelBuf);
+        ResetStats();
+        //通知UI面板的更新，在子类中实现
     }
 
 
@@ -376,9 +392,9 @@ public class CharacterStats : MonoBehaviour, ISavable
         return GetComponent<DataDefination>().id;
     }
 
-    public void SaveData(Data data)
+    public  void SaveData(Data data)
     {
-        var saveCharacterData = ScriptableObject.CreateInstance<CharacterData_SO>();
+        var saveCharacterData = Instantiate(originalCharacterData);
         saveCharacterData.InitCharacterData(characterData);
         if (data.characterStatsData.ContainsKey(GetDataID()))
             data.characterStatsData[GetDataID()] = saveCharacterData;
@@ -386,7 +402,7 @@ public class CharacterStats : MonoBehaviour, ISavable
             data.characterStatsData.Add(GetDataID(), saveCharacterData);
     }
 
-    public void LoadData(Data data)
+    public  void LoadData(Data data)
     {
         if (data.characterStatsData.ContainsKey(GetDataID()))
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(DialogueController))]
 public class TaskGiver : MonoBehaviour
@@ -12,16 +13,15 @@ public class TaskGiver : MonoBehaviour
    [Header("不同任务状态下的对话")] 
    [SerializeField] private DialogueData_SO startDialogueData;
    [SerializeField] private DialogueData_SO progressDialogueData;
-   [SerializeField] private DialogueData_SO CompleteDialogueData;
-   [SerializeField] private DialogueData_SO FinishDialogueData;
-
+   [SerializeField] private DialogueData_SO completeDialogueData;
+   [SerializeField] private DialogueData_SO finishDialogueData;
+   
    public TaskStateType TaskState
    {
       get
       {
-         var task = TaskManager.Instance.GetTask(currentTaskData);
-         if (task == null) return TaskStateType.NotStarted;
-         return task.TaskState;
+         var taskOnGame = TaskManager.Instance.GetTask(currentTaskData);
+         return taskOnGame == null ? TaskStateType.Started : taskOnGame.TaskState;
       }
    }
    
@@ -42,8 +42,8 @@ public class TaskGiver : MonoBehaviour
       {
          TaskStateType.NotStarted => startDialogueData,
          TaskStateType.Started => progressDialogueData,
-         TaskStateType.Completed => CompleteDialogueData,
-         TaskStateType.Finished => FinishDialogueData,
+         TaskStateType.Completed => completeDialogueData,
+         TaskStateType.Finished => finishDialogueData,
          _ => null
       };
    }

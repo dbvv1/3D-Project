@@ -52,6 +52,7 @@ public class OptionUI : MonoBehaviour
             //任务列表中没有该Task 则直接加入
             else
             {
+                
                 TaskManager.Instance.AddTask(currentDialoguePiece.taskData);
                 //初始化进度：对于所有的需求，检测背包中的物品
                 foreach (var taskRequire in currentDialoguePiece.taskData.taskRequires)

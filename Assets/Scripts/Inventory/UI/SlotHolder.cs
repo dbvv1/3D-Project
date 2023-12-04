@@ -30,7 +30,8 @@ public class SlotHolder : MonoBehaviour,IPointerClickHandler,IPointerEnterHandle
 
             }
 
-            itemUI.GetInventoryItem.itemAmount--;
+            if (--itemUI.GetInventoryItem.itemAmount == 0) itemUI.Bag.itemCount--;
+            
             TaskManager.Instance.UpdateTaskProgress(itemData.itemName, -1);
             if(itemUI.GetInventoryItem.itemAmount==0) InventoryManager.Instance.itemTooltip.gameObject.SetActive(false); 
             UpdateItem();
@@ -38,18 +39,18 @@ public class SlotHolder : MonoBehaviour,IPointerClickHandler,IPointerEnterHandle
     }
 
     //使用物品
-    private void UseItem(ItemData_SO itemData)
+    public void UseItem(ItemData_SO itemData)
     {
         itemData.usableItemData.OnUse();
     }
 
-    //TODO:装备主要武器
+    //装备主要武器
     private void EquipPrimaryWeaponWeapon(ItemData_SO itemData)
     {
         
     }
 
-    //TODO:装备次要武器
+    //装备次要武器
     private void EquipSecondaryWeapon(ItemData_SO itemData)
     {
         
