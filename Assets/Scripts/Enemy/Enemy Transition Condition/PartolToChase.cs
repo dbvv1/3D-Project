@@ -5,9 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Patrol To Chase", menuName = "State Machine/Condition/Patrol To Chase")]
 public class PatrolToChase : ConditionSO
 {
-
-    public override bool ConditionSetUp(StateMachineSystem stateMachineSystem)
+    public override bool ConditionSetUp(EnemyController currentEnemy)
     {
-        return stateMachineSystem.currentEnemy.FindPlayer;
+        return currentEnemy.FindPlayer;
     }
 }

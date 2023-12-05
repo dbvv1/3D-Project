@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class EnemyController : MonoBehaviour, ICreateFactory
+public abstract class EnemyController : MonoBehaviour, ICreateFactory, IStateMachineEnemy
 {
     [Header("引用")] [HideInInspector] public Animator anim;
 
@@ -14,7 +14,9 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
 
     protected CharacterController characterController;
 
-    protected StateMachineSystem stateMachineSystem;
+    //每个敌人的当前所属状态
+    public StateActionSO CurrentEnemyState { get; set; }
+
 
     [Header("敌人属性")] public float curSpeed;
 
@@ -61,6 +63,15 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
     protected int animHurtLayer;
     protected int animCombatLayer;
 
+    //动画参数缓存
+    private static readonly int Find = Animator.StringToHash("FindPlayer");
+    private static readonly int Wait = Animator.StringToHash("IsWait");
+    private static readonly int Death = Animator.StringToHash("Death");
+    private static readonly int Executed = Animator.StringToHash("IsExecuted");
+    private static readonly int Hurt = Animator.StringToHash("Hurt");
+    private static readonly int AttackNear = Animator.StringToHash("AttackNear");
+    private static readonly int AttackFar = Animator.StringToHash("AttackFar");
+
     #region 敌人状态
 
     protected bool findPlayer;
@@ -76,6 +87,8 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
             anim.SetBool(Find, value);
         }
     }
+
+    private bool IsInit { get; set; } = true;
 
     protected bool isWait;
 
@@ -120,14 +133,8 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
         }
     }
 
+
     protected bool isExecuted;
-    private static readonly int Find = Animator.StringToHash("FindPlayer");
-    private static readonly int Wait = Animator.StringToHash("IsWait");
-    private static readonly int Death = Animator.StringToHash("Death");
-    private static readonly int Executed = Animator.StringToHash("IsExecuted");
-    private static readonly int Hurt = Animator.StringToHash("Hurt");
-    private static readonly int AttackNear = Animator.StringToHash("AttackNear");
-    private static readonly int AttackFar = Animator.StringToHash("AttackFar");
 
     public bool IsExecuted
     {
@@ -158,7 +165,6 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
         enemyCharacterStats = GetComponent<EnemyCharacterStats>();
         anim = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
-        stateMachineSystem = GetComponent<StateMachineSystem>();
         enemyData = enemyCharacterStats.originalCharacterData as EnemyData_SO;
     }
 
@@ -174,12 +180,14 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
     {
         originalPosition = transform.position;
         GameManager.Instance.RegisterEnemy(this);
+        RegisterStateMachineEnemy();
     }
 
     private void OnDisable()
     {
         GameManager.Instance.UnRegisterEnemy(this);
         TaskManager.Instance.UpdateTaskProgress(EnemyName, 1);
+        UnRegisterStateMachineEnemy();
     }
 
 
@@ -188,8 +196,8 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
         //默认受伤会造成僵直 boss可能会改变
         if (IsHurt || IsExecuted) return;
         FindPlayer = CanFindPlayer();
-        if (!isDead && !IsWait && !IsHurt && !IsExecuted)
-            Move();
+        if (!isDead && !IsWait && !IsHurt && !IsExecuted&&!IsInit)
+             Move();
     }
 
     //设置敌人类型的名字 类型  //可以在prefab界面中进行赋值 或者 用Static成员变量
@@ -205,8 +213,13 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
             randomPos = new Vector3(Random.Range(-20f, 20f), 0f, Random.Range(-20f, 20f));
             isOccupied = Physics.CheckSphere(randomPos, 3f, barrierLayer | enemyLayer);
         }
+
+        characterController.enabled = false;
         transform.position = randomPos;
         originalPosition = randomPos;
+        characterController.enabled = true;
+
+        IsInit = false;
         //后续可以增加特效的生成 等等额外内容
     }
 
@@ -263,7 +276,7 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
             yield return null;
         }
 
-        curSpeed = stateMachineSystem.currentStateType switch
+        curSpeed = CurrentEnemyState.enemyStateType switch
         {
             EnemyState.PatrolState => walkSpeed,
             EnemyState.ChaseState => chaseSpeed,
@@ -299,13 +312,15 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
     //进行近战攻击
     public virtual void AttackNearF()
     {
-        anim.SetTrigger(AttackNear);
+        if (!IsHurt)
+            anim.SetTrigger(AttackNear);
     }
 
     //进行远程攻击
     public virtual void AttackFarF()
     {
-        anim.SetTrigger(AttackFar);
+        if (!IsHurt)
+            anim.SetTrigger(AttackFar);
     }
 
     #region UnityEvent事件
@@ -348,5 +363,10 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory
         //Gizmos.DrawWireSphere(originalPosition, patrolRadius);
     }
 
+    //生成工厂接口
     public abstract EnemyFactory CreateFactory(EnemyController enemyPrefab);
+
+    //注册状态机的接口
+    public abstract void RegisterStateMachineEnemy();
+    public abstract void UnRegisterStateMachineEnemy();
 }

@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="Attack To Chase",menuName ="State Machine/Condition/Attack To Chase")]
 public class AttackToChase : ConditionSO
 {
-    public override bool ConditionSetUp(StateMachineSystem stateMachineSystem)
+    public override bool ConditionSetUp(EnemyController currentEnemy)
     {
-        float distance = Vector3.Distance(stateMachineSystem.currentEnemy.transform.position, stateMachineSystem.currentEnemy.player.transform.position);
+        float distance = Vector3.Distance(currentEnemy.transform.position, currentEnemy.player.transform.position);
         //如果敌人超出了攻击距离，则转变为追逐状态
-        return distance > stateMachineSystem.currentEnemy.AttackStateDistance;
+        return distance > currentEnemy.AttackStateDistance;
     }
 }

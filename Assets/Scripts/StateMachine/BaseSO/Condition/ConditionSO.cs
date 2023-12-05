@@ -5,6 +5,6 @@ using UnityEngine;
 //转换条件
 public abstract class ConditionSO : ScriptableObject
 {
-    public abstract bool ConditionSetUp(StateMachineSystem stateMachineSystem);//条件是否成立
+    public abstract bool ConditionSetUp(EnemyController currentEnemy);//条件是否成立
 
 }

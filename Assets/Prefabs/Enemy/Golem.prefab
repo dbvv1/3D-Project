@@ -368,7 +368,6 @@ GameObject:
   - component: {fileID: 7546940772963840253}
   - component: {fileID: 958311238192643044}
   - component: {fileID: 6952934815864136074}
-  - component: {fileID: 2302991831985235295}
   m_Layer: 12
   m_Name: Golem
   m_TagString: Enemy
@@ -704,22 +703,6 @@ MonoBehaviour:
   - lootItem:
     - {fileID: 8579766705813389976, guid: d3fa0ddc289c0af4bba684cfb2ff307a, type: 3}
     weight: 1
---- !u!114 &2302991831985235295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5441576400994468364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 554d3e1dad5c59e47b4256bb92ffa0bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  transition: {fileID: 11400000, guid: 1975bd79118851a4c8eb19b1b5d2f2db, type: 2}
-  currentState: {fileID: 11400000, guid: fe95bd82347aa5f44b855b0bd3c0e45b, type: 2}
-  currentStateType: 0
-  currentEnemy: {fileID: 0}
 --- !u!1 &5639393612820238288
 GameObject:
   m_ObjectHideFlags: 0
