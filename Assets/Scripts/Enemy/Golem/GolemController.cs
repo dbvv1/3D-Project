@@ -26,6 +26,16 @@ public class GolemController : EnemyController
         return new GolemFactory(enemyPrefab as GolemController);
     }
 
+    public override void RegisterStateMachineEnemy()
+    {
+        GolemStateMachine.Instance.AddEnemy(this);
+    }
+
+    public override void UnRegisterStateMachineEnemy()
+    {
+        GolemStateMachine.Instance.RemoveEnemy(this);
+    }
+
     public override void AttackNearF()
     {
         base.AttackNearF();

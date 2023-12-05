@@ -30,18 +30,28 @@ public class MetalonController : EnemyController
     {
         return new MetalonFactory(enemyPrefab as MetalonController);
     }
-    
+
+    public override void RegisterStateMachineEnemy()
+    {
+        MetalonStateMachine.Instance.AddEnemy(this);
+    }
+
+    public override void UnRegisterStateMachineEnemy()
+    {
+        MetalonStateMachine.Instance.RemoveEnemy(this);
+    }
+
 
     public void SettingMaterials()
     {
         meshRenderer.material = _metalonMaterials[Random.Range(0, _metalonMaterials.Length)];
     }
 
-    protected override void Move()
-    {
-        if (anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack")) return;
-        if (Physics.Raycast(focusTransform.position, focusTransform.forward,  2.5f, playerLayer | barrierLayer))       return;
-        characterController.Move(curSpeed * Time.deltaTime * transform.forward.normalized);
-    }
+    // protected override void Move()
+    // {
+    //     if (anim.GetCurrentAnimatorStateInfo(animCombatLayer).IsTag("Attack")) return;
+    //     if (Physics.Raycast(focusTransform.position, focusTransform.forward,  2.5f, playerLayer | barrierLayer))       return;
+    //     characterController.Move(curSpeed * Time.deltaTime * transform.forward.normalized);
+    // }
 
 }

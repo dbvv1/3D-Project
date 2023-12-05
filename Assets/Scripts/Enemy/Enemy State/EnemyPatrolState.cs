@@ -8,18 +8,15 @@ public class EnemyPatrolState : StateActionSO
 
     [SerializeField]protected float waitTime;  //巡逻到点位后的等待时间
 
-    public override void OnEnter(StateMachineSystem stateMachineSystem)
+    public override void OnEnter(EnemyController currentEnemy)
     {
-        EnemyController currentEnemy = stateMachineSystem.currentEnemy;
-        stateMachineSystem.currentStateType = EnemyState.PatrolState;
-        currentEnemy.patrolTargetPos=currentEnemy.GetRandomPatrolPoint();
-        currentEnemy.StartCoroutine(currentEnemy.WaitPatrolTime(0, currentEnemy.patrolTargetPos));
+        currentEnemy.patrolTargetPos = currentEnemy.GetRandomPatrolPoint();
+        currentEnemy.StartCoroutine(currentEnemy.WaitPatrolTime(waitTime/2, currentEnemy.patrolTargetPos));
     }
 
-    public override void OnUpdate(StateMachineSystem stateMachineSystem)
+    public override void OnUpdate(EnemyController currentEnemy)
     {
         //如果到达巡逻点 则进入等待，后选择下一个巡逻点
-        EnemyController currentEnemy = stateMachineSystem.currentEnemy;
         if (currentEnemy == null || currentEnemy.IsDead||currentEnemy.IsHurt) return;
         if (!currentEnemy.IsWait&&FinishTargetPos(currentEnemy))
         {

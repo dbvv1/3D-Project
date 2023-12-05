@@ -64,17 +64,19 @@ public class TransitionSO : ScriptableObject
     /// <summary>
     /// 尝试去获取条件成立的新状态
     /// </summary>
-    public void TryGetApplyCondition(StateMachineSystem stateMachineSystem) 
+    public void TryGetApplyCondition(EnemyController currentEnemy) 
     {
         int transitionPriority = -1;
         StateActionSO toState = null;
 
+        if (ReferenceEquals(currentEnemy.CurrentEnemyState, null)) return;
+        
         //遍历当前状态能转的状态是否有条件成立
-        if (states.ContainsKey(stateMachineSystem.currentState))
+        if (states.ContainsKey(currentEnemy.CurrentEnemyState))
         {
-            foreach (var stateItem in states[stateMachineSystem.currentState])
+            foreach (var stateItem in states[currentEnemy.CurrentEnemyState])
             {
-                if (stateItem.condition.ConditionSetUp(stateMachineSystem))
+                if (stateItem.condition.ConditionSetUp(currentEnemy))
                 {
                     if (stateItem.priority > transitionPriority)
                     {
@@ -88,11 +90,11 @@ public class TransitionSO : ScriptableObject
         else return;
 
         //可以进行转换状态
-        if (toState != null) 
+        if (!ReferenceEquals(toState, null))  
         {
-            stateMachineSystem.currentState.OnExit(stateMachineSystem);
-            stateMachineSystem.currentState = toState;
-            stateMachineSystem.currentState.OnEnter(stateMachineSystem);            
+            currentEnemy.CurrentEnemyState.OnExit(currentEnemy);
+            currentEnemy.CurrentEnemyState = toState;
+            currentEnemy.CurrentEnemyState.OnEnter(currentEnemy);            
         }
     }
 

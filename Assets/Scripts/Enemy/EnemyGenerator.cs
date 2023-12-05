@@ -40,7 +40,7 @@ public class EnemyGenerator : MonoBehaviour
     private readonly Dictionary<string, EnemyFactory> enemyNameToFactories = new();
     
     private float generateTimeCounter; // 生成冷却时间的计时器
-    public float GenerateTimeCounter
+    private float GenerateTimeCounter
     {
         get => generateTimeCounter;
         set
@@ -118,7 +118,7 @@ public class EnemyGenerator : MonoBehaviour
     }
 
 
-    public IEnumerator GenerateEnemy()
+    private IEnumerator GenerateEnemy()
     {
         ++generateTimes;
         transitionPatrol.gameObject.SetActive(false);

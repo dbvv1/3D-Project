@@ -5,15 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Attack State", menuName = "State Machine/State/EnemyAttackState")]
 public class EnemyAttackState : StateActionSO
 {
-    public override void OnEnter(StateMachineSystem stateMachineSystem)
+    public override void OnEnter(EnemyController currentEnemy)
     {
-        stateMachineSystem.currentStateType = EnemyState.AttackState;
-        stateMachineSystem.currentEnemy.curSpeed = 0;//停下移动准备攻击
+        currentEnemy.curSpeed = 0;//停下移动准备攻击
     }
 
-    public override void OnUpdate(StateMachineSystem stateMachineSystem)
+    public override void OnUpdate(EnemyController currentEnemy)
     {
-        EnemyController currentEnemy = stateMachineSystem.currentEnemy;
         Vector3 playerPos = currentEnemy.player.transform.position;
         
         if (currentEnemy == null || currentEnemy.IsDead||currentEnemy.IsHurt) return;
@@ -30,9 +28,9 @@ public class EnemyAttackState : StateActionSO
         currentEnemy.transform.rotation=(Quaternion.Slerp(currentEnemy.transform.rotation, toRotation, Time.deltaTime * currentEnemy.rotateSpeed));
     }
 
-    public override void OnExit(StateMachineSystem stateMachineSystem)
+    public override void OnExit(EnemyController currentEnemy)
     {
-        stateMachineSystem.currentEnemy.curSpeed = stateMachineSystem.currentEnemy.chaseSpeed;
+        currentEnemy.curSpeed = currentEnemy.chaseSpeed;
     }
 
     private void Attack(EnemyController currentEnemy,float distance)
