@@ -4,13 +4,20 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface UseEffect
+// 实现三： 使用 基于 ScriptableObject 的抽象基类 来实现不同的效果
+// public abstract class UseEffect:ScriptableObject
+// {
+//     public abstract void OnUse(){}
+// }
+
+// 实现二： 使用基于 接口 来实现不同效果
+public interface IUseEffect
 {
     public void OnUse();
 }
 
 [System.Serializable]
-public class StatsRecoveryEffect : UseEffect
+public class StatsRecoveryEffect : IUseEffect
 {
     [Header("回复功能")] 
     [SerializeField, JsonProperty] private float healthRecovery;
@@ -35,14 +42,14 @@ public class StatsRecoveryEffect : UseEffect
     
     public void OnUse()
     {
-        GlobalEvent.CallUseRecoveryItemEvent(healthRecovery, energyRecovery, magicRecovery);
+        UsableItemGlobalEvent.CallUseRecoveryItemEvent(healthRecovery, energyRecovery, magicRecovery);
     }
     
 
 }
 
 [System.Serializable]
-public class StatsIncreaseEffect : UseEffect
+public class StatsIncreaseEffect : IUseEffect
 {
     [Header("状态属性变化")] 
     [SerializeField, JsonProperty] private float healthLimitIncrease;
@@ -67,13 +74,13 @@ public class StatsIncreaseEffect : UseEffect
 
     public void OnUse()
     {
-        GlobalEvent.CallUseStatsIncreaseItemEvent(healthLimitIncrease,energyLimitIncrease,magicLimitIncrease);
+        UsableItemGlobalEvent.CallUseStatsIncreaseItemEvent(healthLimitIncrease,energyLimitIncrease,magicLimitIncrease);
     }
 
 }
 
 [System.Serializable]
-public class AbilityIncreaseEffect : UseEffect
+public class AbilityIncreaseEffect : IUseEffect
 {
     [Header("能力属性变化")]
     [SerializeField, JsonProperty] private float physicalAttackIncrease;
@@ -103,13 +110,13 @@ public class AbilityIncreaseEffect : UseEffect
     
     public void OnUse()
     {
-        GlobalEvent.CallUseAttackIncreaseItemEvent(physicalAttackIncrease,magicAttackIncrease,physicalDefensiveIncrease,magicDefensiveIncrease);
+        UsableItemGlobalEvent.CallUseAttackIncreaseItemEvent(physicalAttackIncrease,magicAttackIncrease,physicalDefensiveIncrease,magicDefensiveIncrease);
     }
 
 }
 
 [System.Serializable]
-public class EventInvokeEffect : UseEffect
+public class EventInvokeEffect : IUseEffect
 {
     [Header("物品使用触发的一些特殊事件")] 
     [SerializeField, JsonProperty] private UnityEvent usableItemEvent;

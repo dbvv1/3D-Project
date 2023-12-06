@@ -12,10 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6a754170556edf4290f5320c6cf0ca6, type: 3}
   m_Name: Red Crystalsv Use Effect
   m_EditorClassIdentifier: 
-  healthRecovery: 0
-  energyRecovery: 0
-  magicRecovery: 0
-  healthLimitIncrease: 100
-  energyLimitIncrease: 0
-  magicLimitIncrease: 0
-  baseAttackIncrease: 0
+  statsRecoveryEffect:
+    healthRecovery: 0
+    energyRecovery: 0
+    magicRecovery: 0
+  statsIncreaseEffect:
+    healthLimitIncrease: 200
+    energyLimitIncrease: 0
+    magicLimitIncrease: 0
+  abilityIncreaseEffect:
+    physicalAttackIncrease: 0
+    magicAttackIncrease: 0
+    physicalDefensiveIncrease: 0
+    magicDefensiveIncrease: 0
+  eventInvokeEffect:
+    usableItemEvent:
+      m_PersistentCalls:
+        m_Calls: []

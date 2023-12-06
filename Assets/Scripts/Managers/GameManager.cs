@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -42,9 +43,6 @@ public class GameManager : Singleton<GameManager>
         Time.timeScale = 1;
     }
     
-    
-
-
     #region 管理所有敌人
     public void RegisterEnemy(EnemyController enemy)
     {
@@ -66,5 +64,6 @@ public class GameManager : Singleton<GameManager>
         weakEnemies.Remove(enemy);
     }
     #endregion
+    
 
 }
