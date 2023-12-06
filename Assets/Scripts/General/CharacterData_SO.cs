@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "New Character Data", menuName = "Character/Character Data")] 
 public class CharacterData_SO : ScriptableObject
@@ -35,9 +36,9 @@ public class CharacterData_SO : ScriptableObject
     
     public float curPhysicalDamage;
 
-    public float baseSkillDamage;      //基础法术伤害
+    public float baseMagicDamage;      //基础法术伤害
     
-    public float curSkillDamage;
+    public float curMagicDamage;
 
     public float basePhysicalDefensive;//基础物理防御
     
@@ -92,8 +93,8 @@ public class CharacterData_SO : ScriptableObject
         this.curMagicRecover = characterDataSo.curMagicRecover;
         this.basePhysicalDamage = characterDataSo.basePhysicalDamage;
         this.curPhysicalDamage = characterDataSo.curPhysicalDamage;
-        this.baseSkillDamage = characterDataSo.baseSkillDamage;
-        this.curSkillDamage = characterDataSo.curSkillDamage;
+        this.baseMagicDamage = characterDataSo.baseMagicDamage;
+        this.curMagicDamage = characterDataSo.curMagicDamage;
         this.basePhysicalDefensive = characterDataSo.basePhysicalDefensive;
         this.curPhysicalDefensive = characterDataSo.curPhysicalDefensive;
         this.baseMagicalDefensive = characterDataSo.baseMagicalDefensive;

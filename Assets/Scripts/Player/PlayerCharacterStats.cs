@@ -49,7 +49,7 @@ public class PlayerCharacterStats : CharacterStats
         base.OnEnable();
         GlobalEvent.useRecoveryItemEvent += OnUseRecoveryItem;
         GlobalEvent.useStatsIncreaseItemEvent += OnUseStatsIncreaseItem;
-        GlobalEvent.useAttackIncreaseItemEvent += OnUseAttackIncreaseItem;
+        GlobalEvent.useAbilityIncreaseItemEvent += OnUseAbilityIncreaseItem;
     }
 
     protected override void OnDisable()
@@ -57,7 +57,7 @@ public class PlayerCharacterStats : CharacterStats
         base.OnDisable();
         GlobalEvent.useRecoveryItemEvent -= OnUseRecoveryItem;
         GlobalEvent.useStatsIncreaseItemEvent -= OnUseStatsIncreaseItem;
-        GlobalEvent.useAttackIncreaseItemEvent -= OnUseAttackIncreaseItem;
+        GlobalEvent.useAbilityIncreaseItemEvent -= OnUseAbilityIncreaseItem;
     }
 
     protected override void LevelUp()
@@ -187,10 +187,16 @@ public class PlayerCharacterStats : CharacterStats
     }
     
     //使用增加攻击力的物品
-    private void OnUseAttackIncreaseItem(float attack)
+    private void OnUseAbilityIncreaseItem(float physicalAttackIncrease,float magicAttackIncrease,float physicalDefensiveIncrease,float magicDefensiveIncrease)
     {
-        BasePhysicalDamage += attack;
-        CurPhysicalDamage += attack;
+        BasePhysicalDamage += physicalAttackIncrease;
+        CurPhysicalDamage += physicalAttackIncrease;
+        BaseMagicDamage += magicAttackIncrease;
+        CurMagicDamage += magicAttackIncrease;
+        BasePhysicalDefensive += physicalDefensiveIncrease;
+        CurPhysicalDefensive += physicalDefensiveIncrease;
+        BaseMagicalDefensive += magicDefensiveIncrease;
+        CurMagicalDefensive += magicDefensiveIncrease;
     }
     
     

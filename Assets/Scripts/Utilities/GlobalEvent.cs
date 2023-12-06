@@ -102,10 +102,10 @@ public static class GlobalEvent
     }
 
     //使用增强攻击的物品的事件
-    public static UnityAction<float> useAttackIncreaseItemEvent;
-    public static void CallUseAttackIncreaseItemEvent(float attack)
+    public static UnityAction<float,float,float,float> useAbilityIncreaseItemEvent;
+    public static void CallUseAttackIncreaseItemEvent(float physicalAttackIncrease,float magicAttackIncrease,float physicalDefensiveIncrease,float magicDefensiveIncrease)
     {
-        useAttackIncreaseItemEvent?.Invoke(attack);
+        useAbilityIncreaseItemEvent?.Invoke(physicalAttackIncrease,magicAttackIncrease,physicalDefensiveIncrease,magicDefensiveIncrease);
     }
 
     #endregion

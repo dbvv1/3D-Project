@@ -1,45 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "New UsableItemData", menuName = "Item/UsableItemData")]
 public class UseableItemData_SO : ScriptableObject
 {
-    [Header("回复功能")] 
-    [SerializeField, JsonProperty] private float healthRecovery;
+    [SerializeField,JsonProperty] private StatsRecoveryEffect statsRecoveryEffect;
 
-    [SerializeField, JsonProperty] private float energyRecovery;
+    [SerializeField,JsonProperty] private StatsIncreaseEffect statsIncreaseEffect;
 
-    [SerializeField, JsonProperty] private float magicRecovery;
-
-    [Header("属性变化")] 
-    [SerializeField, JsonProperty] private float healthLimitIncrease;
-
-    [SerializeField, JsonProperty] private float energyLimitIncrease;
-
-    [SerializeField, JsonProperty] private float magicLimitIncrease;
-
-    [SerializeField, JsonProperty] private float baseAttackIncrease;
-
+    [SerializeField,JsonProperty] private AbilityIncreaseEffect abilityIncreaseEffect;
+    
+    [SerializeField,JsonProperty] private EventInvokeEffect eventInvokeEffect;
 
     public void OnUse()
     {
-        GlobalEvent.CallUseRecoveryItemEvent(healthRecovery, energyRecovery, magicRecovery);
-        GlobalEvent.CallUseStatsIncreaseItemEvent(healthLimitIncrease, energyLimitIncrease, magicLimitIncrease);
-        GlobalEvent.CallUseAttackIncreaseItemEvent(baseAttackIncrease);
+        statsRecoveryEffect.OnUse();
+        statsIncreaseEffect.OnUse();
+        abilityIncreaseEffect.OnUse();
+        eventInvokeEffect.OnUse();
     }
+
 
     public void InitUsableItemData(UseableItemData_SO usableItemData)
     {
-        healthRecovery = usableItemData.healthRecovery;
-        energyRecovery = usableItemData.energyRecovery;
-        magicRecovery = usableItemData.magicRecovery;
-        healthLimitIncrease = usableItemData.healthLimitIncrease;
-        energyLimitIncrease = usableItemData.energyLimitIncrease;
-        magicLimitIncrease = usableItemData.magicLimitIncrease;
-        baseAttackIncrease = usableItemData.baseAttackIncrease;
+        statsRecoveryEffect.Reset(usableItemData.statsRecoveryEffect);
+        statsIncreaseEffect.Reset(usableItemData.statsIncreaseEffect);
+        abilityIncreaseEffect.Reset(usableItemData.abilityIncreaseEffect);
+        eventInvokeEffect.Reset(usableItemData.eventInvokeEffect);
     }
+    
     
 }

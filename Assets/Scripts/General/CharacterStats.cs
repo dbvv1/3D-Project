@@ -43,10 +43,10 @@ public class CharacterStats : MonoBehaviour, ISavable
         set => characterData.basePhysicalDamage = value;
     }
 
-    public float BaseSkillDamage
+    public float BaseMagicDamage
     {
-        get => characterData.baseSkillDamage;
-        set => characterData.baseSkillDamage = value;
+        get => characterData.baseMagicDamage;
+        set => characterData.baseMagicDamage = value;
     }
 
     public float BasePhysicalDefensive
@@ -143,10 +143,10 @@ public class CharacterStats : MonoBehaviour, ISavable
         set => characterData.curPhysicalDamage = value;
     }
 
-    public float CurSkillDamage
+    public float CurMagicDamage
     {
-        get => characterData.curSkillDamage;
-        set => characterData.curSkillDamage = value;
+        get => characterData.curMagicDamage;
+        set => characterData.curMagicDamage = value;
     }
 
     public float CurPhysicalDefensive
@@ -303,7 +303,7 @@ public class CharacterStats : MonoBehaviour, ISavable
         CurMagicRecover= BaseMagicRecover;
 
         CurPhysicalDamage = BasePhysicalDamage;
-        CurSkillDamage = BaseSkillDamage;
+        CurMagicDamage = BaseMagicDamage;
         CurPhysicalDefensive = BasePhysicalDefensive;
         CurMagicalDefensive = BaseMagicalDefensive;
     }
@@ -317,7 +317,7 @@ public class CharacterStats : MonoBehaviour, ISavable
         MaxEnergy *= (1 + LevelBuf);
         MaxMagic *= (1 + LevelBuf);
         BasePhysicalDamage *= (1 + LevelBuf);
-        BaseSkillDamage *= (1 + LevelBuf);
+        BaseMagicDamage *= (1 + LevelBuf);
         BasePhysicalDefensive*= (1 + LevelBuf);
         BaseMagicalDefensive*= (1 + LevelBuf);
         ResetStats();

@@ -79,7 +79,7 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory, IStateMac
     public bool FindPlayer
     {
         get => findPlayer;
-        set
+        private set
         {
             findPlayer = value;
             if (value) leaveChaseStateMinTimeCounter = leaveChaseStateMinTime;
@@ -185,7 +185,7 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory, IStateMac
 
     private void OnDisable()
     {
-        GameManager.Instance.UnRegisterEnemy(this);
+        //GameManager.Instance.UnRegisterEnemy(this); 调用顺序原因，将其先于AfterDeathAnimation的事件触发前执行
         TaskManager.Instance.UpdateTaskProgress(EnemyName, 1);
         UnRegisterStateMachineEnemy();
     }
@@ -342,6 +342,7 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory, IStateMac
     public void AfterDeathAnimation()
     {
         //TODO:使用对象池管理敌人
+        GameManager.Instance.UnRegisterEnemy(this);
         GlobalEvent.CallOnEnemyDeath(this);
         GlobalEvent.CallEnemyExitWeakState(this);
         if (TryGetComponent(out LootSpawner lootSpawner))

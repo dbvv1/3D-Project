@@ -359,7 +359,7 @@ public class PlayerController : MonoBehaviour
         if (playerAnimationInf.IsWalk == false) return;
         moveDirection = faceDirection.forward * inputDirection.y + faceDirection.right * inputDirection.x;
         if (physicalCheck.HaveBarrierInMoveDirection(transform.position + transform.up * 0.5f, moveDirection, moveDirection.normalized.magnitude * curSpeed * Time.deltaTime * 2)) return;
-        characterController.Move(moveDirection.normalized * curSpeed * Time.deltaTime);
+        characterController.Move(moveDirection.normalized * (curSpeed * Time.deltaTime));
     }
 
     //第一人称方式旋转人物

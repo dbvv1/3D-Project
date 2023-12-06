@@ -59,7 +59,7 @@ public class EnemyCharacterStats : CharacterStats
         {
             CurHealth = 0;
             isDead = true;
-            GlobalEvent.CallOnEnemyDeath(enemy);
+            //GlobalEvent.CallOnEnemyDeath(enemy); 已经再敌人动画结束后调用
             OnDie?.Invoke();
         }
         else

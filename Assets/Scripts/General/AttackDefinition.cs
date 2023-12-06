@@ -17,7 +17,7 @@ public class AttackDefinition : MonoBehaviour
     public float DamageAmount => attackBaseDamage + damageType switch
     {
         DamageType.Physical => attacker.CurPhysicalDamage,
-        DamageType.Magical => attacker.CurSkillDamage,
+        DamageType.Magical => attacker.CurMagicDamage,
         DamageType.True => 0,
         _ => 0
     };
@@ -28,7 +28,7 @@ public class AttackDefinition : MonoBehaviour
         other.GetComponent<CharacterStats>()?.TakeDamage(this);
 
         //碰撞体挂载在子物体上的特殊情况
-        if (other.GetComponentInParent<MetalonController>())
+        if (other.GetComponentInParent<MetalonController>() || other.GetComponentInParent<GolemController>()) 
             other.GetComponentInParent<CharacterStats>()?.TakeDamage(this);
     }
 
