@@ -104,7 +104,6 @@ public class EnemyGenerator : MonoBehaviour
 
     private void CheckFightOver(EnemyController enemyController)
     {
-        Debug.Log(GameManager.Instance.enemies.Count);
         isFightOver = GameManager.Instance.enemies.Count == 0;
         isBossFightOver = isFightOver & (generateTimes % bossWaveTimes == 0);
         if (isFightOver) GenerateTimeCounter = generateTime;
@@ -118,16 +117,15 @@ public class EnemyGenerator : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(GenerateTimeCounter);
         // 计时器计时的规则：1：当前是战斗场景 2：敌人数量为0 3：当前不是正在加载场景
         if (SceneLoader.Instance.GetCurrentSceneType == SceneType.FightScene &&
-            GameManager.Instance.enemies.Count == 0 && !SceneLoader.Instance.IsLoading)
+            GameManager.Instance.enemies.Count == 0 && !SceneLoader.Instance.IsLoading && GenerateTimeCounter > 0) 
             GenerateTimeCounter -= Time.deltaTime;
 
-        // 如果在boss波结束后按下E键 则立刻进入下一波
+        // 如果在boss波结束后按下E键 则快进到2秒后进入下一波
         if (isBossFightOver && Input.GetKeyDown(KeyCode.E))
         {
-            GenerateTimeCounter = 0;
+            GenerateTimeCounter = 0.5f;
         }
     }
 
@@ -136,6 +134,7 @@ public class EnemyGenerator : MonoBehaviour
     {
         ++generateTimes;
         transitionPatrol.gameObject.SetActive(false);
+        isFightOver = isBossFightOver = false;
         // 生成boss类敌人
         if (generateTimes % bossWaveTimes == 0)
         {

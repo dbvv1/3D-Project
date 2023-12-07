@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,18 +6,36 @@ using UnityEngine;
 public class AudioManager : Singleton<AudioManager>
 {
     //通用的两个Source
-    public AudioSource BGMSource;
+    [SerializeField] private AudioSource BGMSource;
 
-    public AudioSource FXSource;
+    [SerializeField] private AudioSource FXSource;
 
+    [SerializeField] private AudioClip bgmInMenu;
+    [SerializeField] private AudioClip bgmInRest;
+    [SerializeField] private AudioClip bgmInFight;
+
+    public void PlayBgmBySceneType(SceneType sceneType)
+    {
+        AudioClip targetClip = sceneType switch
+        {
+            SceneType.Menu => bgmInMenu,
+            SceneType.RestScene => bgmInRest,
+            SceneType.FightScene => bgmInFight,
+            _ => null
+        };
+        PlayGeneralBGM(targetClip);
+    }
+    
     public void PlayGeneralBGM(AudioClip clip)
     {
+        if (clip == null) return;
         BGMSource.clip = clip;
         BGMSource.Play();
     }
 
     public void PlayGeneralFX(AudioClip clip)
     {
+        if (clip == null) return;
         FXSource.clip = clip;
         FXSource.Play();
     }

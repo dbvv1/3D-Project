@@ -6,6 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
+[DefaultExecutionOrder(-100)]
 public class SceneLoader : Singleton<SceneLoader>,ISavable
 {
     public GameSceneSO firstScene;
@@ -13,6 +14,8 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
     public float fadeDuration;
 
     [SerializeField] private Transform player;
+
+    [SerializeField] private GameSceneSO restScene;
 
     private GameSceneSO currentScene;
 
@@ -29,17 +32,19 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
         base.Awake();
         sceneToGo = firstScene;
         LoadNewScene();
-
     }
+
 
     private void OnEnable()
     {
         (this as ISavable).RegisterSaveData();
+        GlobalEvent.newGameEvent += TransitionToRestScene;
     }
 
     private void OnDisable()
     {
         (this as ISavable).UnRegisterSaveData();
+        GlobalEvent.newGameEvent -= TransitionToRestScene;
     }
 
     public SceneType GetCurrentSceneType => currentScene.sceneType;
@@ -95,16 +100,25 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
                 UIManager.Instance.fadeCanvas.FadeOut(fadeDuration);
             }
             SceneManager.SetActiveScene(obj.Result.Scene);
+            AudioManager.Instance.PlayBgmBySceneType(currentScene.sceneType);
+            MouseManager.Instance.SetMouseCursorBySceneType(currentScene.sceneType);
+            if (currentScene.sceneType == SceneType.Menu) GlobalEvent.CallEnterMenuSceneEvent();
+            else GlobalEvent.CallExitMenuSceneEvent();
         }
         else
         {
             Debug.LogError("Failed to load scene: " + obj.OperationException.Message);
         }
         
-
-
     }
 
+    public void TransitionToRestScene()
+    {
+        SceneTransition(restScene, Vector3.zero, true);
+    }
+
+
+    #region Save And Load
     public string GetDataID()
     {
         return "Scene";
@@ -123,5 +137,9 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
 
 
     }
+    
+
+    #endregion
+
 
 }

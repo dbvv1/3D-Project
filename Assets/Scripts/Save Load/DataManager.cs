@@ -26,6 +26,16 @@ public class DataManager : Singleton<DataManager>
         ReadSaveData();
     }
 
+    private void OnEnable()
+    {
+        GlobalEvent.continueGameEvent += Load;
+    }
+
+    private void OnDisable()
+    {
+        GlobalEvent.continueGameEvent -= Load;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.O))

@@ -1,8 +1,42 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public static class GlobalEvent 
+public static class GlobalEvent
 {
+    public static UnityAction newGameEvent;
+
+    public static void CallNewGameEvent()
+    {
+        newGameEvent?.Invoke();
+    }
+
+    public static UnityAction continueGameEvent;
+    public static void CallContinueGameEvent()
+    {
+        continueGameEvent?.Invoke();
+    }
+
+    public static UnityAction quitGameEvent;
+
+    public static void CallQuitGameEvent()
+    {
+        quitGameEvent?.Invoke();
+    }
+
+    public static UnityAction enterMenuSceneEvent;
+
+    public static void CallEnterMenuSceneEvent()
+    {
+        enterMenuSceneEvent?.Invoke();
+    }
+    
+    public static UnityAction exitMenuSceneEvent;
+
+    public static void CallExitMenuSceneEvent()
+    {
+        exitMenuSceneEvent?.Invoke();
+    }
+    
     //转向第一人称时的事件
     public static UnityAction switchToFirstPersonEvent;
     public static void CallSwitchToFirstPersonEvent()

@@ -27,7 +27,7 @@ public class MouseManager : Singleton<MouseManager>
         GlobalEvent.onExitDialogue -= OnExitDialogue;
     }
 
-    public void SetMouseCursor(PanelType panelType)
+    public void SetMouseCursorByPanelType(PanelType panelType)
     {
         //返回到游戏界面: 隐藏光标 + 控制鼠标在中心位置(需要不是处在对话状态)
         if (panelType == PanelType.None)
@@ -52,6 +52,22 @@ public class MouseManager : Singleton<MouseManager>
 
         }
 
+    }
+
+    public void SetMouseCursorBySceneType(SceneType sceneType)
+    {
+        if (sceneType == SceneType.Menu)
+        {
+            Cursor.SetCursor(characterPanelMouseTexture, new Vector2(characterPanelMouseTexture.width/16f*5f,characterPanelMouseTexture.height/16f), CursorMode.Auto);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.SetCursor(thirdPersonCombatMouseTexture, new Vector2(thirdPersonCombatMouseTexture.width / 2f, thirdPersonCombatMouseTexture.height / 2f), CursorMode.Auto);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     public void ShowMouseCursor()

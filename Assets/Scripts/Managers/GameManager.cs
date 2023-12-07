@@ -18,19 +18,30 @@ public class GameManager : Singleton<GameManager>
     
     private void Start()
     {
-        Application.targetFrameRate = 90;
+        Application.targetFrameRate = 80;
     }
 
     private void OnEnable()
     {
         GlobalEvent.stopTheWorldEvent += StopTheGame;
         GlobalEvent.continueTheWorldEvent += ContinueTheGame;
+        GlobalEvent.quitGameEvent += OnQuitGame;
     }
 
     private void OnDisable()
     {
         GlobalEvent.stopTheWorldEvent -= StopTheGame;
         GlobalEvent.continueTheWorldEvent -= ContinueTheGame;
+        GlobalEvent.quitGameEvent-=OnQuitGame;
+    }
+
+    private void OnQuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
     }
 
     private void StopTheGame()

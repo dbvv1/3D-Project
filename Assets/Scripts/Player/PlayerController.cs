@@ -175,6 +175,8 @@ public class PlayerController : MonoBehaviour
         GlobalEvent.continueTheWorldEvent += ContinueTheGame;
         GlobalEvent.onEnterDialogue += DisablePlayerGamePlayInput;
         GlobalEvent.onExitDialogue += EnablePlayerGamePlayInput;
+        GlobalEvent.enterMenuSceneEvent += DisablePlayerGamePlayInput;
+        GlobalEvent.exitMenuSceneEvent += EnablePlayerGamePlayInput;
 
     }
     
@@ -189,6 +191,8 @@ public class PlayerController : MonoBehaviour
         GlobalEvent.continueTheWorldEvent -= ContinueTheGame;
         GlobalEvent.onEnterDialogue -= DisablePlayerGamePlayInput;
         GlobalEvent.onExitDialogue -= EnablePlayerGamePlayInput;
+        GlobalEvent.enterMenuSceneEvent -= DisablePlayerGamePlayInput;
+        GlobalEvent.exitMenuSceneEvent -= EnablePlayerGamePlayInput;
     }
 
     #region  全局事件函数
@@ -263,12 +267,21 @@ public class PlayerController : MonoBehaviour
 
 
     private void Update()
-    { 
+    {
+        if (SceneLoader.Instance.GetCurrentSceneType == SceneType.Menu) return;
+        
         inputDirection = inputActions.GamePlay.Move.ReadValue<Vector2>();
         if(!isLoading)MovePlayer();
         if(!isLoading)Gravitation();
-        if (jumpButton&&physicalCheck.IsOnGround&&!playerAnimationInf.IsRoll&&!playerAnimationInf.IsAttack&&!playerAnimationInf.IsGuard&& playerAnimationInf.landAnimationOver) StartJump(); 
+        if(CanJump()) StartJump(); 
         StatsCheckAndCost();
+    }
+
+
+    private bool CanJump()
+    {
+        return jumpButton && physicalCheck.IsOnGround && !playerAnimationInf.IsRoll && !playerAnimationInf.IsAttack &&
+               !playerAnimationInf.IsGuard && playerAnimationInf.landAnimationOver;
     }
 
     private void MovePlayer()
@@ -674,7 +687,6 @@ public class PlayerController : MonoBehaviour
         //如果当前锁定的敌人死亡，则解除死亡状态
         if(curLockedEnemy!=null&&curLockedEnemy==enemy)
         {
-            Debug.Log("Enemy Death");
             IsLock = false;
             curLockedEnemy = null;
             GlobalEvent.CallExitFocusOnEnemy();
