@@ -186,6 +186,7 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory, IStateMac
     private void OnDisable()
     {
         //GameManager.Instance.UnRegisterEnemy(this); 调用顺序原因，将其先于AfterDeathAnimation的事件触发前执行
+        GameManager.Instance.UnRegisterEnemy(this);     //在场景转换后仍然可能需要调用此函数
         TaskManager.Instance.UpdateTaskProgress(EnemyName, 1);
         UnRegisterStateMachineEnemy();
     }
@@ -193,6 +194,7 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory, IStateMac
 
     private void Update()
     {
+        LoggerSystem.Log(this.name + CanFindPlayer().ToString());
         //默认受伤会造成僵直 boss可能会改变
         if (IsHurt || IsExecuted) return;
         FindPlayer = CanFindPlayer();

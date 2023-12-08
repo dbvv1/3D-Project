@@ -11,7 +11,7 @@ public class UseableItemData_SO : ScriptableObject
     // 优点是实现了动态添加 效率更高   缺点在于对于每一种不同的效果（数值不同也要） 都要创建一个与之对应的 ScriptableObject，比较麻烦
     //[SerializeField,JsonProperty] private List<UseEffect> useEffects = new List<UseEffect>();
 
-    [SerializeField] public List<IUseEffect> useEffects = new List<IUseEffect>();
+    //[SerializeField] public List<IUseEffect> useEffects = new List<IUseEffect>();
     
     [SerializeField,JsonProperty] private StatsRecoveryEffect statsRecoveryEffect;
 

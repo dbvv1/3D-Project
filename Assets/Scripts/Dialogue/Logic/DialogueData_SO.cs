@@ -8,10 +8,18 @@ public class DialogueData_SO : ScriptableObject
 {
     public List<DialoguePiece> dialoguePieces;
 
-    public Dictionary<string, int> stringToDialoguePiece = new();
+    public readonly Dictionary<string, int> stringToDialoguePiece = new();
 
+    
     #if UNITY_EDITOR
     private void OnValidate()
+    {
+        SetDialogueDictionary();
+
+    }
+    #endif
+
+    public void SetDialogueDictionary()
     {
         stringToDialoguePiece.Clear();
         for (int i = 0; i < dialoguePieces.Count; i++)
@@ -19,7 +27,6 @@ public class DialogueData_SO : ScriptableObject
             if (!stringToDialoguePiece.ContainsKey(dialoguePieces[i].ID))
                 stringToDialoguePiece.Add(dialoguePieces[i].ID, i);
         }
-
     }
-    #endif
+    
 }

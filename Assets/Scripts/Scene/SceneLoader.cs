@@ -6,7 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-[DefaultExecutionOrder(-100)]
+[DefaultExecutionOrder(-50)]
 public class SceneLoader : Singleton<SceneLoader>,ISavable
 {
     public GameSceneSO firstScene;
@@ -17,7 +17,7 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
 
     [SerializeField] private GameSceneSO restScene;
 
-    private GameSceneSO currentScene;
+    [SerializeField] private GameSceneSO currentScene;
 
     private GameSceneSO sceneToGo;
 
@@ -31,10 +31,17 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
     {
         base.Awake();
         sceneToGo = firstScene;
+        currentScene = firstScene;
         LoadNewScene();
     }
 
-
+    private void Start()
+    {
+        AudioManager.Instance.PlayBgmBySceneType(currentScene.sceneType);
+        MouseManager.Instance.SetMouseCursorBySceneType(currentScene.sceneType);
+        GlobalEvent.CallEnterMenuSceneEvent();
+    }
+    
     private void OnEnable()
     {
         (this as ISavable).RegisterSaveData();
@@ -47,7 +54,11 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
         GlobalEvent.newGameEvent -= TransitionToRestScene;
     }
 
-    public SceneType GetCurrentSceneType => currentScene.sceneType;
+    public SceneType GetCurrentSceneType()
+    {
+        if (currentScene != null) return currentScene.sceneType;
+        return SceneType.Menu;
+    }
     
     /// <summary>
     /// 
@@ -93,6 +104,7 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
         if (obj.Status == AsyncOperationStatus.Succeeded)
         {
             currentScene = sceneToGo;
+            //player.gameObject.SetActive(currentScene.sceneType != SceneType.Persistent);
             IsLoading = false;
             GlobalEvent.CallAfterSceneLoadEvent(posToGo);
             if (needFade)
@@ -100,8 +112,10 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
                 UIManager.Instance.fadeCanvas.FadeOut(fadeDuration);
             }
             SceneManager.SetActiveScene(obj.Result.Scene);
-            AudioManager.Instance.PlayBgmBySceneType(currentScene.sceneType);
+            if(currentScene.sceneType!=SceneType.Persistent)AudioManager.Instance.PlayBgmBySceneType(currentScene.sceneType);
             MouseManager.Instance.SetMouseCursorBySceneType(currentScene.sceneType);
+            UIManager.Instance.SetPanelAfterLoad(currentScene.sceneType);
+            
             if (currentScene.sceneType == SceneType.Menu) GlobalEvent.CallEnterMenuSceneEvent();
             else GlobalEvent.CallExitMenuSceneEvent();
         }
@@ -112,7 +126,7 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
         
     }
 
-    public void TransitionToRestScene()
+    private void TransitionToRestScene()
     {
         SceneTransition(restScene, Vector3.zero, true);
     }
@@ -134,8 +148,6 @@ public class SceneLoader : Singleton<SceneLoader>,ISavable
     {
         IsLoading = false;
         SceneTransition(data.LoadScene(), data.playerPos.ToVector3(), true);
-
-
     }
     
 

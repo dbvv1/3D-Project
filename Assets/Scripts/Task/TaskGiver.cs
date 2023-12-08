@@ -21,7 +21,7 @@ public class TaskGiver : MonoBehaviour
       get
       {
          var taskOnGame = TaskManager.Instance.GetTask(currentTaskData);
-         return taskOnGame == null ? TaskStateType.Started : taskOnGame.TaskState;
+         return taskOnGame == null ? TaskStateType.NotStarted : taskOnGame.TaskState;
       }
    }
    

@@ -118,7 +118,7 @@ public class EnemyGenerator : MonoBehaviour
     private void Update()
     {
         // 计时器计时的规则：1：当前是战斗场景 2：敌人数量为0 3：当前不是正在加载场景
-        if (SceneLoader.Instance.GetCurrentSceneType == SceneType.FightScene &&
+        if (SceneLoader.Instance.GetCurrentSceneType() == SceneType.FightScene &&
             GameManager.Instance.enemies.Count == 0 && !SceneLoader.Instance.IsLoading && GenerateTimeCounter > 0) 
             GenerateTimeCounter -= Time.deltaTime;
 

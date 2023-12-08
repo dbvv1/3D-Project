@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -17,7 +18,12 @@ public abstract class StateMachine<T> : Singleton<StateMachine<T>> where T : Ene
     [SerializeField] private StateActionSO initState;
 
     private readonly List<T> enemies = new();
-    
+
+    protected override void Awake()
+    {
+        base.Awake();
+        transition.Init();
+    }
 
     private void Update()
     {

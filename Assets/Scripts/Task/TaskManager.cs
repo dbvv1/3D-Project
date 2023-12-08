@@ -9,7 +9,13 @@ public class TaskManager : Singleton<TaskManager>,ISavable
     public List<TaskData_SO> tasks = new();
 
     private readonly Dictionary<string, TaskData_SO> taskDict = new();
-    
+
+    private void Start()
+    {
+        tasks.Clear();
+        taskDict.Clear();
+    }
+
     protected virtual void OnEnable()
     {
         ((ISavable)this).RegisterSaveData();

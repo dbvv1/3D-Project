@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-
+    
     // 实现"新的游戏"逻辑
     public void NewGame()
     {

@@ -57,11 +57,13 @@ public class GameManager : Singleton<GameManager>
     #region 管理所有敌人
     public void RegisterEnemy(EnemyController enemy)
     {
-        enemies.Add(enemy);
+        if (!enemies.Contains(enemy))
+            enemies.Add(enemy);
     }
     public void UnRegisterEnemy(EnemyController enemy)
     {
-        enemies.Remove(enemy);
+        if (enemies.Contains(enemy))
+            enemies.Remove(enemy);
     }
     #endregion
 

@@ -8,7 +8,6 @@ public class DataDefination : MonoBehaviour
     [SerializeField]private PersistentType persistentType;
 
     public string id;
-
     
     private void OnValidate()
     {

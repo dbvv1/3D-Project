@@ -268,7 +268,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (SceneLoader.Instance.GetCurrentSceneType == SceneType.Menu) return;
+        if (SceneLoader.Instance.GetCurrentSceneType() == SceneType.Menu) return;
         
         inputDirection = inputActions.GamePlay.Move.ReadValue<Vector2>();
         if(!isLoading)MovePlayer();

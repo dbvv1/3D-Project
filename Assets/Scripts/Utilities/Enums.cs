@@ -87,6 +87,7 @@ public enum PersistentType
 
 public enum SceneType
 {
+    Persistent,
     Menu,
     RestScene,
     FightScene

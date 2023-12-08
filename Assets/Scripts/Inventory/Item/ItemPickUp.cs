@@ -10,6 +10,7 @@ public class ItemPickUp : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            Debug.Log(this + "   " + this.itemData);
             //往背包中加入物品  + 刷新背包 + 删除物品  （判断背包是否已满）
             bool add = false;
             switch (itemData.itemType)

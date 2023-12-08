@@ -26,6 +26,8 @@ public class PanelInfo
 public class UIManager : Singleton<UIManager>
 {
     [Header("Panel引用")] 
+    [SerializeField] private GameObject menuImage;
+    
     [SerializeField] private GameObject backGroundImage;
 
     [SerializeField] private GameObject characterStatsPanel;
@@ -84,12 +86,14 @@ public class UIManager : Singleton<UIManager>
             InventoryManager.Instance.SetActionContainerParent(currentPanel);
 
             if (currentPanel != PanelType.None) panels[currentPanelIndex].panel.SetActive(true);
+            if(currentPanel==PanelType.QuestTask) TaskUIManager.Instance.OpenTaskPanel();
         }
     }
 
     protected override void Awake()
     {
         base.Awake();
+        menuImage.SetActive(true);
         inputActions = new UIInputController();
         // 初始化需要所有的面板种类
         panels.Add(new PanelInfo(inventoryPanel, PanelType.Inventory, "物品和角色"));
@@ -109,7 +113,11 @@ public class UIManager : Singleton<UIManager>
         inputActions.UI.OpenBagUI.started += _ =>
         {
             if (CurrentPanel != PanelType.None) CurrentPanel = PanelType.None;
-            else CurrentPanel = PanelType.Inventory;
+            else
+            {
+                currentPanelIndex = 0;
+                CurrentPanel = PanelType.Inventory;
+            }
         };
         //按下ESC键 打开界面 或者 关闭所有界面 
         inputActions.UI.CloseAllUI.started += _ =>
@@ -117,7 +125,10 @@ public class UIManager : Singleton<UIManager>
             if (CurrentPanel != PanelType.None)
                 CurrentPanel = PanelType.None;
             else
+            {
+                currentPanelIndex = 0;
                 CurrentPanel = PanelType.Inventory;
+            }
         };
     }
 
@@ -129,7 +140,15 @@ public class UIManager : Singleton<UIManager>
     // 回到主菜单面板
     public void ReturnToMainMenu()
     {
+        DataManager.Instance.Save();
+        Time.timeScale = 1;
         SceneLoader.Instance.SceneTransition(menuScene, Vector3.zero, true);
+    }
+
+    public void SetPanelAfterLoad(SceneType sceneType)
+    {
+        menuImage.SetActive(sceneType == SceneType.Persistent | sceneType == SceneType.Menu);
+        if (sceneType == SceneType.RestScene | sceneType == SceneType.FightScene) CloseAllPanels();
     }
 
     

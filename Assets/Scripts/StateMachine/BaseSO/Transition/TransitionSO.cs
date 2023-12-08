@@ -10,7 +10,7 @@ public class TransitionSO : ScriptableObject
     
     //转换的信息
     [Serializable]
-    private class StateTransitionConfig 
+    public class StateTransitionConfig 
     {
         public StateActionSO fromState;
         public StateActionSO toState;
@@ -20,24 +20,26 @@ public class TransitionSO : ScriptableObject
     
     
     //存储所有状态转换信息和条件
-    private Dictionary<StateActionSO, List<StateTransitionConfig>> states = new Dictionary<StateActionSO, List<StateTransitionConfig>>();
+    public readonly Dictionary<StateActionSO, List<StateTransitionConfig>> states = new Dictionary<StateActionSO, List<StateTransitionConfig>>();
 
     //获取状态配置，即外部面板的手动配置信息
     [SerializeField] private List<StateTransitionConfig> configStateData = new List<StateTransitionConfig>();
 
     
-    /*public void Init()
+    public void Init()
     {
+        if (isInit) return;
         isInit = true;
         SaveAllStateTransitionInfo();
-    }*/
-
-#if UNITY_EDITOR
+    }
+    
+    #if UNITY_EDITOR
     private void OnValidate()
     {
+        // isInit = true;
         SaveAllStateTransitionInfo();
     }
-#endif
+    #endif
 
     /// <summary>
     /// 保存所有状态配置信息
