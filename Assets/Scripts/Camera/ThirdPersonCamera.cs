@@ -31,15 +31,17 @@ public class ThirdPersonCamera : MonoBehaviour
         cinemachine.m_YAxis.Value = 0.7f;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         //faceDirection.position = new Vector3(transform.position.x, cinemachine.LookAt.position.y, transform.position.z);
         //faceDirection.LookAt(cinemachine.LookAt);
+        // 第三人称普通视角和俯视角
         if (CameraManager.Instance.currentCameraStyle == CameraStyle.ThirdPersonNormal || CameraManager.Instance.currentCameraStyle == CameraStyle.ThirdPersonTopDown) 
         {
             Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
             faceDirection.forward = viewDir.normalized;
         }
+        // 第三人称战斗视角
         else if(CameraManager.Instance.currentCameraStyle==CameraStyle.ThirdPersonCombat)
         {
             Vector3 viewDir = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);

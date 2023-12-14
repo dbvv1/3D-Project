@@ -12,6 +12,8 @@ public abstract class PoolItemBase : MonoBehaviour, IPool
     //对象在对象池中的键值 静态变量
     protected static string objectName;
 
+    public string PoolItemName => objectName;
+
     //设置对象种类在池中的名称
     private void Awake()
     {

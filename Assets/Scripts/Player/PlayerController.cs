@@ -326,7 +326,7 @@ public class PlayerController : MonoBehaviour
         if (playerAnimationInf.IsWalk == false) return;
         //人物的实际移动:始终朝着面朝的方向进行移动
         if (physicalCheck.HaveBarrierInMoveDirection(transform.position + transform.up * 0.5f, transform.forward, moveDirection.normalized.magnitude * curSpeed * Time.deltaTime * 2)) return;
-        characterController.Move(transform.forward.normalized * curSpeed * Time.deltaTime);
+        characterController.Move(transform.forward.normalized * (curSpeed * Time.deltaTime));
     }
 
     //第三人称 锁定视角 移动人物

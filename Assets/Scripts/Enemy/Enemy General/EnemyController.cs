@@ -194,7 +194,6 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory, IStateMac
 
     private void Update()
     {
-        LoggerSystem.Log(this.name + CanFindPlayer().ToString());
         //默认受伤会造成僵直 boss可能会改变
         if (IsHurt || IsExecuted) return;
         FindPlayer = CanFindPlayer();

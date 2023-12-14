@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Playables;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -44,12 +45,13 @@ public class PoolManager : Singleton<PoolManager>
             {
                 pools.Add(assetsList[i].assetsName, new Queue<GameObject>());
                 nameToPrefab.Add(assetsList[i].assetsName, assetsList[i].prefab);
-                poolUseInfos.Add(assetsList[i].assetsName, new PoolUseInfo(assetsList[i].count, 0));
+                poolUseInfos.Add(assetsList[i].assetsName, new PoolUseInfo(assetsList[i].count, 0,assetsList[i].count));
             }
             //处理assetsList列表中包含了重复对象的情况
             else
             {
                 poolUseInfos[assetsList[i].assetsName].totalCount += assetsList[i].count;
+                poolUseInfos[assetsList[i].assetsName].initCount += assetsList[i].count;
             }
             //创建完毕后，遍历这个对象的总数，比如总算5，那么就创建5个，然后存进字典
             for (int j = 0; j < assetsList[i].count; j++)
@@ -151,6 +153,8 @@ public class PoolManager : Singleton<PoolManager>
             {
                 //每次减容到原先总容量的 2/3 即去除掉 1/3 数量的对象
                 int clearCount = (int)(poolInfo.Value.totalCount * 0.33f);
+                if (poolInfo.Value.totalCount - clearCount < poolInfo.Value.initCount)
+                    clearCount = poolInfo.Value.totalCount - poolInfo.Value.initCount;
                 poolInfo.Value.totalCount -= clearCount;
                 for (int i = 0; i < clearCount; i++)
                 {
@@ -176,19 +180,21 @@ public class PoolManager : Singleton<PoolManager>
 
     private class PoolUseInfo
     {
-        public PoolUseInfo(int totalCount, int useCount)
+        public PoolUseInfo(int totalCount, int useCount,int initCount)
         {
             this.totalCount = totalCount;
             this.useCount = useCount;
+            this.initCount = initCount;
         }
 
         public bool NeedClearObject()
         {
-            return (totalCount - useCount) * 2 >= totalCount;
+            return (totalCount - useCount) * 2 >= totalCount && totalCount > initCount;
         }
         
         public int totalCount;
         public int useCount;
+        public int initCount;
     }
 
 }

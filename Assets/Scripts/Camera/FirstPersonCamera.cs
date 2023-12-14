@@ -50,7 +50,7 @@ public class FirstPersonCamera : MonoBehaviour
         if (Vector3.Cross(playerFaceDirection.forward, Vector3.forward).y > 0) yRotation *= -1;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         transform.position = camPosition.position;
         Vector2 mouse = mouseInput.GamePlay.MouseMove.ReadValue<Vector2>();
@@ -59,7 +59,7 @@ public class FirstPersonCamera : MonoBehaviour
 
         xRotation = Mathf.Clamp(xRotation, -60f, 60f);
 
-        //调整摄像机的朝向 选择1：始终朝向鼠标所指的方向   选择2：
+        //调整摄像机的朝向 选择1：始终朝向鼠标所指的方向   选择2：始终朝向人物面部的前方
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         //transform.forward = camPosition.forward;
 
