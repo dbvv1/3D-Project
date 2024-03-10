@@ -25,7 +25,6 @@ public class EnemyPointUI : MonoBehaviour
 
         GlobalEvent.enterFocusOnEnemy += OnEnterFocusOnEnemy;
         GlobalEvent.exitFocusOnEnemy += OnExitFocusOnEnemy;
-
     }
 
     private void OnDisable()

@@ -207,6 +207,7 @@ public class PlayerController : MonoBehaviour
     {
         inputActions.Enable();
         transform.position = pos;
+        
         Invoke(nameof(SetIsLoadingFalse), 0.02f);
     }
 
