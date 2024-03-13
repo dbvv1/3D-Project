@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b739ebd25cb2df47bad45d388935f4a, type: 3}
+  m_Name: Hero Collect Start
+  m_EditorClassIdentifier: 
+  dialoguePieces:
+  - ID: Piece01
+    image: {fileID: 21300000, guid: cdec13907ffc75749ab2ed436bec6b14, type: 3}
+    text: "\u4F60\u597D\uFF01\u52C7\u58EB\uFF01"
+    options:
+    - text: "\u4F60\u597D\u554A"
+      targetID: Piece02
+      takeTask: 0
+    - text: "\u4E0D\u597D"
+      targetID: 
+      takeTask: 0
+    taskData: {fileID: 0}
+    canExpand: 1
+  - ID: Piece02
+    image: {fileID: 21300000, guid: cdec13907ffc75749ab2ed436bec6b14, type: 3}
+    text: "\u6700\u8FD1\u7CAE\u98DF\u7D27\u7F3A\uFF0C\u4F60\u80FD\u5E2E\u6211\u4EEC\u6536\u96C6\u4E00\u4E9B\u8611\u83C7\u5417\uFF1F"
+    options:
+    - text: "\u5F53\u7136\u53EF\u4EE5\uFF01"
+      targetID: Piece03
+      takeTask: 1
+    - text: "\u6CA1\u7A7A"
+      targetID: 
+      takeTask: 0
+    taskData: {fileID: 11400000, guid: 34863de2c14b12f41afd76556a1cdc35, type: 2}
+    canExpand: 1
+  - ID: Piece03
+    image: {fileID: 21300000, guid: cdec13907ffc75749ab2ed436bec6b14, type: 3}
+    text: "\u611F\u8C22\u4F60\u7684\u6177\u6168\uFF01\u5982\u679C\u4F60\u5B8C\u6210\u4E86\u4EFB\u52A1\uFF0C\u6211\u4F1A\u7ED9\u4F60\u4E00\u4E9B\u795E\u79D8\u7684\u6676\u77F3\u4F5C\u4E3A\u5956\u52B1\uFF01"
+    options: []
+    taskData: {fileID: 0}
+    canExpand: 1
