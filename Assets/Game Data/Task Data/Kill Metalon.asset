@@ -16,8 +16,16 @@ MonoBehaviour:
   taskDescription: "\u91CE\u5916\u7684\u8725\u8734\u5B9E\u5728\u662F\u592A\u591A\u4E86\uFF0C\u5FEB\u53BB\u6D88\u706D\u5B83\u4EEC\u5427\uFF01"
   taskRequires:
   - requireName: Metalon
-    requireAmount: 3
-    currentAmount: 6
+    requireAmount: 5
+    currentAmount: 0
   rewards:
+  - itemData: {fileID: 11400000, guid: f79a5ae65b62b364fb0061dcccff7a32, type: 2}
+    itemAmount: 2
+  - itemData: {fileID: 11400000, guid: 75b59161dd5215e4187cbfd7d54060ad, type: 2}
+    itemAmount: 2
+  - itemData: {fileID: 11400000, guid: 827367beabd66ca4883b0b7d3cd6763a, type: 2}
+    itemAmount: 2
+  - itemData: {fileID: 11400000, guid: badf0e25a705f5b40b91cfece34fc73d, type: 2}
+    itemAmount: 2
   - itemData: {fileID: 11400000, guid: 2d8ad9c08ab39ab4ca79b66f78cbff7f, type: 2}
     itemAmount: 3

@@ -33,7 +33,7 @@ public class TaskManager : Singleton<TaskManager>,ISavable
         newTask.TaskState = TaskStateType.Started;
         newTask.RestRequireAmount = newTask.taskRequires.Count;
         tasks.Add(newTask);
-        taskDict.Add(newTask.name, newTask);
+        taskDict.Add(newTask.taskName, newTask);
     }
 
     //敌人死亡 或 拾取物品的时候调用
@@ -53,7 +53,7 @@ public class TaskManager : Singleton<TaskManager>,ISavable
                 }
                 //正常流程 物品变化后判断是否满足了条件要求
                 matchTaskRequire.currentAmount += amount;
-                if (matchTaskRequire.currentAmount >= matchTaskRequire.requireAmount)
+                if (matchTaskRequire.currentAmount >= matchTaskRequire.requireAmount && task.TaskState!=TaskStateType.Completed)
                 {
                     --task.RestRequireAmount;
                 }
@@ -77,7 +77,7 @@ public class TaskManager : Singleton<TaskManager>,ISavable
 
     public TaskData_SO GetTask(TaskData_SO targetTaskData)
     {
-        return taskDict.TryGetValue(targetTaskData.taskName, out var task) ? task : null;
+        return taskDict.TryGetValue(targetTaskData.taskName, out var task1) ? task1 : null;
     }
 
     #region  任务的保存接口
@@ -93,8 +93,9 @@ public class TaskManager : Singleton<TaskManager>,ISavable
         foreach (var task in tasks)
         {
             var newTask = Instantiate(task);
+            newTask.TaskState = task.TaskState;
             data.tasks.Add(newTask);
-            data.taskDict.Add(newTask.name,newTask);
+            data.taskDict.Add(newTask.taskName,newTask);
         }
     }
 
@@ -105,8 +106,9 @@ public class TaskManager : Singleton<TaskManager>,ISavable
         foreach (var task in data.tasks)
         {
             var newTask = Instantiate(task);
+            newTask.TaskState = task.TaskState;
             tasks.Add(newTask);
-            taskDict.Add(newTask.name,newTask);
+            taskDict.Add(newTask.taskName,newTask);
         }
     }
     #endregion

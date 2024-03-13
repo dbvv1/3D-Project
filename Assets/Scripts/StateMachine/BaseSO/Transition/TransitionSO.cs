@@ -37,6 +37,7 @@ public class TransitionSO : ScriptableObject
     private void OnValidate()
     {
         // isInit = true;
+        Debug.Log(this.name + ":Changed");
         SaveAllStateTransitionInfo();
     }
     #endif

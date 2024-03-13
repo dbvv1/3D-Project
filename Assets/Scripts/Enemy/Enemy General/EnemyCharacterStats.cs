@@ -59,7 +59,10 @@ public class EnemyCharacterStats : CharacterStats
         {
             CurHealth = 0;
             isDead = true;
-            //GlobalEvent.CallOnEnemyDeath(enemy); 已经再敌人动画结束后调用
+            //TODO:使用对象池管理敌人
+            GameManager.Instance.UnRegisterEnemy(enemy);
+            GlobalEvent.CallOnEnemyDeath(enemy);
+            GlobalEvent.CallEnemyExitWeakState(enemy);
             OnDie?.Invoke();
         }
         else

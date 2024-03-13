@@ -342,10 +342,6 @@ public abstract class EnemyController : MonoBehaviour, ICreateFactory, IStateMac
 
     public void AfterDeathAnimation()
     {
-        //TODO:使用对象池管理敌人
-        GameManager.Instance.UnRegisterEnemy(this);
-        GlobalEvent.CallOnEnemyDeath(this);
-        GlobalEvent.CallEnemyExitWeakState(this);
         if (TryGetComponent(out LootSpawner lootSpawner))
         {
             lootSpawner.SpawnLoot();

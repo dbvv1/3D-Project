@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Playables;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -28,8 +27,8 @@ public class PoolManager : Singleton<PoolManager>
 
     private void Start()
     {
-        //默认每一分钟清理一次对象池  （后续可变更为不同种类场景不同的清理时间）
-        Invoke(nameof(ClearExcessObjects), 60f);
+        // 默认每五分钟清理一次对象池  （后续可变更为不同种类场景不同的清理时间）
+        InvokeRepeating(nameof(ClearExcessObjects), 300f, 300f);
     }
 
 
